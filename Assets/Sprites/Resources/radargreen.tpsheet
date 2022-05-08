@@ -1,0 +1,23 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:8df1260aa89c50247e31bd10e3861926:64cb3e495f7988fe057a14285fe895da:6a45e38708c65363ea69b36c747ffba4$
+#
+:format=40300
+:texture=radargreen.png
+:size=64x64
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+radargreen-0;1;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radargreen-1;1;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radargreen-2;1;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radargreen-3;19;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radargreen-4;37;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radargreen-5;19;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radargreen-6;19;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radargreen-7;37;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3

@@ -1,0 +1,23 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:06be727286cd02b362b805078a7f891d:f1be3dba11c09c1484323a24d3e1bf78:deb68a9a35fbc3031aa47dd423d324d1$
+#
+:format=40300
+:texture=radarpink.png
+:size=64x64
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+radarpink-0;1;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarpink-1;1;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarpink-2;1;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarpink-3;19;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarpink-4;37;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarpink-5;19;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarpink-6;19;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarpink-7;37;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3

@@ -1,0 +1,23 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:f4b5b4023aee35692a640a3fd77c8a4d:016938802be2aa479db65bb3ffe3f02d:4a020fedef6ef3e4b7db6485344d4433$
+#
+:format=40300
+:texture=radarred.png
+:size=64x64
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+radarred-0;1;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarred-1;1;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarred-2;1;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarred-3;19;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarred-4;37;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarred-5;19;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarred-6;19;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarred-7;37;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3

@@ -1,0 +1,26 @@
+version: 2
+tpsheetFileNames:
+- Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
+- Assets/Maps/ground.tpsheet
+- Assets/Sprites/Resources/radarblue.tpsheet
+- Assets/Sprites/Resources/radargreen.tpsheet
+- Assets/Sprites/Resources/radarpink.tpsheet
+- Assets/Sprites/Resources/radarred.tpsheet
+- Assets/Sprites/Resources/trike.tpsheet
+textureFileNames:
+- Assets/codeandweb.com/Example/SpriteSheet/sprites.png
+- Assets/Maps/ground.png
+- Assets/Sprites/Resources/radarblue.png
+- Assets/Sprites/Resources/radargreen.png
+- Assets/Sprites/Resources/radarpink.png
+- Assets/Sprites/Resources/radarred.png
+- Assets/Sprites/Resources/trike.png
+normalmapFileNames:
+- Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
+- 
+- 
+- 
+- 
+- 
+enableDebugOutput: 0

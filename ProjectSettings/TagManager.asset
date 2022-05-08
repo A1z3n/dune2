@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - map
+  - units
+  - buildings
+  - flying
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - map
+  - buildings
+  - units
+  - flying
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: map
+    uniqueID: 1878162765
+    locked: 0
+  - name: buildings
+    uniqueID: 2749393057
+    locked: 0
+  - name: units
+    uniqueID: 582138223
+    locked: 0
+  - name: flying
+    uniqueID: 595413253
+    locked: 0

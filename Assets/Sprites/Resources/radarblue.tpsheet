@@ -1,0 +1,23 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:856454d8d06edc0a39b36487d040ae29:c2f5006d39eda118cb8dedb8bf6f9268:a1724bf4f13557952b47bcd64ef81a7f$
+#
+:format=40300
+:texture=radarblue.png
+:size=64x64
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+radarblue-0;1;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarblue-1;1;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarblue-2;1;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarblue-3;19;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarblue-4;37;47;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarblue-5;19;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarblue-6;19;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+radarblue-7;37;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3

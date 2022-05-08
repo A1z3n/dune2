@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2344ade36adcf4e93bc396fbc81fe9, type: 3}
+  m_Name: sandTileData
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 11400000, guid: 88ed3b688c6413a43bf81d66d997caf9, type: 2}
+  - {fileID: 11400000, guid: 1dac9c667cec60141ad30ec4c58df97b, type: 2}
+  - {fileID: 11400000, guid: 18e1a2c7848e5c14abdf03bef5e57f76, type: 2}
+  - {fileID: 11400000, guid: ebb579dec2988d94ab726e26dcf1dbe3, type: 2}
+  - {fileID: 11400000, guid: efc27822e9cc1124fad79e7cd4672bb4, type: 2}
+  speed: 0

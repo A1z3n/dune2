@@ -1,0 +1,450 @@
+fileFormatVersion: 2
+guid: 7a6af9a4cf7a6f54cabcce4967d1cc38
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: trike_00
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 96
+        width: 34
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ad3298919e3f7743a2e02a23579bb60
+      internalID: -2061230103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_01
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 133
+        width: 36
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d25bfb10cc479c643ae4aaee38ad03cd
+      internalID: -518463367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_02
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 62
+        width: 33
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5151515, y: 0.5675676}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9df63bfe71979d4cbb8a03162d6633d
+      internalID: -1022320392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_03
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 209
+        width: 49
+        height: 46
+      alignment: 9
+      pivot: {x: 0.6530612, y: 0.6086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3c46169d0dc75a48802c18370393019
+      internalID: -445492387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_04
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 28
+        width: 30
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2f0de55546ea71478d23b9b08f42bf7
+      internalID: 551192353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_05
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 165
+        width: 30
+        height: 45
+      alignment: 9
+      pivot: {x: 0.5, y: 0.62222224}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bac366d52cdec0e4ab03c4e00e8e5959
+      internalID: -1243712777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_06
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 168
+        width: 41
+        height: 42
+      alignment: 9
+      pivot: {x: 0.5121951, y: 0.4047619}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1dbea52ff8357540884b5398e610d4b
+      internalID: -1609238626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_07
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 101
+        width: 36
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9fb0472cda1d4f439006496ba8b4715
+      internalID: -604680837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_08
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 64
+        width: 34
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1352fce615cf5bc41a2f22be158dcbfa
+      internalID: -1807012696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_09
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 166
+        width: 41
+        height: 41
+      alignment: 9
+      pivot: {x: 0.4390244, y: 0.6097561}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0692fb888f50234abfd369d4c8e9442
+      internalID: 766048098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_10
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 130
+        width: 36
+        height: 36
+      alignment: 9
+      pivot: {x: 0.44444445, y: 0.5555556}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bcad1bf8be786142b120202a6efa329
+      internalID: 1816101367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_11
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 5
+        width: 30
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d218dfaf43ebf454ba376897d15eb143
+      internalID: -1883478185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_12
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 41
+        width: 30
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.45945945}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebd04daa12038634c8fbb0d64eb70dbf
+      internalID: -1994033265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_13
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 80
+        width: 35
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5714286, y: 0.35416666}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a37e26f21914dd6478ff0b4258e0e2e9
+      internalID: -847667323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_14
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 128
+        width: 36
+        height: 36
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0.5555556}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fd7704b6a8794549ab3014069cfb817
+      internalID: 1283519453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trike_15
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 212
+        width: 49
+        height: 43
+      alignment: 9
+      pivot: {x: 0.53061223, y: 0.627907}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ca7557895eec8942851aa8276a3b4d8
+      internalID: 1411029170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 75fb463d77901ee4ba647b28f8f14a3b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      trike_12: -1994033265
+      trike_07: -604680837
+      trike_00: -2061230103
+      trike_01: -518463367
+      trike_11: -1883478185
+      trike_06: -1609238626
+      trike_03: -445492387
+      trike_09: 766048098
+      trike_13: -847667323
+      trike_04: 551192353
+      trike_15: 1411029170
+      trike_14: 1283519453
+      trike_02: -1022320392
+      trike_10: 1816101367
+      trike_05: -1243712777
+      trike_08: -1807012696
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
