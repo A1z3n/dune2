@@ -41,7 +41,7 @@ public class mapManager : MonoBehaviour {
                 dataFromTiles.Add(t, td);
             }
         }
-        mapTile = GameObject.Find("Grid");
+        mapTile = GameObject.Find("map");
         mapSize = new Vector2Int();
         var grid = mapTile.GetComponent<Grid>();
         cellSize.x = grid.cellSize.x * 32;
@@ -67,13 +67,9 @@ public class mapManager : MonoBehaviour {
         }
         astar.GetInstance().FillMap(weights);
         units.createUnit(eUnitType.kTrike, 1, 1);
-        
         buildings = new buildingsManager();
         buildings.Init();
-
         buildings.Build(4, 2, eBuildingType.kBase, 2);
-
-
     }
     public void LoadMap(String name) {
         mapTile = GameObject.Find(name);

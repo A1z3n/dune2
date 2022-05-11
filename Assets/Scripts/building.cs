@@ -21,7 +21,7 @@ public class building : MonoBehaviour
         colour = color;
     }
     // Start is called before the first frame update
-    void Start() {
+    public void Start() {
         switch (colour) {
             case 1:
                 radarName = "radarred";
@@ -50,13 +50,15 @@ public class building : MonoBehaviour
             if (it.name == radarName)
             {
                 render = it.GetComponent<SpriteRenderer>();
-                break;
+            }
+            else if(it.name.Contains("radar")) {
+                it.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         int t = Time.frameCount / 90;
         t = t % 8;
