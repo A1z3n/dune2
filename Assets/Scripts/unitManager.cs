@@ -51,6 +51,7 @@ public class unitManager  {
                 int x = tools.posX2iPosX(targetPosition.x);
                 int y = tools.posY2iPosY(targetPosition.y);
                 moveTo(selectedUnit, x, y);
+                selectedUnit = null;
             }
         }
 
@@ -63,16 +64,16 @@ public class unitManager  {
         mScene = pScene;
     }
 
-    public unit createUnit(eUnitType type, int x, int y) {
+    public unit createUnit(eUnitType type, int player, int x, int y) {
         switch (type) {
             case eUnitType.kTrike: {
                 GameObject g = scene.Instantiate(Resources.Load("trike", typeof(GameObject))) as GameObject;
                 var u = g.GetComponent<unit>();
                 u.setTilePos(x,y);
-                (u as trike)?.Create(x,y);
+                (u as trike)?.Create(x,y,player);
                 astar.GetInstance().AddUnit(x,y);
                 units.Add(u);
-                    return u;
+                return u;
             }
                 
             default:
@@ -83,42 +84,11 @@ public class unitManager  {
 
     public bool moveTo(unit u, int x, int y) {
         Vector2Int start = u.getTilePos();
-        Vector2Int dest = new Vector2Int(x, y);
-        if (x == start.x && y == start.y) {
-            return false;
-        }
-        var path = astar.GetInstance().FindPath(start.x, start.y, x, y);
-        if (!path.IsEmpty()) {
-
-            u.ClearActions();
-            path.Reverse();
-            if(path[0].x==start.x && path[0].y==start.y)
-                path.RemoveAt(0);
-            actionSeq seq = new actionSeq();
-            Vector2Int prevPos = new Vector2Int(start.x,start.y);
-            int prevDir = u.GetDirection();
-            foreach (var p in path)
-            {
-                int destDir = tools.getDirection( p- prevPos);
-                if (destDir != prevDir)
-                {
-                    rotateAction r = new rotateAction();
-                    r.Init(destDir);
-                    prevDir = destDir;
-                    seq.AddAction(r);
-                }
-
-                prevPos = p;
-                moveAction a = new moveAction();
-                Vector2 diff = u.transform.position;
-                a.Init(p.x, p.y);
-                seq.AddAction(a);
-            }
-            u.AddAction(seq);
+        if (actionManager.moveToPoint(u, start.x, start.y, x, y)) {
             u.unselect();
             return true;
         }
-
+       
         u.unselect();
         return false;
     }

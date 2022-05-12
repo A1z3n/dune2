@@ -4,9 +4,16 @@ using SuperTiled2Unity;
 using UnityEngine;
 
 public class action {
-
+    protected bool cancel = false;
     public virtual bool Update(actionBase u, float dt) {
         return true;
+    }
+
+
+
+    public virtual void Cancel()
+    {
+        cancel = true;
     }
 
     public delegate void OnEndCallback();
@@ -38,6 +45,12 @@ public class actionSeq : action {
     {
         actions.Add(a);
     }
+
+    public override void Cancel() {
+        foreach (var a in actions) {
+            a.Cancel();
+        }
+    }
     
 }
 
@@ -65,5 +78,13 @@ public class actionSim : action {
     public void addAction(action a) {
        
         actions.Add(a);
+    }
+
+    public override void Cancel()
+    {
+        foreach (var a in actions)
+        {
+            a.Cancel();
+        }
     }
 }

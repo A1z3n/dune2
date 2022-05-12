@@ -22,6 +22,13 @@ public abstract class unit : actionBase {
     protected Vector3 pos;
     protected SpriteRenderer pickRenderer;
     protected Sprite[] sprites = new Sprite[16];
+    protected int player = 0;
+    public Vector2Int destPos = new Vector2Int();
+
+    public int GetPlayer() {
+        return player;
+    }
+
     public int GetDirection() {
         return direction;
     }
@@ -46,24 +53,31 @@ public abstract class unit : actionBase {
                 break;
             }
         }
-
-            //Create(eUnitType.kTrike,1,1);
-            //gameManager.GetInstance().GetUnitManager().addUnit(this);
     }
 
-    public void Create(int x, int y) {
+    public void Create(int x, int y, int pPlayer) {
         tilePos = new Vector2Int();
         tilePos.x = x;
         tilePos.y = y;
         pos = tools.iPos2Pos(x, y);
-        //pos = new Vector3();
-        //pos.x = 0.32f + x * 0.64f;
-        //pos.y = -0.32f - y * 0.64f;
         transform.position = pos;
-        //sprites = Resources.LoadAll<Sprite>("trike_");
-        //for (int i = 0; i < 18; i++) {
-        //    sprites[i] = Sprite.Create();
-        //}
+        this.player = pPlayer;
+
+    }
+
+    private void SetColor(int color) {
+        if (player == color) {
+            return;
+        }
+
+        switch (color) {
+            case 1:
+                
+            break;
+            case 2:
+
+                break;
+        }
     }
 
     // Update is called once per frame

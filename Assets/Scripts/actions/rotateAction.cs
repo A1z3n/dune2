@@ -19,7 +19,6 @@ public class rotateAction : action
         destAng = dest;
     }
 
-
     public override bool Update(actionBase u, float dt)
     {
         if (!inited)
@@ -35,15 +34,6 @@ public class rotateAction : action
             }
 
             total_turns = destAng - startAng;
-            //if (destAng > startAng)
-            //{
-            //    total_turns = destAng - startAng;
-            //}
-            //else
-            //{
-            //    total_turns = startAng - destAng;
-            //}
-
             if (total_turns > 8)
             {
                 total_turns =  total_turns-16;
@@ -57,7 +47,7 @@ public class rotateAction : action
             if (timer >= Math.Abs(turns_count + 1) * duration) {
                 turns_count++;
                 un.turnRight();
-                if (turns_count >= total_turns) {
+                if (turns_count >= total_turns || cancel) {
                     return false;
                 }
             }
@@ -66,7 +56,7 @@ public class rotateAction : action
             if (timer >= Math.Abs(turns_count + 1) * duration) {
                 turns_count--;
                 un.turnLeft();
-                if (turns_count <= total_turns) {
+                if (turns_count <= total_turns || cancel) {
                     return false;
                 }
             }

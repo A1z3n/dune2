@@ -9,8 +9,8 @@ public class trike : unit
 {
     // Start is called before the first frame update
     private Dictionary<string, Sprite> spritesMap;
-    public void Create(int x, int y) {
-        base.Create(x,y);
+    public void Create(int x, int y, int player) {
+        base.Create(x,y,player);
         //atlas = AssetDatabase.LoadAssetAtPath("Assets/Sprites/Units/Trike/trike.spriteatlas",
         //  typeof(SpriteAtlas)) as SpriteAtlas;
         //render.sprite = atlas.GetSprite("trike_00");

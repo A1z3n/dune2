@@ -44,6 +44,16 @@ namespace Assets.Scripts {
             }
             return result;
         }
+        public bool FindNext(int startX, int startY, int endX, int endY, out Vector2Int next)
+        {
+            FillObstacles();
+            AI.A_Star.Vector2Int n = new AI.A_Star.Vector2Int();
+            bool result = mPath.CalculateNext(new AI.A_Star.Vector2Int(startX, startY), new AI.A_Star.Vector2Int(endX, endY), obstacles, out n);
+            next = Vector2Int.up;
+            next.x = n.X;
+            next.y = n.Y;
+            return result;
+        }
 
         private void FillObstacles() {
             obstacles.Clear();

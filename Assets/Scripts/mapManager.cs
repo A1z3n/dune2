@@ -66,7 +66,8 @@ public class mapManager : MonoBehaviour {
             }
         }
         astar.GetInstance().FillMap(weights);
-        units.createUnit(eUnitType.kTrike, 1, 1);
+        units.createUnit(eUnitType.kTrike, 1,1, 1);
+        units.createUnit(eUnitType.kTrike, 2,5, 5);
         buildings = new buildingsManager();
         buildings.Init();
         buildings.Build(4, 2, eBuildingType.kBase, 2);

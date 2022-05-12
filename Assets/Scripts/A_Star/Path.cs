@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SuperTiled2Unity;
 
 namespace AI.A_Star
 {
@@ -52,6 +53,34 @@ namespace AI.A_Star
 
             while (links.TryGetValue(target, out target)) output.Add(target);
             path = output;
+            return true;
+        }
+
+        public bool CalculateNext(Vector2Int start, Vector2Int target, IReadOnlyCollection<Vector2Int> obstacles, out Vector2Int next)
+        {
+            if (obstacles == null) throw new ArgumentNullException(nameof(obstacles));
+
+            if (!GenerateNodes(start, target, obstacles)) {
+                next = new Vector2Int();
+                return false;
+            }
+            output.Clear();
+            output.Add(target);
+
+            while (links.TryGetValue(target, out target)) output.Add(target);
+            output.Reverse();
+            if (output.IsEmpty())
+            {
+                next = new Vector2Int();
+                return false;
+            }
+            if (output[0].X == start.X && output[0].Y == start.Y)
+                output.RemoveAt(0);
+            if (output.IsEmpty()) {
+                next = new Vector2Int();
+                return false;
+            }
+            next = output[0];
             return true;
         }
 

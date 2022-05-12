@@ -8,6 +8,8 @@ public class moveAction : action {
     private Vector2 destPos;
     private int destX;
     private int destY;
+    private int startX;
+    private int startY;
     private float timer = 0.0f;
     private float duration;
     private bool inited = false;
@@ -23,15 +25,28 @@ public class moveAction : action {
         if (!inited) {
             inited = true;
             startPos = u.transform.position;
+            var un = u as unit;
+            startX = un.getTilePos().x;
+            startY = un.getTilePos().y;
+            un.setTilePos(destX, destY);
+            astar.GetInstance().ChangeUnitPos(startX, startY, destX, destY);
         }
         timer += dt;
         if (timer >= duration) {
             u.transform.position = destPos;
+            if (cancel) {
+                return false;
+            }
             var un = u as unit;
             if (un != null)
             {
-                astar.GetInstance().ChangeUnitPos(un.getTilePos().x,un.getTilePos().y,destX,destY);
-                un.setTilePos(destX, destY);
+                if(un.destPos.x==destX && un.destPos.y ==destY) {
+                    return false;
+                }
+                else {
+                    actionManager.moveToPoint(un, destX, destY, un.destPos.x, un.destPos.y);
+                    return false;
+                }
             }
 
             //OnEndCallback();
@@ -42,5 +57,6 @@ public class moveAction : action {
         u.transform.position = startPos + (destPos - startPos) * p;
         return true;
     }
+
 
 }
