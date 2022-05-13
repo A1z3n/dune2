@@ -66,6 +66,11 @@ public class actionBase : MonoBehaviour
         return actions;
     }
 
+    public bool IsActions()
+    {
+        return !actionsToAdd.IsEmpty() || !actionsToAdd.IsEmpty();
+    }
+
     public void CancelActions() {
         foreach (var currentAction in actions){
             currentAction.Cancel();

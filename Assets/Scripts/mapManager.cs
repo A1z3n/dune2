@@ -33,6 +33,7 @@ public class mapManager : MonoBehaviour {
     public void LoadMapOld() {
 
         units = new unitManager();
+        units.SetPlayer(1);
         dataFromTiles = new Dictionary<TileBase, tileData>();
         foreach (var td in tileDatas)
         {
@@ -66,8 +67,8 @@ public class mapManager : MonoBehaviour {
             }
         }
         astar.GetInstance().FillMap(weights);
-        units.createUnit(eUnitType.kTrike, 1,1, 1);
-        units.createUnit(eUnitType.kTrike, 2,5, 5);
+        units.CreateUnit(eUnitType.kTrike, 1,1, 1);
+        units.CreateUnit(eUnitType.kTrike, 2,5, 5);
         buildings = new buildingsManager();
         buildings.Init();
         buildings.Build(4, 2, eBuildingType.kBase, 2);

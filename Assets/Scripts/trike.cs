@@ -11,18 +11,17 @@ public class trike : unit
     private Dictionary<string, Sprite> spritesMap;
     public void Create(int x, int y, int player) {
         base.Create(x,y,player);
-        //atlas = AssetDatabase.LoadAssetAtPath("Assets/Sprites/Units/Trike/trike.spriteatlas",
-        //  typeof(SpriteAtlas)) as SpriteAtlas;
-        //render.sprite = atlas.GetSprite("trike_00");
-        Sprite[] sprites = Resources.LoadAll<Sprite>("trike");
+        Sprite[] sprites = Resources.LoadAll<Sprite>("trike"+player);
         spritesMap = new Dictionary<string, Sprite>();
 
         foreach (Sprite sprite in sprites) {
             spritesMap[sprite.name] = sprite;
         }
 
-
-        //var sprite1 = spritesDict["sprite01"];
+        canAttack = true;
+        attackDamage = 20;
+        attackRange = 3.0f;
+        health = 100;
     }
 
 
@@ -44,9 +43,5 @@ public class trike : unit
         }
 
         render.sprite = spritesMap[t];
-        ////render.sprite = atlas.GetSprite(t);
-        //var rot = transform.rotation;
-        //rot.z = direction * (float)Math.PI / 8.0f;
-        //transform.rotation = rot;
     }
 }

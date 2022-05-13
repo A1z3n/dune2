@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using Assets.Scripts;
 using Dune2;
+using SuperTiled2Unity;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -24,6 +25,12 @@ public abstract class unit : actionBase {
     protected Sprite[] sprites = new Sprite[16];
     protected int player = 0;
     public Vector2Int destPos = new Vector2Int();
+    public bool canAttack = false;
+    public float attackRange;
+    public int attackDamage;
+    public int health;
+    public bool isAttacking = false;
+    public bool isDestroying = false;
 
     public int GetPlayer() {
         return player;
@@ -33,11 +40,11 @@ public abstract class unit : actionBase {
         return direction;
     }
 
-    public Vector2Int getTilePos() {
+    public Vector2Int GetTilePos() {
         return tilePos;
     }
 
-    public void setTilePos(int x, int y) {
+    public void SetTilePos(int x, int y) {
         tilePos.x = x;
         tilePos.y = y;
     }
@@ -66,18 +73,7 @@ public abstract class unit : actionBase {
     }
 
     private void SetColor(int color) {
-        if (player == color) {
-            return;
-        }
-
-        switch (color) {
-            case 1:
-                
-            break;
-            case 2:
-
-                break;
-        }
+      
     }
 
     // Update is called once per frame
@@ -92,7 +88,7 @@ public abstract class unit : actionBase {
         //gameManager.GetInstance().GetUnitManager().moveTo(this,tilePos.x + 1, tilePos.y);
     }
 
-    public void turnLeft() {
+    public void TurnLeft() {
         direction--;
         if (direction < 0)
             direction = 15;
@@ -100,7 +96,7 @@ public abstract class unit : actionBase {
 
     }
 
-    public void turnRight()
+    public void TurnRight()
     {
         direction++;
         if (direction >= 16)
@@ -110,7 +106,7 @@ public abstract class unit : actionBase {
 
     protected abstract void applyDirection();
 
-    public bool isRect(float x, float y) {
+    public bool IsRect(float x, float y) {
         if (x > pos.x -0.32f && x < pos.x + 0.32f && y>pos.y - 0.32f && y<pos.y + 0.32f) {
             return true;
         }
@@ -118,12 +114,31 @@ public abstract class unit : actionBase {
         return false;
     }
 
-    public void select() {
+    public void Select() {
         pickRenderer.enabled = true;
         //GetComponentInChildren<SpriteRenderer>().enabled = true;
     }
 
-    public void unselect() {
+    public void Unselect() {
         pickRenderer.enabled = false;
+    }
+
+    public bool IsIdle() {
+        return !IsActions() && !isAttacking;
+    }
+
+    public void Attack(unit target) {
+        isAttacking = true;
+    }
+
+    public void Damage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            DestroyUnit();
+        }
+    }
+
+    public void DestroyUnit() {
+        isDestroying = true;
     }
 }

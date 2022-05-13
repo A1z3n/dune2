@@ -10,15 +10,14 @@ public class unitManager  {
     private List<unit> units;
     private Camera camera;
     private scene mScene;
-
     private unit selectedUnit;
     private const float cameraDistance = 0.64f;
+    private int myPlayer;
     //private astar mAstar;
 
     public unitManager() {
         units = new List<unit>();
     }
-    
 
     public void Update(float dt) {
         if (Input.GetMouseButtonDown(0)) {
@@ -27,19 +26,16 @@ public class unitManager  {
             }
 
             selectedUnit = null;
-            //TODO: mouse coords to map coords
             var targetPosition =
                 camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraDistance));
-            //float mx = Input.mousePosition.x * 0.64f + camera.transform.position.x;
-            //float my = Input.mousePosition.y * 0.64f + camera.transform.position.y;
 
             foreach (var u in units) {
-                if (u.isRect(targetPosition.x, targetPosition.y)) {
-                    u.select();
+                if (u.GetPlayer()==myPlayer && u.IsRect(targetPosition.x, targetPosition.y)) {
+                    u.Select();
                     selectedUnit = u;
                 }
                 else {
-                    u.unselect();
+                    u.Unselect();
                 }
             }
         }
@@ -50,26 +46,64 @@ public class unitManager  {
                     camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraDistance));
                 int x = tools.posX2iPosX(targetPosition.x);
                 int y = tools.posY2iPosY(targetPosition.y);
-                moveTo(selectedUnit, x, y);
+                foreach (var u in units) {
+                    if (u.IsRect(targetPosition.x, targetPosition.y))
+                    {
+                        if (u.GetPlayer() != myPlayer) {
+                            MoveToUnitAndAttack(selectedUnit,u);
+                        }
+                        break;
+                    }
+                }
+                MoveTo(selectedUnit, x, y);
                 selectedUnit = null;
             }
         }
 
         foreach (var u in units) {
             u.Update();
+            //if (u.IsIdle())
+            //{
+            //    CheckIdleAI(u);
+            //}
         }
+    }
+
+    private void CheckIdleAI(unit u) {
+        foreach (var t in units) {
+            if (t.GetPlayer() != u.GetPlayer() && u.canAttack && Vector2.Distance(u.transform.position,t.transform.position)<=u.attackRange) {
+               
+                break;
+            }
+        }
+    }
+
+    public void Attack(unit u, unit target) {
+
+        int ang = tools.getDirection(target.GetTilePos() - u.GetTilePos());
+        actionSeq seq = new actionSeq();
+        if (u.GetDirection() != ang)
+        {
+            rotateAction r = new rotateAction();
+            r.Init(ang);
+            seq.AddAction(r);
+        }
+        attackAction a = new attackAction();
+        a.Init(target, mScene);
+        seq.AddAction(a);
+        u.AddAction(seq);
     }
 
     public void SetScene(scene pScene) {
         mScene = pScene;
     }
 
-    public unit createUnit(eUnitType type, int player, int x, int y) {
+    public unit CreateUnit(eUnitType type, int player, int x, int y) {
         switch (type) {
             case eUnitType.kTrike: {
-                GameObject g = scene.Instantiate(Resources.Load("trike", typeof(GameObject))) as GameObject;
+                GameObject g = scene.Instantiate(Resources.Load("trike"+player, typeof(GameObject))) as GameObject;
                 var u = g.GetComponent<unit>();
-                u.setTilePos(x,y);
+                u.SetTilePos(x,y);
                 (u as trike)?.Create(x,y,player);
                 astar.GetInstance().AddUnit(x,y);
                 units.Add(u);
@@ -81,16 +115,27 @@ public class unitManager  {
         }
     }
     
-
-    public bool moveTo(unit u, int x, int y) {
-        Vector2Int start = u.getTilePos();
-        if (actionManager.moveToPoint(u, start.x, start.y, x, y)) {
-            u.unselect();
+    public bool MoveTo(unit u, int x, int y) {
+        if (actionManager.moveToPoint(u, x, y)) {
+            u.Unselect();
             return true;
         }
        
-        u.unselect();
+        u.Unselect();
         return false;
     }
 
+    public bool MoveToUnitAndAttack(unit u, unit target) {
+        if (actionManager.moveToUnit(u, target))
+        {
+            u.Unselect();
+            return true;
+        }
+
+        u.Unselect();
+        return false;
+    }
+    public void SetPlayer(int pPlayer) {
+        myPlayer = pPlayer;
+    }
 }

@@ -7,7 +7,7 @@
 # $TexturePacker:SmartUpdate:4c3b33eb3ad763d0597194d091c9ddb2:55c02007ee0ad0c8443fa0d7a33d1714:4d7b8cfdc0def53dc7c4dc9ca6d50ac3$
 #
 :format=40300
-:texture=trike.png
+:texture=trike1.png
 :size=128x256
 :pivotpoints=enabled
 :borders=disabled

@@ -46,7 +46,7 @@ public class rotateAction : action
         if (total_turns > 0) {
             if (timer >= Math.Abs(turns_count + 1) * duration) {
                 turns_count++;
-                un.turnRight();
+                un.TurnRight();
                 if (turns_count >= total_turns || cancel) {
                     return false;
                 }
@@ -55,7 +55,7 @@ public class rotateAction : action
         else if (total_turns < 0) {
             if (timer >= Math.Abs(turns_count + 1) * duration) {
                 turns_count--;
-                un.turnLeft();
+                un.TurnLeft();
                 if (turns_count <= total_turns || cancel) {
                     return false;
                 }

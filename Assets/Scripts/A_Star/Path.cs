@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts;
 using SuperTiled2Unity;
 
 namespace AI.A_Star
@@ -59,6 +60,14 @@ namespace AI.A_Star
         public bool CalculateNext(Vector2Int start, Vector2Int target, IReadOnlyCollection<Vector2Int> obstacles, out Vector2Int next)
         {
             if (obstacles == null) throw new ArgumentNullException(nameof(obstacles));
+            if ((target - start).DistanceEstimate() >= 2) {
+                foreach (var o in obstacles) {
+                    if (target.X == o.X && target.Y == o.Y) {
+                        target = FindNearest(start, target, obstacles);
+                        break;
+                    }
+                }
+            }
 
             if (!GenerateNodes(start, target, obstacles)) {
                 next = new Vector2Int();
@@ -105,6 +114,46 @@ namespace AI.A_Star
 
             // All nodes analyzed - no path detected.
             return false;
+        }
+
+        private Vector2Int FindNearest(Vector2Int start, Vector2Int target, IReadOnlyCollection<Vector2Int> obstacles) {
+            Vector2Int result = new Vector2Int();
+
+            Dictionary<Vector2Int, int> paths = new Dictionary<Vector2Int, int>();
+            for(int rad = 1; rad<3; rad++){
+                for (int x = target.X-rad; x <= target.X+rad; x++) {
+                    for (int y = target.Y-rad; y <= target.Y+rad; y++) {
+                        bool found = false;
+                        Vector2Int pos = new Vector2Int(x, y);
+                        foreach (var o in obstacles) {
+                            if (o.X == x && o.Y == y) {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (found) continue;
+                        IReadOnlyCollection<AI.A_Star.Vector2Int> path = new List<AI.A_Star.Vector2Int>();
+                        if (Calculate(start, pos, obstacles,out path)) {
+                            paths[pos] = path.Count;
+                        }
+                    }
+                }
+
+                if (paths.IsEmpty()) continue;
+                int shortest = 999999;
+                Vector2Int shortestVector;
+                foreach (var p in paths) {
+                    if (shortest > p.Value) {
+                        shortest = p.Value;
+                        result = p.Key;
+                    }
+                }
+
+                return result;
+
+            }
+            return result;
         }
 
         private void GenerateFrontierNodes(PathNode parent, Vector2Int target)
