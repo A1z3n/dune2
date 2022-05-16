@@ -21,14 +21,117 @@ public class mapManager : MonoBehaviour {
     [SerializeField] private Tilemap map;
 
     [SerializeField] private List<tileData> tileDatas;
+    private Camera camera;
+    private unit selectedUnit;
+    private building selectedBuilding;
+    private const float cameraDistance = 0.64f;
+    private int myPlayer = 1;
 
     private void Awake() {
         LoadMapOld();
     }
 
     public void Update() {
+        checkInput();
         units.Update(Time.deltaTime);
         buildings.Update(Time.deltaTime);
+    }
+
+    void checkInput() {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!camera)
+            {
+                camera = gameManager.GetInstance().GetCamera();
+            }
+
+            if (selectedUnit != null) {
+                selectedUnit.Unselect();
+            }
+
+            if (selectedBuilding != null) {
+                selectedBuilding.Unselect();
+            }
+            selectedUnit = null;
+            selectedBuilding = null;
+            var targetPosition =
+                Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraDistance));
+
+            selectedUnit = units.GetUnitAt(targetPosition);
+            if (selectedUnit!=null) {
+                if(selectedUnit.GetPlayer() != myPlayer)
+                    selectedUnit = null;
+                else {
+                    selectedUnit.Select();
+                }
+            }
+            else {
+                selectedBuilding = buildings.GetBuildAt(targetPosition);
+                if (selectedBuilding != null) {
+                    if (selectedBuilding.CheckPlayer(myPlayer)) {
+                        selectedBuilding.Select();
+                    }
+                    else {
+                        selectedBuilding = null;
+                    }
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (selectedUnit != null) {
+                var targetPosition =
+                    camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y,
+                        cameraDistance));
+                int x = tools.PosX2IPosX(targetPosition.x);
+                int y = tools.PosY2IPosY(targetPosition.y);
+                bool attack = false;
+                unit target = units.GetUnitAt(targetPosition);
+                if (target != null) {
+                    if (target.GetPlayer() != myPlayer) {
+                        if (tools.IsInAttackRange(selectedUnit, target)) {
+                            attack = true;
+                            units.Attack(selectedUnit, target);
+                        }
+                        else {
+                            units.MoveToTargetAndAttack(selectedUnit, target);
+                            attack = true;
+                        }
+                    }
+                    else {
+                        //TODO: PARAVOZIK
+                    }
+                }
+
+                if (!attack) {
+                    var b = buildings.GetBuildAt(targetPosition);
+                    if (b) {
+                        if (b.GetPlayer() != myPlayer) {
+                            if (tools.IsInAttackRange(selectedUnit, b))
+                            {
+                                attack = true;
+                                units.Attack(selectedUnit, b);
+                            }
+                            else
+                            {
+                                units.MoveToTargetAndAttack(selectedUnit, b);
+                                attack = true;
+                            }
+                        }
+                    }
+                }
+
+                if (!attack) {
+
+                    units.MoveTo(selectedUnit, x, y);
+                }
+
+            selectedUnit.Unselect();
+                selectedUnit = null;
+            }
+        }
     }
     public void LoadMapOld() {
 
@@ -71,7 +174,8 @@ public class mapManager : MonoBehaviour {
         units.CreateUnit(eUnitType.kTrike, 2,5, 5);
         buildings = new buildingsManager();
         buildings.Init();
-        buildings.Build(4, 2, eBuildingType.kBase, 2);
+        buildings.Build(4, 2, eBuildingType.kBase, 1);
+        buildings.Build(7, 2, eBuildingType.kBase, 2);
     }
     public void LoadMap(String name) {
         mapTile = GameObject.Find(name);

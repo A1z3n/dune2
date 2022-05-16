@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7203641355259643446}
   - component: {fileID: 7319946330632805064}
   m_Layer: 8
-  m_Name: trike
+  m_Name: trike1
   m_TagString: units
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,6 +101,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destPos: {x: 0, y: 0}
+  canAttack: 0
+  attackRange: 0
+  attackDamage: 0
+  health: 0
+  isAttacking: 0
+  isDestroying: 0
 --- !u!95 &-7203641355259643446
 Animator:
   serializedVersion: 4
@@ -209,7 +215,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 582138223
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 2366ba5ded8b84b4785b2b54c537b3b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

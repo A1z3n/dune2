@@ -4,36 +4,57 @@ using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
 
-public class building : MonoBehaviour
+public class building : destructableObject
 {
     private Dictionary<string, Sprite> spritesMap;
-    public int colour { get; set; }
     protected SpriteRenderer render;
-    protected Vector3 pos;
     private String radarName;
-
     private int prevFrame;
-    protected SpriteRenderer pickRenderer;
+    protected RectInt rect;
 
-    public void Init(int x, int y, int color) {
+    public virtual void Init(int x, int y, int player) {
         pos = tools.iPos2PosB( x, y);
         transform.position = pos;
-        colour = color;
+        rect = new RectInt {
+            x = x,
+            y = y,
+            width = 2,
+            height =2,
+        };
+        tilePos = new Vector2Int(x, y);
+        this.player = player;
+        isBuilding = true;
+        var comps = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var it in comps)
+        {
+            if (it.name == "pick_b")
+            {
+                pickRenderer = it;
+                break;
+            }
+        }
+
+        clickRect = new Rect {
+            x = pos.x,
+            y = pos.y-rect.height,
+            width = rect.width,
+            height = rect.height
+        };
     }
     // Start is called before the first frame update
     public void Start() {
-        switch (colour) {
+        switch (player) {
             case 1:
-                radarName = "radarred";
-                break;
-            case 2:
                 radarName = "radarblue";
                 break;
-            case 3:
+            case 2:
                 radarName = "radarred";
                 break;
+            case 3:
+                radarName = "radargreen";
+                break;
             case 4:
-                radarName = "radarred";
+                radarName = "radarpink";
                 break;
         }
         Sprite[] sprites = Resources.LoadAll<Sprite>(radarName);
@@ -71,24 +92,21 @@ public class building : MonoBehaviour
 
 
     public bool isRect(float x, float y) {
-        Vector2 pos;
-        pos.x = transform.position.x;
-        pos.y = transform.position.y;
-        if (x > pos.x - 0.32f && x < pos.x + 0.32f && y > pos.y - 0.32f && y < pos.y + 0.32f)
+        //if (x > pos.x && x < pos.x + rect.width*0.64f && y > pos.y && y < pos.y - rect.height*0.64f)
+        if (clickRect.Contains(new Vector2(x, y)))
         {
             return true;
         }
         return false;
     }
 
-    public void select()
-    {
-        //pickRenderer.enabled = true;
-        //GetComponentInChildren<SpriteRenderer>().enabled = true;
+
+
+    public RectInt GetTileRect() {
+        return rect;
     }
 
-    public void unselect()
-    {
-        //pickRenderer.enabled = false;
+    public Vector2Int GetTilePosFrom(Vector2Int from) {
+        return tools.GetNearestFromRect(from,rect);
     }
 }

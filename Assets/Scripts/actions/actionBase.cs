@@ -9,11 +9,13 @@ public class actionBase : MonoBehaviour
     // Start is called before the first frame update
     private List<action> actions;
     private List<action> actionsToAdd;
+    private List<action> actionsDelayed;
     private List<action> delItems;
     protected void Init() {
         actions = new List<action>();
         delItems = new List<action>();
         actionsToAdd = new List<action>();
+        actionsDelayed = new List<action>();
     }
 
 
@@ -26,8 +28,11 @@ public class actionBase : MonoBehaviour
             }
         }
 
-        foreach (var delItem in delItems) {
-            actions.Remove(delItem);
+        if (!delItems.IsEmpty()) {
+            foreach (var delItem in delItems) {
+                actions.Remove(delItem);
+            }
+            delItems.Clear();
         }
 
         if (actions.IsEmpty()) {
@@ -36,7 +41,13 @@ public class actionBase : MonoBehaviour
                 AddAction(actionsToAdd[0]);
                 actionsToAdd.RemoveAt(0);
             }
+        }
 
+        if (!actionsDelayed.IsEmpty()) {
+            foreach (var a in actionsDelayed) {
+                AddAction(a);
+            }
+            actionsDelayed.Clear();
         }
     }
 
@@ -51,6 +62,10 @@ public class actionBase : MonoBehaviour
 
     public void AddActionLazy(action a) {
         actionsToAdd.Add(a);
+    }
+
+    public void AddActionDelayed(action a) {
+        actionsDelayed.Add(a);
     }
 
     public void RemoveAction(action a) {

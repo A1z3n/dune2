@@ -60,14 +60,14 @@ namespace AI.A_Star
         public bool CalculateNext(Vector2Int start, Vector2Int target, IReadOnlyCollection<Vector2Int> obstacles, out Vector2Int next)
         {
             if (obstacles == null) throw new ArgumentNullException(nameof(obstacles));
-            if ((target - start).DistanceEstimate() >= 2) {
-                foreach (var o in obstacles) {
-                    if (target.X == o.X && target.Y == o.Y) {
-                        target = FindNearest(start, target, obstacles);
-                        break;
-                    }
-                }
-            }
+            //if ((target - start).DistanceEstimate() >= 2) {
+            //    foreach (var o in obstacles) {
+            //        if (target.X == o.X && target.Y == o.Y) {
+            //            //target = FindNearest(start, target, obstacles);
+            //            break;
+            //        }
+            //    }
+            //}
 
             if (!GenerateNodes(start, target, obstacles)) {
                 next = new Vector2Int();

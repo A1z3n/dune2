@@ -34,7 +34,7 @@ namespace Assets.Scripts {
         }
 
         public List<Vector2Int> FindPath(int startX, int startY, int endX, int endY) {
-            FillObstacles();
+            FillObstacles(endX,endY);
             IReadOnlyCollection<AI.A_Star.Vector2Int> path1 = new List<AI.A_Star.Vector2Int>();
             mPath.Calculate(new AI.A_Star.Vector2Int(startX, startY), new AI.A_Star.Vector2Int(endX, endY), obstacles, out path1);
             List<Vector2Int> result = new List<Vector2Int>();
@@ -46,7 +46,7 @@ namespace Assets.Scripts {
         }
         public bool FindNext(int startX, int startY, int endX, int endY, out Vector2Int next)
         {
-            FillObstacles();
+            FillObstacles(endX,endY);
             AI.A_Star.Vector2Int n = new AI.A_Star.Vector2Int();
             bool result = mPath.CalculateNext(new AI.A_Star.Vector2Int(startX, startY), new AI.A_Star.Vector2Int(endX, endY), obstacles, out n);
             next = Vector2Int.up;
@@ -55,7 +55,7 @@ namespace Assets.Scripts {
             return result;
         }
 
-        private void FillObstacles() {
+        private void FillObstacles(int targetX, int targetY) {
             obstacles.Clear();
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
@@ -63,11 +63,13 @@ namespace Assets.Scripts {
                         obstacles.Add(new AI.A_Star.Vector2Int(x,y));
                     }
                     else if(buildings[x][y]){
-                        obstacles.Add(new AI.A_Star.Vector2Int(x,y));
+                        if(x!=targetX || y!=targetY)
+                            obstacles.Add(new AI.A_Star.Vector2Int(x,y));
                     }
                     else if (units[x][y])
                     {
-                        obstacles.Add(new AI.A_Star.Vector2Int(x, y));
+                        if (x != targetX || y != targetY)
+                            obstacles.Add(new AI.A_Star.Vector2Int(x, y));
                     }
                 }
             }

@@ -13,7 +13,7 @@ public class moveAction : action {
     private float timer = 0.0f;
     private float duration;
     private bool inited = false;
-    private unit target;
+    private destructableObject target;
     public void Init(int x, int y) {
         duration = 1.0f;
         destX = x;
@@ -21,19 +21,19 @@ public class moveAction : action {
         destPos = tools.iPos2Pos(x,y);
     }
 
-    public void InitToTarget(unit u) {
+    public void InitToTarget(destructableObject pTarget, int x, int y) {
         duration = 1.0f;
-        destX = u.GetTilePos().x;
-        destY = u.GetTilePos().y;
+        destX = x;
+        destY = y;
         destPos = tools.iPos2Pos(destX, destY);
-        target = u;
+        this.target = pTarget;
     }
 
     public override bool Update(actionBase u, float dt) {
         if (!inited) {
             inited = true;
             startPos = u.transform.position;
-            var un = u as unit;
+            var un = u as destructableObject;
             startX = un.GetTilePos().x;
             startY = un.GetTilePos().y;
             un.SetTilePos(destX, destY);
@@ -53,9 +53,12 @@ public class moveAction : action {
                 }
 
                 if (target != null) {
-                    if (Vector2.Distance(target.transform.position, u.transform.position) <= un.attackRange) {
-                        
+                    if (tools.IsInAttackRange(un,target)) {
+                        gameManager.GetInstance().GetUnitManager().Attack(un,target);
+                        return false;
                     }
+                    actionManager.MoveToTarget(un, target);
+                    return false;
                 }
                 actionManager.moveToPoint(un, un.destPos.x, un.destPos.y);
                 return false;

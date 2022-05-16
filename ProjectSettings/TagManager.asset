@@ -8,6 +8,8 @@ TagManager:
   - units
   - buildings
   - flying
+  - gui
+  - bullets
   layers:
   - Default
   - TransparentFX

@@ -8,8 +8,9 @@ using UnityEngine;
 
 public class unitManager  {
     private List<unit> units;
-    private Camera camera;
+    private List<unit> delUnits;
     private scene mScene;
+    private Camera camera;
     private unit selectedUnit;
     private const float cameraDistance = 0.64f;
     private int myPlayer;
@@ -17,9 +18,11 @@ public class unitManager  {
 
     public unitManager() {
         units = new List<unit>();
+        delUnits = new List<unit>();
     }
 
     public void Update(float dt) {
+        /*
         if (Input.GetMouseButtonDown(0)) {
             if (!camera) {
                 camera = gameManager.GetInstance().GetCamera();
@@ -46,28 +49,66 @@ public class unitManager  {
                     camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraDistance));
                 int x = tools.posX2iPosX(targetPosition.x);
                 int y = tools.posY2iPosY(targetPosition.y);
+                bool attack = false;
                 foreach (var u in units) {
                     if (u.IsRect(targetPosition.x, targetPosition.y))
                     {
                         if (u.GetPlayer() != myPlayer) {
-                            MoveToUnitAndAttack(selectedUnit,u);
+                            if (Vector2.Distance(u.transform.position, selectedUnit.transform.position) <= selectedUnit.attackRange) {
+                                Attack(selectedUnit,u);
+                            }
+                            else {
+                                MoveToTargetAndAttack(selectedUnit, u);
+                            }
+                            attack = true;
                         }
                         break;
                     }
                 }
-                MoveTo(selectedUnit, x, y);
+
+                if (!attack) {
+                    MoveTo(selectedUnit, x, y);
+                }
+                selectedUnit.Unselect();
                 selectedUnit = null;
             }
-        }
+        }*/
+
 
         foreach (var u in units) {
             u.Update();
+            if (u.isDestroying) {
+                delUnits.Add(u);
+            }
             //if (u.IsIdle())
             //{
             //    CheckIdleAI(u);
             //}
         }
+
+        if (!delUnits.IsEmpty()) {
+            foreach (var u in delUnits)
+            {
+                units.Remove(u);
+                //UnityEngine.Object.Destroy(u);
+                u.DestroyMe();
+            }
+            delUnits.Clear();
+        }
     }
+
+
+    public unit GetUnitAt(Vector3 pos) {
+        foreach (var u in units)
+        {
+            if (u.IsRect(pos.x, pos.y)) {
+                return u;
+            }
+        }
+
+        return null;
+    }
+
 
     private void CheckIdleAI(unit u) {
         foreach (var t in units) {
@@ -78,9 +119,26 @@ public class unitManager  {
         }
     }
 
-    public void Attack(unit u, unit target) {
+    public void Attack(unit u, destructableObject target) {
 
-        int ang = tools.getDirection(target.GetTilePos() - u.GetTilePos());
+        unit t = target as unit;
+        int ang = 0;
+        if (t != null) {
+
+            if (t.isAttacking)
+            {
+                return;
+            }
+            ang = tools.GetDirection(t.GetTilePos() - u.GetTilePos());
+        }
+        else
+        {
+            building b = target as building;
+            if (b != null) {
+                ang = tools.GetDirection(tools.GetNearestFromRect(u.GetTilePos(), b.GetTileRect()) - u.GetTilePos());
+            }
+        }
+
         actionSeq seq = new actionSeq();
         if (u.GetDirection() != ang)
         {
@@ -91,7 +149,7 @@ public class unitManager  {
         attackAction a = new attackAction();
         a.Init(target, mScene);
         seq.AddAction(a);
-        u.AddAction(seq);
+        u.AddActionDelayed(seq);
     }
 
     public void SetScene(scene pScene) {
@@ -101,7 +159,7 @@ public class unitManager  {
     public unit CreateUnit(eUnitType type, int player, int x, int y) {
         switch (type) {
             case eUnitType.kTrike: {
-                GameObject g = scene.Instantiate(Resources.Load("trike"+player, typeof(GameObject))) as GameObject;
+                GameObject g = UnityEngine.Object.Instantiate(Resources.Load("trike" + player, typeof(GameObject))) as GameObject;
                 var u = g.GetComponent<unit>();
                 u.SetTilePos(x,y);
                 (u as trike)?.Create(x,y,player);
@@ -125,8 +183,8 @@ public class unitManager  {
         return false;
     }
 
-    public bool MoveToUnitAndAttack(unit u, unit target) {
-        if (actionManager.moveToUnit(u, target))
+    public bool MoveToTargetAndAttack(unit u, destructableObject target) {
+        if (actionManager.MoveToTarget(u, target))
         {
             u.Unselect();
             return true;

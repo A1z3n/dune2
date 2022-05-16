@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class bullet : MonoBehaviour
 {
-    public unit target;
+    public destructableObject target;
     private Vector3 targetPos;
     public bool inRange = false;
     public float args;

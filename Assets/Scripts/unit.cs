@@ -13,41 +13,16 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 
-public abstract class unit : actionBase {
+public abstract class unit : destructableObject {
 
     protected Camera cam;
     protected SpriteRenderer render;
-    protected int direction = 0;
     protected SpriteAtlas atlas;
-    protected Vector2Int tilePos;
-    protected Vector3 pos;
-    protected SpriteRenderer pickRenderer;
     protected Sprite[] sprites = new Sprite[16];
-    protected int player = 0;
     public Vector2Int destPos = new Vector2Int();
-    public bool canAttack = false;
-    public float attackRange;
-    public int attackDamage;
-    public int health;
-    public bool isAttacking = false;
     public bool isDestroying = false;
 
-    public int GetPlayer() {
-        return player;
-    }
-
-    public int GetDirection() {
-        return direction;
-    }
-
-    public Vector2Int GetTilePos() {
-        return tilePos;
-    }
-
-    public void SetTilePos(int x, int y) {
-        tilePos.x = x;
-        tilePos.y = y;
-    }
+ 
     // Start is called before the first frame update
     void Start() {
         cam = Camera.main;
@@ -60,6 +35,7 @@ public abstract class unit : actionBase {
                 break;
             }
         }
+
     }
 
     public void Create(int x, int y, int pPlayer) {
@@ -69,7 +45,12 @@ public abstract class unit : actionBase {
         pos = tools.iPos2Pos(x, y);
         transform.position = pos;
         this.player = pPlayer;
-
+        clickRect = new Rect {
+            x = pos.x - 0.32f,
+            y = pos.y - 0.32f,
+            width = 0.64f,
+            height = 0.64f
+        };
     }
 
     private void SetColor(int color) {
@@ -81,6 +62,8 @@ public abstract class unit : actionBase {
         base.Update();
         pos.x = transform.position.x;
         pos.y = transform.position.y;
+        clickRect.x = pos.x-0.32f;
+        clickRect.y = pos.y - 0.32f;
     }
 
     public void OnMouseDown() {
@@ -107,38 +90,36 @@ public abstract class unit : actionBase {
     protected abstract void applyDirection();
 
     public bool IsRect(float x, float y) {
-        if (x > pos.x -0.32f && x < pos.x + 0.32f && y>pos.y - 0.32f && y<pos.y + 0.32f) {
+        //if (x > pos.x -0.32f && x < pos.x + 0.32f && y>pos.y - 0.32f && y<pos.y + 0.32f) {
+        if(clickRect.Contains(new Vector2(x,y))){
             return true;
         }
 
         return false;
     }
-
-    public void Select() {
-        pickRenderer.enabled = true;
-        //GetComponentInChildren<SpriteRenderer>().enabled = true;
-    }
-
-    public void Unselect() {
-        pickRenderer.enabled = false;
-    }
-
+    
     public bool IsIdle() {
         return !IsActions() && !isAttacking;
     }
 
-    public void Attack(unit target) {
+    public void Attack() {
         isAttacking = true;
     }
 
-    public void Damage(int damage) {
+    public override void Damage(int damage) {
         health -= damage;
         if (health <= 0) {
             DestroyUnit();
         }
     }
 
-    public void DestroyUnit() {
+    public void DestroyUnit()
+    {
         isDestroying = true;
+        
+    }
+
+    public void DestroyMe() {
+        Destroy(gameObject);
     }
 }

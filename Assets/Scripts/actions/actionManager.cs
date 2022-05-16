@@ -20,7 +20,7 @@ namespace Assets.Scripts {
                 u.destPos.y = destY;
                 actionSeq seq = new actionSeq();
                 int curDir = u.GetDirection();
-                int destDir = tools.getDirection(next - u.GetTilePos());
+                int destDir = tools.GetDirection(next - u.GetTilePos());
                 if (destDir != curDir) {
                     rotateAction r = new rotateAction();
                     r.Init(destDir);
@@ -38,10 +38,15 @@ namespace Assets.Scripts {
             return false;
         }
 
-        public static bool moveToUnit(unit u, unit target)
+        public static bool MoveToTarget(unit u, destructableObject target)
         {
             Vector2Int start = u.GetTilePos();
             Vector2Int dest = target.GetTilePos();
+            if (target.isBuilding) {
+                var b = target as building;
+                if(b!=null)
+                    dest = b.GetTilePosFrom(start);
+            }
             if (dest.x == start.x && dest.y == start.y)
             {
                 return false;
@@ -56,7 +61,7 @@ namespace Assets.Scripts {
 
                 actionSeq seq = new actionSeq();
                 int curDir = u.GetDirection();
-                int destDir = tools.getDirection(next - u.GetTilePos());
+                int destDir = tools.GetDirection(next - u.GetTilePos());
                 if (destDir != curDir)
                 {
                     rotateAction r = new rotateAction();
@@ -66,7 +71,7 @@ namespace Assets.Scripts {
 
                 moveAction a = new moveAction();
                 Vector2 diff = u.transform.position;
-                a.Init(next.x, next.y);
+                a.InitToTarget(target,next.x,next.y);
                 seq.AddAction(a);
                 u.AddActionLazy(seq);
                 return true;
@@ -74,8 +79,8 @@ namespace Assets.Scripts {
             return false;
         }
 
-        public static bool Attack(unit u, unit target,scene pScene) {
-            int ang = tools.getDirection(target.GetTilePos() - u.GetTilePos());
+        public static bool Attack(destructableObject u, destructableObject target,scene pScene) {
+            int ang = tools.GetDirection(target.GetTilePos() - u.GetTilePos());
             actionSeq seq = new actionSeq();
             if (u.GetDirection() != ang)
             {
