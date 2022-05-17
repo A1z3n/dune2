@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,12 @@ public class bullet : MonoBehaviour
     public float speed;
     public int damage;
     // Start is called before the first frame update
-    void Start()
-    {
-        targetPos = target.transform.position;
+    void Start() {
+    }
+
+    public void Init(destructableObject attacker, destructableObject pTarget) {
+        target = pTarget;
+        targetPos = target.GetTargetPos(attacker.GetTilePos());
     }
 
     // Update is called once per frame

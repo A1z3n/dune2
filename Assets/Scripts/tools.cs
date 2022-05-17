@@ -68,7 +68,7 @@ namespace Assets.Scripts
 
         public static bool IsInAttackRange(unit attacker, destructableObject target)
         {
-            if (Vector2.Distance(attacker.transform.position, target.transform.position) <= attacker.attackRange)
+            if (Vector2.Distance(attacker.transform.position, target.GetTargetPos(attacker.GetTilePos())) <= attacker.attackRange)
                 return true;
             return false;
         }

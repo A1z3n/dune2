@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 
 public class destructableObject : actionBase {
@@ -16,8 +17,7 @@ public class destructableObject : actionBase {
     protected Rect clickRect;
     protected Vector3 pos;
 
-    public int GetPlayer()
-    {
+    public int GetPlayer() {
         return player;
     }
 
@@ -28,6 +28,7 @@ public class destructableObject : actionBase {
     public int GetHealth() {
         return health;
     }
+
     public virtual void Damage(int damage) {
 
     }
@@ -40,22 +41,24 @@ public class destructableObject : actionBase {
         tilePos.x = x;
         tilePos.y = y;
     }
-    public int GetDirection()
-    {
+
+    public int GetDirection() {
         return direction;
     }
 
-    public void Select()
-    {
-        if(pickRenderer!=null)
+    public void Select() {
+        if (pickRenderer != null)
             pickRenderer.enabled = true;
         //GetComponentInChildren<SpriteRenderer>().enabled = true;
     }
 
-    public void Unselect()
-    {
-        if(pickRenderer!=null)
+    public void Unselect() {
+        if (pickRenderer != null)
             pickRenderer.enabled = false;
+    }
+
+    public virtual Vector2 GetTargetPos(Vector2Int from) {
+        return pos;
     }
 }
 

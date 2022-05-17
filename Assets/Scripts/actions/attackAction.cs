@@ -41,6 +41,7 @@ public class attackAction : action {
         }
        
         timer += dt;
+        if (cancel) return false;
         if (timer > reloadTime) {
             timer = 0.0f;
             if (target == null) {
@@ -67,8 +68,11 @@ public class attackAction : action {
         //    attacker.transform.position, // default position
         //    Quaternion.identity); // default rotation
         // set its target
-        targetPos.x = target.transform.position.x;
-        targetPos.y = target.transform.position.y;
+        //targetPos.x = target.transform.position.x;
+        //targetPos.y = target.transform.position.y;
+        var t = target.GetTargetPos(attacker.GetTilePos());
+        targetPos.x = t.x;
+        targetPos.y = t.y;
         attackerPos.x = attacker.transform.position.x;
         attackerPos.y = attacker.transform.position.y;
         b.target = target;
@@ -76,6 +80,7 @@ public class attackAction : action {
         b.speed = speed;
         b.damage = damage;
         b.transform.position = attackerPos;
+        b.Init(attacker,target);
         //bullets.Add(b);
     }
 }

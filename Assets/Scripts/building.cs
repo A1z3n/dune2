@@ -109,4 +109,9 @@ public class building : destructableObject
     public Vector2Int GetTilePosFrom(Vector2Int from) {
         return tools.GetNearestFromRect(from,rect);
     }
+
+    public override Vector2 GetTargetPos(Vector2Int from) {
+        var n = GetTilePosFrom(from);
+        return new Vector2(n.x+0.5f,-n.y-0.5f);
+    }
 }
