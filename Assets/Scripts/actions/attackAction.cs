@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using Dune2;
 using UnityEngine;
 
 public class attackAction : action {
@@ -16,8 +17,11 @@ public class attackAction : action {
     private float flyTime;
     private Vector2 attackerPos;
     private int damage;
+    private int direction;
+    private bool force = false;
 
-    public void Init(destructableObject u, scene pScene) {
+    public void Init(destructableObject u, scene pScene, bool pForce) {
+        force = pForce;
         target = u;
         mScene = pScene;
         bullets = new List<bullet>();
@@ -25,10 +29,6 @@ public class attackAction : action {
         attackerPos = new Vector2();
         timer = reloadTime;
     }
-
-
-
-
     public override bool Update(actionBase u, float dt) {
         if (!inited) {
             inited = true;
@@ -38,41 +38,61 @@ public class attackAction : action {
             }
             attacker.isAttacking = true;
             damage = attacker.attackDamage;
+            reloadTime = attacker.reloadTime;
+            direction = attacker.GetTurnDirection();
+            attacker.target = target;
         }
        
-        timer += dt;
         if (cancel) return false;
+        timer += dt;
         if (timer > reloadTime) {
-            timer = 0.0f;
             if (target == null) {
+                attacker.target = null;
                 u.CancelActions();
+                attacker.isAttacking = false;
                 return false;
             }
-            if (tools.IsInAttackRange(attacker, target)) {
-                Fire();
+            if (tools.IsInAttackRange(attacker, target))
+            {
+                var t = target.GetTargetPos(attacker.GetTilePos());
+                targetPos.x = t.x;
+                targetPos.y = t.y;
+                Vector2Int tp = new Vector2Int();
+                tp.x = tools.PosX2IPosX(t.x);
+                tp.y = tools.PosY2IPosY(t.y);
+                var a = attacker.GetTilePos();
+                var dir = tools.GetDirection(tp - a);
+                if ( dir!= direction) {
+                    var r = actionManager.RotatoToObject(attacker,target);
+                    if (r != null) {
+                        attacker.AddActionLazy(r);
+                        r.OnEndCallback = Fire;
+                    }
+                    else Fire();
+                }
+                else Fire();
             }
             else {
+                attacker.target = null;
                 attacker.isAttacking = false;
+                if (force) {
+                    gameManager.GetInstance().GetUnitManager().MoveToTargetAndAttack(attacker, target);
+                }
                 return false;
             }
         }
         
         return true;
     }
+    
 
-    public void Fire() {
+    private void Fire() {
         GameObject g = scene.Instantiate(Resources.Load("bullet", typeof(GameObject))) as GameObject;
         var b = g.GetComponent<bullet>();
-
-        //GameObject a = (GameObject)mScene.Instantiate(bullet,
-        //    attacker.transform.position, // default position
-        //    Quaternion.identity); // default rotation
-        // set its target
-        //targetPos.x = target.transform.position.x;
-        //targetPos.y = target.transform.position.y;
+        timer = 0.0f;
+        speed = attacker.attackSpeed;
+        reloadTime = attacker.reloadTime;
         var t = target.GetTargetPos(attacker.GetTilePos());
-        targetPos.x = t.x;
-        targetPos.y = t.y;
         attackerPos.x = attacker.transform.position.x;
         attackerPos.y = attacker.transform.position.y;
         b.target = target;
@@ -82,5 +102,9 @@ public class attackAction : action {
         b.transform.position = attackerPos;
         b.Init(attacker,target);
         //bullets.Add(b);
+    }
+
+    public override eActionType GetActionType() {
+        return eActionType.kAttackAction;
     }
 }

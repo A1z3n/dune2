@@ -4,6 +4,7 @@ using System.Linq;
 using SuperTiled2Unity;
 using UnityEngine;
 
+
 public class actionBase : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -24,6 +25,7 @@ public class actionBase : MonoBehaviour
         float dt = Time.deltaTime;
         foreach (var currentAction in actions) {
             if (!currentAction.Update(this, dt)) {
+                currentAction.OnEndCallback?.Invoke();
                 delItems.Add(currentAction);
             }
         }
@@ -83,13 +85,15 @@ public class actionBase : MonoBehaviour
 
     public bool IsActions()
     {
-        return !actionsToAdd.IsEmpty() || !actionsToAdd.IsEmpty();
+        return !actions.IsEmpty() || !actionsToAdd.IsEmpty() || !actionsDelayed.IsEmpty();
     }
 
     public void CancelActions() {
         foreach (var currentAction in actions){
             currentAction.Cancel();
         }
+        actionsToAdd.Clear();
+        actionsDelayed.Clear();
     }
 
 }

@@ -15,11 +15,11 @@ namespace Assets.Scripts {
             Vector2Int next = new Vector2Int();
             if (astar.GetInstance().FindNext(start.x, start.y, destX, destY, out next)) {
                 //u.ClearActions();
-                u.CancelActions();
+                //u.CancelActions();
                 u.destPos.x = destX;
                 u.destPos.y = destY;
                 actionSeq seq = new actionSeq();
-                int curDir = u.GetDirection();
+                int curDir = u.GetTurnDirection();
                 int destDir = tools.GetDirection(next - u.GetTilePos());
                 if (destDir != curDir) {
                     rotateAction r = new rotateAction();
@@ -60,7 +60,7 @@ namespace Assets.Scripts {
                 u.destPos.y = dest.y;
 
                 actionSeq seq = new actionSeq();
-                int curDir = u.GetDirection();
+                int curDir = u.GetTurnDirection();
                 int destDir = tools.GetDirection(next - u.GetTilePos());
                 if (destDir != curDir)
                 {
@@ -79,20 +79,43 @@ namespace Assets.Scripts {
             return false;
         }
 
-        public static bool Attack(destructableObject u, destructableObject target,scene pScene) {
+        public static void Attack(destructableObject u, destructableObject target,scene pScene, bool pForce) {
             int ang = tools.GetDirection(target.GetTilePos() - u.GetTilePos());
             actionSeq seq = new actionSeq();
-            if (u.GetDirection() != ang)
+            if (u.GetTurnDirection() != ang)
             {
                 rotateAction r = new rotateAction();
                 r.Init(ang);
                 seq.AddAction(r);
             }
             attackAction a = new attackAction();
-            a.Init(target, pScene);
+            a.Init(target, pScene,pForce);
             seq.AddAction(a);
             u.AddAction(seq);
-            return true;
+        }
+
+        public static rotateAction Rotate(int dest) {
+            rotateAction r = new rotateAction();
+            r.Init(dest);
+            return r;
+        }
+
+        public static rotateAction RotatoToObject(destructableObject u, destructableObject target) {
+            int startDir = u.GetDirection();
+            Vector2Int dest;
+            int destDir = 0;
+            if (target.isBuilding) {
+                 dest = tools.GetNearestFromRect(u.GetTilePos(), (target as building).GetTileRect());
+            }
+            else {
+                dest = target.GetTilePos();
+            }
+            destDir = tools.GetDirection(target.GetTilePos() - dest);
+            if (startDir == destDir) return null;
+
+            rotateAction r = new rotateAction();
+            r.Init(destDir);
+            return r;
         }
     }
 }

@@ -21,8 +21,9 @@ public abstract class unit : destructableObject {
     protected Sprite[] sprites = new Sprite[16];
     public Vector2Int destPos = new Vector2Int();
     public bool isDestroying = false;
+    protected float moveSpeed;
 
- 
+
     // Start is called before the first frame update
     void Start() {
         cam = Camera.main;
@@ -121,5 +122,9 @@ public abstract class unit : destructableObject {
 
     public void DestroyMe() {
         Destroy(gameObject);
+    }
+
+    public float GetMoveSpeed() {
+        return moveSpeed;
     }
 }

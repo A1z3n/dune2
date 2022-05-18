@@ -1,16 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dune2;
 using UnityEngine;
 
 public class bullet : MonoBehaviour
 {
     public destructableObject target;
-    private Vector3 targetPos;
+    private Vector2 targetPos;
+    private Vector2 startPos;
     public bool inRange = false;
     public float args;
     public float speed;
     public int damage;
+    private float progress = 0.0f;
+    private Vector2Int targetTilePos;
+    
+    
     // Start is called before the first frame update
     void Start() {
     }
@@ -18,12 +24,14 @@ public class bullet : MonoBehaviour
     public void Init(destructableObject attacker, destructableObject pTarget) {
         target = pTarget;
         targetPos = target.GetTargetPos(attacker.GetTilePos());
+        targetTilePos = pTarget.GetTilePos();
+        startPos = attacker.transform.position;
+        speed = attacker.attackSpeed;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (inRange == true)
+    void Update() {
+        /*if (inRange == true)
         {
             transform.position = Vector2.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
             //if (V3Equal(transform.position, target.position)) Destroy(gameObject);
@@ -33,7 +41,29 @@ public class bullet : MonoBehaviour
                 target.Damage(damage);
                 Destroy(gameObject);
             }
+        }*/
+        progress += speed * Time.deltaTime;
+        if (progress > 1.0f) {
+            progress = 1.0f;
+            if (target.GetTilePos() != targetTilePos) {
+                var actions = target.GetActions();
+                foreach (var a in actions) {
+                    if (a.GetActionType() == eActionType.kMoveAction) {
+                        float p = (a as moveAction).GetProgress();
+                        if (p > 0.5f)
+                        {
+                            Destroy(gameObject);
+                            return;
+                        }
+                        break;
+                    }
+                }
+            }
+            target.Damage(damage);
+            Destroy(gameObject);
         }
+
+        transform.position = startPos + (targetPos - startPos) * progress;
     }
     public bool V3Equal(Vector3 a, Vector3 b)
     {

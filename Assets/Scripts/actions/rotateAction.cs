@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dune2;
 using UnityEngine;
 
 public class rotateAction : action
@@ -65,5 +66,9 @@ public class rotateAction : action
 
         float p = timer / duration;
         return true;
+    }
+    public override eActionType GetActionType()
+    {
+        return eActionType.kRotateAction;
     }
 }

@@ -8,6 +8,8 @@ public class destructableObject : actionBase {
     public bool canAttack = false;
     public float attackRange;
     public int attackDamage;
+    public float attackSpeed;
+    public float reloadTime;
     public bool isAttacking = false;
     protected Vector2Int tilePos;
     public bool isBuilding = false;
@@ -16,6 +18,7 @@ public class destructableObject : actionBase {
     protected SpriteRenderer pickRenderer = null;
     protected Rect clickRect;
     protected Vector3 pos;
+    public destructableObject target = null;
 
     public int GetPlayer() {
         return player;
@@ -46,6 +49,12 @@ public class destructableObject : actionBase {
         return direction;
     }
 
+    public int GetTurnDirection() {
+        if (direction > 7)
+            return direction-16;
+        return direction;
+    }
+
     public void Select() {
         if (pickRenderer != null)
             pickRenderer.enabled = true;
@@ -61,4 +70,5 @@ public class destructableObject : actionBase {
         return pos;
     }
 }
+    
 

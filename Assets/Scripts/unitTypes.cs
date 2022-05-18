@@ -7,5 +7,6 @@ namespace Dune2
         kTrike,
         kTank
     }
+
 }
 

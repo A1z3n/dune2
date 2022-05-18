@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using Dune2;
 using UnityEngine;
 
 public class moveAction : action {
@@ -33,18 +34,23 @@ public class moveAction : action {
         if (!inited) {
             inited = true;
             startPos = u.transform.position;
-            var un = u as destructableObject;
-            startX = un.GetTilePos().x;
-            startY = un.GetTilePos().y;
-            un.SetTilePos(destX, destY);
+            var obj = u as destructableObject;
+            startX = obj.GetTilePos().x;
+            startY = obj.GetTilePos().y;
+            obj.SetTilePos(destX, destY);
             astar.GetInstance().ChangeUnitPos(startX, startY, destX, destY);
+            var un = u as unit;
+            if(un!=null)
+                duration = 1 / un.GetMoveSpeed();
+        }
+        if (cancel)
+        {
+            return false;
         }
         timer += dt;
         if (timer >= duration) {
             u.transform.position = destPos;
-            if (cancel) {
-                return false;
-            }
+            
             var un = u as unit;
             if (un != null)
             {
@@ -54,7 +60,7 @@ public class moveAction : action {
 
                 if (target != null) {
                     if (tools.IsInAttackRange(un,target)) {
-                        gameManager.GetInstance().GetUnitManager().Attack(un,target);
+                        gameManager.GetInstance().GetUnitManager().Attack(un,target,true);
                         return false;
                     }
                     actionManager.MoveToTarget(un, target);
@@ -74,5 +80,11 @@ public class moveAction : action {
         return true;
     }
 
-
+    public float GetProgress() {
+        return timer / duration;
+    }
+    public override eActionType GetActionType()
+    {
+        return eActionType.kMoveAction;
+    }
 }

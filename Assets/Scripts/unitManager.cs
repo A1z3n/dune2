@@ -10,11 +10,6 @@ public class unitManager  {
     private List<unit> units;
     private List<unit> delUnits;
     private scene mScene;
-    private Camera camera;
-    private unit selectedUnit;
-    private const float cameraDistance = 0.64f;
-    private int myPlayer;
-    //private astar mAstar;
 
     public unitManager() {
         units = new List<unit>();
@@ -22,57 +17,7 @@ public class unitManager  {
     }
 
     public void Update(float dt) {
-        /*
-        if (Input.GetMouseButtonDown(0)) {
-            if (!camera) {
-                camera = gameManager.GetInstance().GetCamera();
-            }
-
-            selectedUnit = null;
-            var targetPosition =
-                camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraDistance));
-
-            foreach (var u in units) {
-                if (u.GetPlayer()==myPlayer && u.IsRect(targetPosition.x, targetPosition.y)) {
-                    u.Select();
-                    selectedUnit = u;
-                }
-                else {
-                    u.Unselect();
-                }
-            }
-        }
-
-        if (Input.GetMouseButtonDown(1)) {
-            if (selectedUnit) {
-                var targetPosition =
-                    camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraDistance));
-                int x = tools.posX2iPosX(targetPosition.x);
-                int y = tools.posY2iPosY(targetPosition.y);
-                bool attack = false;
-                foreach (var u in units) {
-                    if (u.IsRect(targetPosition.x, targetPosition.y))
-                    {
-                        if (u.GetPlayer() != myPlayer) {
-                            if (Vector2.Distance(u.transform.position, selectedUnit.transform.position) <= selectedUnit.attackRange) {
-                                Attack(selectedUnit,u);
-                            }
-                            else {
-                                MoveToTargetAndAttack(selectedUnit, u);
-                            }
-                            attack = true;
-                        }
-                        break;
-                    }
-                }
-
-                if (!attack) {
-                    MoveTo(selectedUnit, x, y);
-                }
-                selectedUnit.Unselect();
-                selectedUnit = null;
-            }
-        }*/
+        
 
 
         foreach (var u in units) {
@@ -80,10 +25,10 @@ public class unitManager  {
             if (u.isDestroying) {
                 delUnits.Add(u);
             }
-            //if (u.IsIdle())
-            //{
-            //    CheckIdleAI(u);
-            //}
+            if (u.IsIdle())
+            {
+                CheckIdleAI(u);
+            }
         }
 
         if (!delUnits.IsEmpty()) {
@@ -112,23 +57,18 @@ public class unitManager  {
 
     private void CheckIdleAI(unit u) {
         foreach (var t in units) {
-            if (t.GetPlayer() != u.GetPlayer() && u.canAttack && Vector2.Distance(u.transform.position,t.transform.position)<=u.attackRange) {
-               
-                break;
+            if (!u.isAttacking && t.GetPlayer() != u.GetPlayer() && u.canAttack && tools.IsInAttackRange(u,t)) {
+                bool idle = u.IsIdle();
+                Attack(u,t,false);
             }
         }
     }
 
-    public void Attack(unit u, destructableObject target) {
-
+    public void Attack(unit u, destructableObject target, bool pForce) {
+        
         unit t = target as unit;
         int ang = 0;
         if (t != null) {
-
-            if (t.isAttacking)
-            {
-                return;
-            }
             ang = tools.GetDirection(t.GetTilePos() - u.GetTilePos());
         }
         else
@@ -140,14 +80,14 @@ public class unitManager  {
         }
 
         actionSeq seq = new actionSeq();
-        if (u.GetDirection() != ang)
+        if (u.GetTurnDirection() != ang)
         {
             rotateAction r = new rotateAction();
             r.Init(ang);
             seq.AddAction(r);
         }
         attackAction a = new attackAction();
-        a.Init(target, mScene);
+        a.Init(target, mScene, pForce);
         seq.AddAction(a);
         u.AddActionDelayed(seq);
     }
@@ -192,8 +132,5 @@ public class unitManager  {
 
         u.Unselect();
         return false;
-    }
-    public void SetPlayer(int pPlayer) {
-        myPlayer = pPlayer;
     }
 }

@@ -93,9 +93,11 @@ public class mapManager : MonoBehaviour {
                     if (target.GetPlayer() != myPlayer) {
                         if (tools.IsInAttackRange(selectedUnit, target)) {
                             attack = true;
-                            units.Attack(selectedUnit, target);
+                            selectedUnit.CancelActions();
+                            units.Attack(selectedUnit, target,true);
                         }
                         else {
+                            selectedUnit.CancelActions();
                             units.MoveToTargetAndAttack(selectedUnit, target);
                             attack = true;
                         }
@@ -112,10 +114,12 @@ public class mapManager : MonoBehaviour {
                             if (tools.IsInAttackRange(selectedUnit, b))
                             {
                                 attack = true;
-                                units.Attack(selectedUnit, b);
+                                selectedUnit.CancelActions();
+                                units.Attack(selectedUnit, b,true);
                             }
                             else
                             {
+                                selectedUnit.CancelActions();
                                 units.MoveToTargetAndAttack(selectedUnit, b);
                                 attack = true;
                             }
@@ -124,11 +128,11 @@ public class mapManager : MonoBehaviour {
                 }
 
                 if (!attack) {
-
+                    selectedUnit.CancelActions();
                     units.MoveTo(selectedUnit, x, y);
                 }
 
-            selectedUnit.Unselect();
+                selectedUnit.Unselect();
                 selectedUnit = null;
             }
         }
@@ -136,7 +140,6 @@ public class mapManager : MonoBehaviour {
     public void LoadMapOld() {
 
         units = new unitManager();
-        units.SetPlayer(1);
         dataFromTiles = new Dictionary<TileBase, tileData>();
         foreach (var td in tileDatas)
         {

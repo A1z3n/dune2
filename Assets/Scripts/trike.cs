@@ -19,9 +19,12 @@ public class trike : unit
         }
 
         canAttack = true;
-        attackDamage = 20;
+        attackDamage = 10;
         attackRange = 3.0f;
+        attackSpeed = 10.0f;
         health = 100;
+        moveSpeed = 1.0f;
+        reloadTime = 1.5f;
     }
 
 
