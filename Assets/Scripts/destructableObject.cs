@@ -50,7 +50,7 @@ public class destructableObject : actionBase {
     }
 
     public int GetTurnDirection() {
-        if (direction > 7)
+        if (direction > 8)
             return direction-16;
         return direction;
     }

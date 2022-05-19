@@ -27,7 +27,7 @@ public class attackAction : action {
         bullets = new List<bullet>();
         targetPos = new Vector2();
         attackerPos = new Vector2();
-        timer = reloadTime;
+        timer = 0;
     }
     public override bool Update(actionBase u, float dt) {
         if (!inited) {
@@ -63,12 +63,7 @@ public class attackAction : action {
                 var a = attacker.GetTilePos();
                 var dir = tools.GetDirection(tp - a);
                 if ( dir!= direction) {
-                    var r = actionManager.RotatoToObject(attacker,target);
-                    if (r != null) {
-                        attacker.AddActionLazy(r);
-                        r.OnEndCallback = Fire;
-                    }
-                    else Fire();
+                    gameManager.GetInstance().GetUnitManager().Attack(attacker, target,force);
                 }
                 else Fire();
             }
@@ -78,8 +73,9 @@ public class attackAction : action {
                 if (force) {
                     gameManager.GetInstance().GetUnitManager().MoveToTargetAndAttack(attacker, target);
                 }
-                return false;
             }
+
+            return false;
         }
         
         return true;
@@ -101,6 +97,8 @@ public class attackAction : action {
         b.damage = damage;
         b.transform.position = attackerPos;
         b.Init(attacker,target);
+
+        gameManager.GetInstance().GetUnitManager().Attack(attacker,target,force);
         //bullets.Add(b);
     }
 

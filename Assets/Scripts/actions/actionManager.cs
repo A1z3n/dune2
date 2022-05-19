@@ -101,7 +101,7 @@ namespace Assets.Scripts {
         }
 
         public static rotateAction RotatoToObject(destructableObject u, destructableObject target) {
-            int startDir = u.GetDirection();
+            int startDir = u.GetTurnDirection();
             Vector2Int dest;
             int destDir = 0;
             if (target.isBuilding) {

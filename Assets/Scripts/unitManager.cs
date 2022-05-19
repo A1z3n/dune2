@@ -67,6 +67,7 @@ public class unitManager  {
     public void Attack(unit u, destructableObject target, bool pForce) {
         
         unit t = target as unit;
+        u.isAttacking = true;
         int ang = 0;
         if (t != null) {
             ang = tools.GetDirection(t.GetTilePos() - u.GetTilePos());
