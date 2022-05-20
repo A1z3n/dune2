@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Assets.Scripts;
+using Dune2;
 using UnityEngine;
 
 public class building : destructableObject
@@ -11,8 +13,12 @@ public class building : destructableObject
     private String radarName;
     private int prevFrame;
     protected RectInt rect;
+    private SpriteRenderer baseRenderer;
+    private eBuildingState state;
+    private float timer = 0.0f;
+    protected eBuildingType dependency;
 
-    public virtual void Init(int x, int y, int player) {
+    public virtual void Init(int x, int y, int pPlayer) {
         pos = tools.iPos2PosB( x, y);
         transform.position = pos;
         rect = new RectInt {
@@ -22,7 +28,7 @@ public class building : destructableObject
             height =2,
         };
         tilePos = new Vector2Int(x, y);
-        this.player = player;
+        this.player = pPlayer;
         isBuilding = true;
         var comps = GetComponentsInChildren<SpriteRenderer>();
         foreach (var it in comps)
@@ -30,7 +36,10 @@ public class building : destructableObject
             if (it.name == "pick_b")
             {
                 pickRenderer = it;
-                break;
+            }
+
+            if (it.name == "base") {
+                baseRenderer = it;
             }
         }
 
@@ -40,6 +49,7 @@ public class building : destructableObject
             width = rect.width,
             height = rect.height
         };
+        state = eBuildingState.kBuilding;
     }
     // Start is called before the first frame update
     public void Start() {
@@ -88,9 +98,24 @@ public class building : destructableObject
             render.sprite = spritesMap[radarName+"-" + t];
             prevFrame = t;
         }
+
+        switch (state) {
+            case eBuildingState.kBuilding: {
+
+                timer += Time.deltaTime;
+                bool active = !(timer is > 0.5f and < 0.6f || timer is >= 0.7f and < 0.8f || timer is >= 0.9f and < 1.0f);
+
+                if (timer > 1.0f) {
+                    state = eBuildingState.kActive;
+                    baseRenderer.enabled = false;
+
+                }
+                else 
+                    baseRenderer.enabled = active;
+            }
+                break;
+        }
     }
-
-
     public bool isRect(float x, float y) {
         //if (x > pos.x && x < pos.x + rect.width*0.64f && y > pos.y && y < pos.y - rect.height*0.64f)
         if (clickRect.Contains(new Vector2(x, y)))
@@ -100,7 +125,9 @@ public class building : destructableObject
         return false;
     }
 
-
+    public eBuildingType GetDependency() {
+        return dependency;
+    }
 
     public RectInt GetTileRect() {
         return rect;
@@ -114,4 +141,5 @@ public class building : destructableObject
         var n = GetTilePosFrom(from);
         return new Vector2(n.x+0.5f,-n.y-0.5f);
     }
+
 }

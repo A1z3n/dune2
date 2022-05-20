@@ -10,10 +10,16 @@ namespace Dune2
         kBarrack,
         kPalace,
         kAir,
-        kPlateSmall,
-        kPlateBig,
+        kConcreteSmall,
+        kConcreteBig,
         kTurret,
         kTurretRocket,
         kWall
+    }
+
+    public enum eBuildingState {
+        kBuilding,
+        kActive,
+        kDestroying
     }
 }

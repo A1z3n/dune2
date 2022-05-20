@@ -15,18 +15,19 @@ public class bullet : MonoBehaviour
     public int damage;
     private float progress = 0.0f;
     private Vector2Int targetTilePos;
-    
+    private float waitTime;
     
     // Start is called before the first frame update
     void Start() {
     }
 
-    public void Init(destructableObject attacker, destructableObject pTarget) {
+    public void Init(destructableObject attacker, destructableObject pTarget, float pWaitTime) {
         target = pTarget;
         targetPos = target.GetTargetPos(attacker.GetTilePos());
         targetTilePos = pTarget.GetTilePos();
         startPos = attacker.transform.position;
         speed = attacker.attackSpeed;
+        waitTime = pWaitTime;
     }
 
     // Update is called once per frame
@@ -42,6 +43,11 @@ public class bullet : MonoBehaviour
                 Destroy(gameObject);
             }
         }*/
+
+        if (waitTime > 0) {
+            waitTime -= Time.deltaTime;
+            return;
+        }
         progress += speed * Time.deltaTime;
         if (progress > 1.0f) {
             progress = 1.0f;

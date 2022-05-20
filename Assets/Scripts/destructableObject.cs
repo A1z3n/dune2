@@ -19,6 +19,7 @@ public class destructableObject : actionBase {
     protected Rect clickRect;
     protected Vector3 pos;
     public destructableObject target = null;
+    public int bulletNum = 1;
 
     public int GetPlayer() {
         return player;
@@ -55,13 +56,13 @@ public class destructableObject : actionBase {
         return direction;
     }
 
-    public void Select() {
+    public virtual void Select() {
         if (pickRenderer != null)
             pickRenderer.enabled = true;
         //GetComponentInChildren<SpriteRenderer>().enabled = true;
     }
 
-    public void Unselect() {
+    public virtual void Unselect() {
         if (pickRenderer != null)
             pickRenderer.enabled = false;
     }

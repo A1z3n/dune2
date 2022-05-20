@@ -13,6 +13,7 @@ public class gameManager  {
     private static readonly gameManager instance = new gameManager();
     private int youColor;
     private mapManager mMap;
+    private gui Gui;
     public string Date { get; private set; }
 
     private gameManager() {
@@ -64,6 +65,14 @@ public class gameManager  {
 
     public int getYourColor() {
         return youColor;
+    }
+
+    public void SetGui(gui pGui) {
+        Gui = pGui;
+    }
+
+    public gui GetGui() {
+        return Gui;
     }
 
 }

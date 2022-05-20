@@ -174,11 +174,12 @@ public class mapManager : MonoBehaviour {
         }
         astar.GetInstance().FillMap(weights);
         units.CreateUnit(eUnitType.kTrike, 1,1, 1);
-        units.CreateUnit(eUnitType.kTrike, 2,5, 5);
+        //units.CreateUnit(eUnitType.kTrike, 2,5, 5);
         buildings = new buildingsManager();
-        buildings.Init();
+        buildings.Init(mapSize.x,mapSize.y);
         buildings.Build(4, 2, eBuildingType.kBase, 1);
-        buildings.Build(7, 2, eBuildingType.kBase, 2);
+        buildings.Build(6, 2, eBuildingType.kConcreteBig, 1);
+        //buildings.Build(7, 2, eBuildingType.kBase, 2);
     }
     public void LoadMap(String name) {
         mapTile = GameObject.Find(name);
