@@ -13,7 +13,8 @@ public class gameManager  {
     private static readonly gameManager instance = new gameManager();
     private int youColor;
     private mapManager mMap;
-    private gui Gui;
+    public gui Gui;
+    private int Credits = 0;
     public string Date { get; private set; }
 
     private gameManager() {
@@ -73,6 +74,21 @@ public class gameManager  {
 
     public gui GetGui() {
         return Gui;
+    }
+
+    public void AddCredits(int num) {
+        Credits += num;
+        Gui.AddCredits(Credits);
+    }
+
+    public bool CheckCredits(int num) {
+        if (num <= Credits)
+            return true;
+        return false;
+    }
+
+    public mapManager GetMapManager() {
+        return mMap;
     }
 
 }

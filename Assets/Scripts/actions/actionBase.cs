@@ -12,7 +12,7 @@ public class actionBase : MonoBehaviour
     private List<action> actionsToAdd;
     private List<action> actionsDelayed;
     private List<action> delItems;
-    protected void Init() {
+    public actionBase() {
         actions = new List<action>();
         delItems = new List<action>();
         actionsToAdd = new List<action>();

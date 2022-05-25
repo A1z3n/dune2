@@ -28,7 +28,6 @@ public abstract class unit : destructableObject {
     void Start() {
         cam = Camera.main;
         render = GetComponent<SpriteRenderer>();
-        base.Init();
         var comps = GetComponentsInChildren<SpriteRenderer>();
         foreach (var it in comps) {
             if (it.name == "pick") {

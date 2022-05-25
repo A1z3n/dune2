@@ -4,17 +4,20 @@ namespace Dune2
     {
         kNone,
         kBase,
+        kConcrete,
+        kWindTrap,
         kRefinery,
-        kFactory,
         kRadar,
-        kBarrack,
-        kPalace,
-        kAir,
-        kConcreteSmall,
-        kConcreteBig,
+        kSilo,
+        kVehicle,
+        kBarracks,
+        kWall,
         kTurret,
         kTurretRocket,
-        kWall
+        kRepair,
+        kAir,
+        kStarPort,
+        kPalace
     }
 
     public enum eBuildingState {

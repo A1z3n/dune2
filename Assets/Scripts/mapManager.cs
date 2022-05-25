@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using Assets.Scripts;
 using Dune2;
 using SuperTiled2Unity;
@@ -26,15 +27,37 @@ public class mapManager : MonoBehaviour {
     private building selectedBuilding;
     private const float cameraDistance = 0.64f;
     private int myPlayer = 1;
+    private int buildSize = 0;
+    private GameObject buildModeObject;
+    private bool inited = false;
+    private eBuildingType buildModeType = eBuildingType.kNone;
+    private Vector2Int buildModePos;
+
 
     private void Awake() {
         LoadMapOld();
     }
 
+    void Start() {
+
+        buildModePos = new Vector2Int();
+    }
+
+    void Init() {
+        inited = true;
+        buildings.Build(4, 2, eBuildingType.kBase, 1);
+        units.CreateUnit(eUnitType.kTrike, 1, 1, 1);
+        //buildings.Build(6, 2, eBuildingType.kConcrete, 1);
+        // //units.CreateUnit(eUnitType.kTrike, 2,5, 5);
+        gameManager.GetInstance().AddCredits(1000);
+    }
+
     public void Update() {
+        if (!inited) Init();
         checkInput();
         units.Update(Time.deltaTime);
         buildings.Update(Time.deltaTime);
+        BuildModeUpdate();
     }
 
     void checkInput() {
@@ -50,32 +73,43 @@ public class mapManager : MonoBehaviour {
                 selectedUnit.Unselect();
             }
 
-            if (selectedBuilding != null) {
-                selectedBuilding.Unselect();
-            }
+            
             selectedUnit = null;
-            selectedBuilding = null;
             var targetPosition =
                 Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraDistance));
-
-            selectedUnit = units.GetUnitAt(targetPosition);
-            if (selectedUnit!=null) {
-                if(selectedUnit.GetPlayer() != myPlayer)
-                    selectedUnit = null;
+            if (buildSize == 0) {
+                selectedUnit = units.GetUnitAt(targetPosition);
+                if (selectedUnit != null) {
+                    if (selectedUnit.GetPlayer() != myPlayer)
+                        selectedUnit = null;
+                    else {
+                        selectedUnit.Select();
+                    }
+                }
                 else {
-                    selectedUnit.Select();
+                    var select = buildings.GetBuildAt(targetPosition);
+                    if (select != null) {
+                        if (select.CheckPlayer(myPlayer)) {
+                            select.Select();
+                        }
+                        else {
+                            select = null;
+                        }
+                    }
+
+                    if (select != null) {
+                        if(selectedBuilding!=null)
+                            selectedBuilding.Unselect();
+                        selectedBuilding = select;
+                    }
                 }
             }
             else {
-                selectedBuilding = buildings.GetBuildAt(targetPosition);
-                if (selectedBuilding != null) {
-                    if (selectedBuilding.CheckPlayer(myPlayer)) {
-                        selectedBuilding.Select();
-                    }
-                    else {
-                        selectedBuilding = null;
-                    }
+
+                if (gameManager.GetInstance().CheckCredits(buildings.GetBuildCost(buildModeType))) {
+                    buildings.Build(buildModePos.x, buildModePos.y, buildModeType, myPlayer);
                 }
+                DeactivateBuildMode();
             }
         }
 
@@ -135,6 +169,9 @@ public class mapManager : MonoBehaviour {
                 selectedUnit.Unselect();
                 selectedUnit = null;
             }
+            if (buildSize > 0) {
+               DeactivateBuildMode();
+            }
         }
     }
     public void LoadMapOld() {
@@ -173,13 +210,8 @@ public class mapManager : MonoBehaviour {
             }
         }
         astar.GetInstance().FillMap(weights);
-        units.CreateUnit(eUnitType.kTrike, 1,1, 1);
-        //units.CreateUnit(eUnitType.kTrike, 2,5, 5);
         buildings = new buildingsManager();
-        buildings.Init(mapSize.x,mapSize.y);
-        buildings.Build(4, 2, eBuildingType.kBase, 1);
-        buildings.Build(6, 2, eBuildingType.kConcreteBig, 1);
-        //buildings.Build(7, 2, eBuildingType.kBase, 2);
+        buildings.Init(mapSize.x, mapSize.y);
     }
     public void LoadMap(String name) {
         mapTile = GameObject.Find(name);
@@ -243,5 +275,70 @@ public class mapManager : MonoBehaviour {
     public SuperMap getMap()
     {
         return superMap;
+    }
+
+    private void BuildModeUpdate() {
+        if (buildSize > 0) {
+            if (buildModeObject != null) {
+                var targetPosition =
+                    camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y,
+                        cameraDistance));
+                int x = tools.PosX2IPosX(targetPosition.x+0.25f);
+                int y = tools.PosY2IPosY(targetPosition.y-0.25f);
+                buildModePos.x = x;
+                buildModePos.y = y;
+
+                buildModeObject.transform.position = tools.iPos2PosB(x,y);// + new Vector3(-0.5f,-0.5f);
+            }
+        }
+    }
+
+    public void ActivateBuildMode(eBuildingType type) {
+
+        switch (type) {
+            case eBuildingType.kTurret:
+            case eBuildingType.kTurretRocket:
+            case eBuildingType.kWall:
+                buildSize = 1;
+                break;
+            case eBuildingType.kConcrete:
+            case eBuildingType.kAir:
+            case eBuildingType.kBarracks:
+            case eBuildingType.kRadar:
+            case eBuildingType.kSilo:
+            case eBuildingType.kBase:
+                buildModeObject = scene.Instantiate(Resources.Load("buildMode4", typeof(GameObject))) as GameObject;
+                buildSize = 4;
+                break;
+            case eBuildingType.kRefinery:
+            case eBuildingType.kRepair:
+            case eBuildingType.kVehicle:
+                buildSize = 6;
+                break;
+            case eBuildingType.kPalace:
+            case eBuildingType.kStarPort:
+                buildSize = 9;
+                break;
+
+        }
+
+        buildModeType = type;
+    }
+
+    public void DeactivateBuildMode() {
+        if (buildSize == 0) return;
+        buildModeType = eBuildingType.kNone;
+        scene.Destroy(buildModeObject);
+        buildModeObject = null;
+        buildSize = 0;
+    }
+
+    public void BuildConcrete() {
+        buildings.StartBuilding(eBuildingType.kConcrete);
+        //if (buildSize > 0) return;//TODO: cancel prev build
+        //if (!gameManager.GetInstance().CheckCredits(buildings.GetBuildCost(eBuildingType.kConcrete)))
+        //    return;
+        //ActivateBuildMode(4);
+        //buildModeType = eBuildingType.kConcrete;
     }
 }

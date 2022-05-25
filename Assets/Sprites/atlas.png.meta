@@ -20,6 +20,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -5555,11 +5557,11 @@ TextureImporter:
       atlas_89: -715524698
       atlas_110: 310949024
       atlas_208: -2115074465
-      atlas_172: 420475102
       atlas_87: -1820356008
+      atlas_215: 904881371
       atlas_193: -727755171
       atlas_104: -2039981733
-      atlas_215: 904881371
+      atlas_172: 420475102
       atlas_34: 1187273506
       atlas_46: -55513332
       atlas_229: -558389095
@@ -5748,7 +5750,6 @@ TextureImporter:
       atlas_21: -1257677899
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
