@@ -116,7 +116,7 @@ public abstract class unit : destructableObject {
     public void DestroyUnit()
     {
         isDestroying = true;
-        
+        actionManager.DestroyUnit(this);
     }
 
     public void DestroyMe() {

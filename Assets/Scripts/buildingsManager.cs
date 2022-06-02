@@ -4,6 +4,7 @@ using Dune2;
 using UnityEngine;
 using Assets.Scripts;
 using Microsoft.Unity.VisualStudio.Editor;
+using Mono.CompilerServices.SymbolWriter;
 using TMPro;
 
 
@@ -60,6 +61,8 @@ public class buildingsManager
     private List<sBuild> buildList;
     private int mapWidth;
     private int mapHeight;
+    private Dictionary<eBuildingType, string> namesDictionary;
+    private Dictionary<eBuildingType, int> buildSizes;
 
     //private astar mAstar;
 
@@ -68,6 +71,8 @@ public class buildingsManager
         buildingCosts = new Dictionary<eBuildingType, int>();
         buildList = new List<sBuild>();
         buildTimes = new Dictionary<eBuildingType, float>();
+        namesDictionary = new Dictionary<eBuildingType, string>();
+        buildSizes = new Dictionary<eBuildingType, int>();
     }
 
     // Start is called before the first frame update
@@ -115,6 +120,38 @@ public class buildingsManager
         buildTimes[eBuildingType.kAir] = 15.0f;
         buildTimes[eBuildingType.kStarPort] = 15.0f;
         buildTimes[eBuildingType.kPalace] = 15.0f;
+
+        namesDictionary[eBuildingType.kBase] = "base";
+        namesDictionary[eBuildingType.kConcrete] = "concrete";
+        namesDictionary[eBuildingType.kWindTrap] = "windtrap";
+        namesDictionary[eBuildingType.kRefinery] = "refinery";
+        namesDictionary[eBuildingType.kRadar] = "radar";
+        namesDictionary[eBuildingType.kSilo] = "silo";
+        namesDictionary[eBuildingType.kVehicle] = "vehicle";
+        namesDictionary[eBuildingType.kBarracks] = "barracks";
+        namesDictionary[eBuildingType.kWall] = "wall";
+        namesDictionary[eBuildingType.kTurret] = "turret";
+        namesDictionary[eBuildingType.kTurretRocket] = "r-turret";
+        namesDictionary[eBuildingType.kRepair] = "repair";
+        namesDictionary[eBuildingType.kAir] = "air";
+        namesDictionary[eBuildingType.kStarPort] = "starport";
+        namesDictionary[eBuildingType.kPalace] = "palace";
+
+        buildSizes[eBuildingType.kBase] = 4;
+        buildSizes[eBuildingType.kConcrete] = 4;
+        buildSizes[eBuildingType.kWindTrap] = 4;
+        buildSizes[eBuildingType.kRefinery] = 6;
+        buildSizes[eBuildingType.kRadar] = 4;
+        buildSizes[eBuildingType.kSilo] = 4;
+        buildSizes[eBuildingType.kVehicle] = 6;
+        buildSizes[eBuildingType.kBarracks] = 4;
+        buildSizes[eBuildingType.kWall] = 1;
+        buildSizes[eBuildingType.kTurret] = 1;
+        buildSizes[eBuildingType.kTurretRocket] = 1;
+        buildSizes[eBuildingType.kRepair] = 6;
+        buildSizes[eBuildingType.kAir] = 4;
+        buildSizes[eBuildingType.kStarPort] = 9;
+        buildSizes[eBuildingType.kPalace] = 9;
     }
 
     // Update is called once per frame
@@ -126,38 +163,48 @@ public class buildingsManager
     }
 
     public void Build(int x,int y, eBuildingType type, int player) {
-        switch (type) {
-            case eBuildingType.kBase: {
-                GameObject g = scene.Instantiate(Resources.Load("base", typeof(GameObject))) as GameObject;
+        if (type == eBuildingType.kConcrete) {
+            GameObject g = scene.Instantiate(Resources.Load("concrete", typeof(GameObject))) as GameObject;
+            var b = g.GetComponent<concrete>();
+            b.Init(x, y, 2, 2, player);
+            for (int xx = x; xx < x + 2; xx++)
+            {
+                for (int yy = y; yy < y + 2; yy++)
+                {
+                    if (xx > 0 && yy > 0 && xx <= mapWidth && yy <= mapHeight)
+                        concretes[xx - 1][yy - 1] = true;
+                }
+            }
+        }
+        else {
+            GameObject g = scene.Instantiate(Resources.Load(namesDictionary[type], typeof(GameObject))) as GameObject;
+            if (g != null) {
                 var b = g.GetComponent<baseBuilding>();
                 RectInt rect = new RectInt(x, y, 2, 2);
-                float h = CheckConcrete(rect);
-                b.Init(x, y, player,h);
+                float c = CheckConcrete(rect);
+                b.Init(x, y, player, c);
                 astar.GetInstance().AddBuilding(rect);
                 buildings.Add(b);
-                for (int xx = x; xx < x + 2; xx++)
-                {
-                    for (int yy = y; yy < y + 2; yy++)
-                    {
+                int s = buildSizes[type];
+                int w = 2;
+                int h = 2;
+                if (s == 9) {
+                    w = 3;
+                    h = 3;
+                }
+                else if (s == 6) {
+                    w = 3;
+                    h = 2;
+                }
+
+                for (int xx = x; xx < x + w; xx++) {
+                    for (int yy = y; yy < y + h; yy++) {
                         concretes[xx][yy] = false;
                     }
                 }
             }
-                break;
-            case eBuildingType.kConcrete: {
-                GameObject g = scene.Instantiate(Resources.Load("concrete", typeof(GameObject))) as GameObject;
-                var b = g.GetComponent<concrete>();
-                b.Init(x, y,2,2, player);
-                for (int xx = x; xx < x + 2; xx++) {
-                    for (int yy = y; yy < y + 2; yy++) {
-                        if(xx>0 && yy>0 && xx<=mapWidth && yy<=mapHeight)
-                            concretes[xx-1][yy-1] = true;
-                    }
-                }
-                
-                break;
-            }
         }
+
 
         foreach (var it in buildList) {
             if (it.type==type) {
@@ -210,8 +257,8 @@ public class buildingsManager
             }
         }
 
-        var pb = GameObject.Find("GUI/builds/concrete/progressBar");
-        var ok = GameObject.Find("GUI/builds/concrete/ok");
+        var pb = GameObject.Find("GUI/builds/"+ namesDictionary[type]+"/progressBar");
+        var ok = GameObject.Find("GUI/builds/"+ namesDictionary[type]+"/ok");
         var b = new sBuild {
             dur = buildTimes[type],
             type = type,
@@ -233,5 +280,13 @@ public class buildingsManager
             return false;
         }
         return concretes[x][y];
+    }
+
+    public int GetBuildSize(eBuildingType type) {
+        return buildSizes[type];
+    }
+
+    public string GetBuildName(eBuildingType type) {
+        return namesDictionary[type];
     }
 }

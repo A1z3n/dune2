@@ -168,7 +168,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &4889925317541025981
+--- !u!1 &3731365020019814908
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,8 +176,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1874952999509537625}
-  - component: {fileID: 1523247886186473160}
+  - component: {fileID: 5371723497979540149}
+  - component: {fileID: 6975422525962532512}
   m_Layer: 7
   m_Name: bg
   m_TagString: buildings
@@ -185,28 +185,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1874952999509537625
+--- !u!4 &5371723497979540149
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4889925317541025981}
+  m_GameObject: {fileID: 3731365020019814908}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1, y: -1, z: 0}
-  m_LocalScale: {x: 3.1249998, y: 3.1249998, z: 1.0629252}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 3.125, y: 3.125, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1815968154206760267}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1523247886186473160
+--- !u!212 &6975422525962532512
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4889925317541025981}
+  m_GameObject: {fileID: 3731365020019814908}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -238,10 +238,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1545574239
-  m_SortingLayer: 2
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 95ad11ddd7142da45bcf66b38921cc75, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ccf1f777dd8c9514095352d04438261c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -516,7 +516,7 @@ GameObject:
   - component: {fileID: 7169605712022598336}
   - component: {fileID: 9113271062810613932}
   m_Layer: 7
-  m_Name: base
+  m_Name: radar
   m_TagString: buildings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -539,7 +539,7 @@ Transform:
   - {fileID: 4015793783313659162}
   - {fileID: 6974345485633442221}
   - {fileID: 6876805264920795946}
-  - {fileID: 1874952999509537625}
+  - {fileID: 5371723497979540149}
   - {fileID: 6561207696183798183}
   m_Father: {fileID: 0}
   m_RootOrder: 0

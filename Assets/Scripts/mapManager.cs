@@ -109,8 +109,11 @@ public class mapManager : MonoBehaviour {
                 }
             }
             else {
-                buildings.Build(buildModePos.x, buildModePos.y, buildModeType, myPlayer);
-                DeactivateBuildMode();
+                if (CheckForBuild(buildModePos.x, buildModePos.y)) {
+                    buildings.Build(buildModePos.x, buildModePos.y, buildModeType, myPlayer);
+                    DeactivateBuildMode();
+                }
+                
             }
         }
 
@@ -311,9 +314,10 @@ public class mapManager : MonoBehaviour {
         }
     }
 
-    public void CheckForBuild(int x, int y) {
+    public bool CheckForBuild(int x, int y) {
 
         int num = 0;
+        int count = 0;
         for (int j = y - 1; j < y - 1 + buildModePos.height; j++)
         {
             for (int i = x - 1; i < x - 1 + buildModePos.width; i++)
@@ -336,79 +340,44 @@ public class mapManager : MonoBehaviour {
                     buildModeRenderers[10+num].enabled = true;
                 }
                 else {
+                    count++;
                     buildModeRenderers[num].enabled = true;
                     buildModeRenderers[10 + num].enabled = false;
                 }
             }
         }
+
+        if (count == buildSize) {
+            return true;
+        }
+
+        if (buildModeType == eBuildingType.kConcrete) {
+            if (count > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void ActivateBuildMode(eBuildingType type) {
 
         buildModeRenderers.Clear();
-        switch (type) {
-            case eBuildingType.kTurret:
-            case eBuildingType.kTurretRocket:
-            case eBuildingType.kWall:
-                buildSize = 1;
-                break;
-            case eBuildingType.kConcrete:
-            case eBuildingType.kAir:
-            case eBuildingType.kBarracks:
-            case eBuildingType.kRadar:
-            case eBuildingType.kSilo:
-            case eBuildingType.kBase: {
-                buildModeObject = scene.Instantiate(Resources.Load("buildMode4", typeof(GameObject))) as GameObject;
-                buildSize = 4;
-                var list = buildModeObject.GetComponentsInChildren<SpriteRenderer>();
-                foreach (var it in list) {
-                    if (it.name == "clear1") {
-                        buildModeRenderers[1] = it;
-                    }
-                    else if (it.name == "clear2") {
-                        buildModeRenderers[2] = it;
-                    }
-                    else if (it.name == "clear3")
-                    {
-                        buildModeRenderers[3] = it;
-                    }
-                    else if (it.name == "clear4")
-                    {
-                        buildModeRenderers[4] = it;
-                    }
-                    else if (it.name == "busy1")
-                    {
-                        buildModeRenderers[11] = it;
-                    }
-                    else if (it.name == "busy2")
-                    {
-                        buildModeRenderers[12] = it;
-                    }
-                    else if (it.name == "busy3")
-                    {
-                        buildModeRenderers[13] = it;
-                    }
-                    else if (it.name == "busy4")
-                    {
-                        buildModeRenderers[14] = it;
-                    }
+        buildSize = buildings.GetBuildSize(type);
+        buildModeObject = scene.Instantiate(Resources.Load("buildMode"+buildSize, typeof(GameObject))) as GameObject;
+        var list = buildModeObject.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var it in list)
+        {
+            for (int i = 1; i < buildSize+1; i++) {
+                if (it.name == "clear" + i) {
+                    buildModeRenderers[i] = it;
+                    break;
                 }
-
-
+                if (it.name == "busy" + i) {
+                    buildModeRenderers[i + 10] = it;
+                    break;
+                }
             }
-                break;
-            case eBuildingType.kRefinery:
-            case eBuildingType.kRepair:
-            case eBuildingType.kVehicle:
-                buildSize = 6;
-                break;
-            case eBuildingType.kPalace:
-            case eBuildingType.kStarPort:
-                buildSize = 9;
-                break;
-
         }
-
 
         buildModeType = type;
     }
@@ -423,10 +392,64 @@ public class mapManager : MonoBehaviour {
 
     public void BuildConcrete() {
         buildings.StartBuilding(eBuildingType.kConcrete);
-        //if (buildSize > 0) return;//TODO: cancel prev build
-        //if (!gameManager.GetInstance().CheckCredits(buildings.GetBuildCost(eBuildingType.kConcrete)))
-        //    return;
-        //ActivateBuildMode(4);
-        //buildModeType = eBuildingType.kConcrete;
+    }
+
+    public void BuildWindtrap() {
+        buildings.StartBuilding(eBuildingType.kWindTrap);
+    }
+
+    public void BuildBarracks()
+    {
+        buildings.StartBuilding(eBuildingType.kBarracks);
+    }
+    public void BuildPalace()
+    {
+        buildings.StartBuilding(eBuildingType.kPalace);
+    }
+
+    public void BuildRadar()
+    {
+        buildings.StartBuilding(eBuildingType.kRadar);
+    }
+    public void BuildRepair()
+    {
+        buildings.StartBuilding(eBuildingType.kRepair);
+    }
+    public void BuildStarPort()
+    {
+        buildings.StartBuilding(eBuildingType.kStarPort);
+    }
+
+    public void BuildTurret()
+    {
+        buildings.StartBuilding(eBuildingType.kTurret);
+    }
+    public void BuildRocketTurret()
+    {
+        buildings.StartBuilding(eBuildingType.kTurretRocket);
+    }
+    public void BuildVehicle()
+    {
+        buildings.StartBuilding(eBuildingType.kVehicle);
+    }
+    public void BuildAir()
+    {
+        buildings.StartBuilding(eBuildingType.kAir);
+    }
+    public void BuildBase()
+    {
+        buildings.StartBuilding(eBuildingType.kBase);
+    }
+    public void BuildRefinery()
+    {
+        buildings.StartBuilding(eBuildingType.kRefinery);
+    }
+    public void BuildSilo()
+    {
+        buildings.StartBuilding(eBuildingType.kSilo);
+    }
+    public void BuildWall()
+    {
+        buildings.StartBuilding(eBuildingType.kWall);
     }
 }

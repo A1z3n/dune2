@@ -117,5 +117,12 @@ namespace Assets.Scripts {
             r.Init(destDir);
             return r;
         }
+
+        public static destroyAction DestroyUnit(unit u) {
+            destroyAction d = new destroyAction();
+            d.Init();
+            u.AddAction(d);
+            return d;
+        }
     }
 }

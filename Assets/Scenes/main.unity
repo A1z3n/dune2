@@ -431,7 +431,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 76434504}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildStarPort
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &76434504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,7 +969,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 290543215}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildTurret
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &290543215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1215,7 +1239,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 362920322}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildRefinery
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &362920322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2247,7 +2283,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 548839338}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildRepair
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &548839338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3061,7 +3109,7 @@ GameObject:
   - component: {fileID: 877249258}
   - component: {fileID: 877249257}
   m_Layer: 5
-  m_Name: outpost
+  m_Name: radar
   m_TagString: gui_builds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3132,7 +3180,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 877249258}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildRadar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &877249258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4770,7 +4830,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1294730806}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildBarracks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1294730806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5074,7 +5146,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1500770592}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildWall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1500770592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5315,7 +5399,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1703462249}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildWindtrap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1703462249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5438,7 +5534,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1733022375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildRocketTurret
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1733022375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5717,7 +5825,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1865611526}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildSilo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1865611526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6064,7 +6184,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1959474115}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildVehicle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1959474115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70366,7 +70498,7 @@ GameObject:
   - component: {fileID: 2140602247}
   - component: {fileID: 2140602246}
   m_Layer: 5
-  m_Name: hi-tech
+  m_Name: air
   m_TagString: gui_builds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70437,7 +70569,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2140602247}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 581373304}
+        m_TargetAssemblyTypeName: mapManager, Assembly-CSharp
+        m_MethodName: BuildAir
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2140602247
 MonoBehaviour:
   m_ObjectHideFlags: 0
