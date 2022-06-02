@@ -31,8 +31,8 @@ public class mapManager : MonoBehaviour {
     private GameObject buildModeObject;
     private bool inited = false;
     private eBuildingType buildModeType = eBuildingType.kNone;
-    private Vector2Int buildModePos;
-
+    private RectInt buildModePos;
+    private Dictionary<int,SpriteRenderer>  buildModeRenderers;
 
     private void Awake() {
         LoadMapOld();
@@ -40,7 +40,8 @@ public class mapManager : MonoBehaviour {
 
     void Start() {
 
-        buildModePos = new Vector2Int();
+        buildModePos = new RectInt();
+        buildModeRenderers = new Dictionary<int, SpriteRenderer>();
     }
 
     void Init() {
@@ -72,7 +73,6 @@ public class mapManager : MonoBehaviour {
             if (selectedUnit != null) {
                 selectedUnit.Unselect();
             }
-
             
             selectedUnit = null;
             var targetPosition =
@@ -80,6 +80,10 @@ public class mapManager : MonoBehaviour {
             if (buildSize == 0) {
                 selectedUnit = units.GetUnitAt(targetPosition);
                 if (selectedUnit != null) {
+                    if (selectedBuilding != null) {
+                        selectedBuilding.Unselect();
+                        selectedBuilding = null;
+                    }
                     if (selectedUnit.GetPlayer() != myPlayer)
                         selectedUnit = null;
                     else {
@@ -105,10 +109,7 @@ public class mapManager : MonoBehaviour {
                 }
             }
             else {
-
-                if (gameManager.GetInstance().CheckCredits(buildings.GetBuildCost(buildModeType))) {
-                    buildings.Build(buildModePos.x, buildModePos.y, buildModeType, myPlayer);
-                }
+                buildings.Build(buildModePos.x, buildModePos.y, buildModeType, myPlayer);
                 DeactivateBuildMode();
             }
         }
@@ -283,18 +284,68 @@ public class mapManager : MonoBehaviour {
                 var targetPosition =
                     camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y,
                         cameraDistance));
-                int x = tools.PosX2IPosX(targetPosition.x+0.25f);
-                int y = tools.PosY2IPosY(targetPosition.y-0.25f);
+                int x = tools.PosX2IPosX(targetPosition.x+0.125f);
+                int y = tools.PosY2IPosY(targetPosition.y-0.125f);
+                if (buildModePos.x != x || buildModePos.y != y) { 
+                    CheckForBuild(x,y);
+                }
                 buildModePos.x = x;
                 buildModePos.y = y;
+                if (buildSize == 4) {
+                    buildModePos.width = 2;
+                    buildModePos.height = 2;
+                }
+                else if (buildSize == 6) {
+                    buildModePos.width = 3;
+                    buildModePos.height = 2;
+                }
+                else if (buildSize == 9)
+                {
+                    buildModePos.width = 3;
+                    buildModePos.height = 3;
+                }
 
                 buildModeObject.transform.position = tools.iPos2PosB(x,y);// + new Vector3(-0.5f,-0.5f);
+                
+            }
+        }
+    }
+
+    public void CheckForBuild(int x, int y) {
+
+        int num = 0;
+        for (int j = y - 1; j < y - 1 + buildModePos.height; j++)
+        {
+            for (int i = x - 1; i < x - 1 + buildModePos.width; i++)
+            {
+
+                bool fnd = false;
+                
+                if (!astar.GetInstance().CheckForFree(i, j))
+                {
+                    fnd = true;
+                }
+                else if (buildings.CheckConcrete(i, j))
+                {
+                    fnd = true;
+                }
+
+                num++;
+                if (fnd) {
+                    buildModeRenderers[num].enabled = false;
+                    buildModeRenderers[10+num].enabled = true;
+                }
+                else {
+                    buildModeRenderers[num].enabled = true;
+                    buildModeRenderers[10 + num].enabled = false;
+                }
             }
         }
     }
 
     public void ActivateBuildMode(eBuildingType type) {
 
+        buildModeRenderers.Clear();
         switch (type) {
             case eBuildingType.kTurret:
             case eBuildingType.kTurretRocket:
@@ -306,9 +357,45 @@ public class mapManager : MonoBehaviour {
             case eBuildingType.kBarracks:
             case eBuildingType.kRadar:
             case eBuildingType.kSilo:
-            case eBuildingType.kBase:
+            case eBuildingType.kBase: {
                 buildModeObject = scene.Instantiate(Resources.Load("buildMode4", typeof(GameObject))) as GameObject;
                 buildSize = 4;
+                var list = buildModeObject.GetComponentsInChildren<SpriteRenderer>();
+                foreach (var it in list) {
+                    if (it.name == "clear1") {
+                        buildModeRenderers[1] = it;
+                    }
+                    else if (it.name == "clear2") {
+                        buildModeRenderers[2] = it;
+                    }
+                    else if (it.name == "clear3")
+                    {
+                        buildModeRenderers[3] = it;
+                    }
+                    else if (it.name == "clear4")
+                    {
+                        buildModeRenderers[4] = it;
+                    }
+                    else if (it.name == "busy1")
+                    {
+                        buildModeRenderers[11] = it;
+                    }
+                    else if (it.name == "busy2")
+                    {
+                        buildModeRenderers[12] = it;
+                    }
+                    else if (it.name == "busy3")
+                    {
+                        buildModeRenderers[13] = it;
+                    }
+                    else if (it.name == "busy4")
+                    {
+                        buildModeRenderers[14] = it;
+                    }
+                }
+
+
+            }
                 break;
             case eBuildingType.kRefinery:
             case eBuildingType.kRepair:
@@ -321,6 +408,7 @@ public class mapManager : MonoBehaviour {
                 break;
 
         }
+
 
         buildModeType = type;
     }

@@ -140,5 +140,14 @@ namespace Assets.Scripts {
                 }
             }
         }
+
+        public bool CheckForFree(int x, int y) {
+            if (x >= width || y >= height || x<0 || y<0) {
+                return false;
+            }
+            if (buildings[x][y]) return false;
+            if (units[x][y]) return false;
+            return true;
+        }
     }
 }

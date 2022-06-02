@@ -78,7 +78,12 @@ public class gameManager  {
 
     public void AddCredits(int num) {
         Credits += num;
-        Gui.AddCredits(Credits);
+        Gui.AddCredits(num);
+    }
+    public void SetCredits(int num)
+    {
+        Credits += num;
+        Gui.SetCredits(Credits);
     }
 
     public bool CheckCredits(int num) {

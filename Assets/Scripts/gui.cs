@@ -29,6 +29,10 @@ public class gui : MonoBehaviour
     public void AddCredits(int num) {
         credits.AddCredits(num);
     }
+    public void SetCredits(int num)
+    {
+        credits.SetCredits(num);
+    }
 
     public void checkDependencies() {
 

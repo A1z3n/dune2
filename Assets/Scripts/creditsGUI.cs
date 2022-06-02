@@ -36,7 +36,7 @@ public class creditsGUI : MonoBehaviour
 
     public void AddCredits(int num) {
         progress = 0.0f;
-        destCredits = currentCredits + num;
+        destCredits = destCredits + num;
         startCredits = currentCredits;
     }
 

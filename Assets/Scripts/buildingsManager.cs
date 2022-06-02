@@ -4,26 +4,45 @@ using Dune2;
 using UnityEngine;
 using Assets.Scripts;
 using Microsoft.Unity.VisualStudio.Editor;
+using TMPro;
 
 
-public struct sBuild {
+public class sBuild {
     public eBuildingType type;
     public float dur;
-    public float timer;
+    private float timer;
     public bool completed;
     public progressBar bar;
+    public int cost;
+    private float credits;
+    private int prevCredits;
+    public TextMeshProUGUI text;
+
+    public sBuild() {
+        timer = 0.0f;
+        completed = false;
+        credits = 0;
+        prevCredits = 0;
+    }
 
     public bool Update(float dt) {
+        if (completed) return false;
         timer += dt;
         if (timer > dur) {
             timer = dur;
             completed = true;
-            //bar.transform.position.Scale(new Vector3(1, 1, 1));
-            bar.SetProgress(1.0f);
+            bar.SetProgress(0.0f);
+            gameManager.GetInstance().AddCredits((int)credits-cost);
+            text.enabled = true;
             return false;
         }
         
-        //bar.transform.position.Scale(new Vector3(timer / dur, 1, 1));
+        float dc = cost*dt/dur;
+        credits += dc;
+        if ((int)credits != prevCredits) {
+            gameManager.GetInstance().AddCredits(prevCredits-(int)credits);
+            prevCredits = (int)credits;
+        }
         bar.SetProgress(timer/dur);
         return true;
     }
@@ -39,6 +58,8 @@ public class buildingsManager
     private Dictionary<eBuildingType, int> buildingCosts;
     private Dictionary<eBuildingType, float> buildTimes;
     private List<sBuild> buildList;
+    private int mapWidth;
+    private int mapHeight;
 
     //private astar mAstar;
 
@@ -50,9 +71,9 @@ public class buildingsManager
     }
 
     // Start is called before the first frame update
-    public void Init(int w, int h)
-    {
-        
+    public void Init(int w, int h) {
+        mapWidth = w;
+        mapHeight = h;
         concretes = new bool[w][];
         for (int x = 0; x < w; x++)
         {
@@ -101,7 +122,6 @@ public class buildingsManager
     {
         foreach (var b in buildList) {
             b.Update(dt);
-
         }
     }
 
@@ -130,15 +150,24 @@ public class buildingsManager
                 b.Init(x, y,2,2, player);
                 for (int xx = x; xx < x + 2; xx++) {
                     for (int yy = y; yy < y + 2; yy++) {
-                        concretes[xx][yy] = true;
+                        if(xx>0 && yy>0 && xx<=mapWidth && yy<=mapHeight)
+                            concretes[xx-1][yy-1] = true;
                     }
                 }
                 
                 break;
             }
         }
-        gameManager.GetInstance().AddCredits(-buildingCosts[type]);
-        
+
+        foreach (var it in buildList) {
+            if (it.type==type) {
+                it.text.enabled = false;
+                buildList.Remove(it);
+                break;
+            }
+        }
+        //gameManager.GetInstance().AddCredits(-buildingCosts[type]);
+
     }
 
     private float CheckConcrete(RectInt rect) {
@@ -182,13 +211,13 @@ public class buildingsManager
         }
 
         var pb = GameObject.Find("GUI/builds/concrete/progressBar");
+        var ok = GameObject.Find("GUI/builds/concrete/ok");
         var b = new sBuild {
-            timer = 0.0f,
             dur = buildTimes[type],
             type = type,
-            completed = false,
-            bar = pb.GetComponent<progressBar>()
-
+            bar = pb.GetComponent<progressBar>(),
+            cost = buildingCosts[type],
+            text = ok.GetComponent<TextMeshProUGUI>()
         };
         buildList.Add(b);
     }
@@ -196,5 +225,13 @@ public class buildingsManager
 
     public void CancelBuilding(eBuildingType type) {
 
+    }
+
+    public bool CheckConcrete(int x, int y) {
+        if (x >= mapWidth || y >= mapHeight || x<0 || y<0)
+        {
+            return false;
+        }
+        return concretes[x][y];
     }
 }

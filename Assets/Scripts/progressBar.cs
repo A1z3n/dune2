@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class progressBar : MonoBehaviour {
     private RectTransform rect;
-
-    private float startWidth;
+    private Vector3 scale;
     // Start is called before the first frame update
     void Start() {
         rect = GetComponent<RectTransform>();
-        startWidth = rect.rect.width;
-        rect.transform.position.Scale(new Vector3(0.0f,1.0f,1.0f));
-        //rect.localScale.Set(0,1.0f,1.0f);
+        scale = rect.transform.localScale;
+        scale.x = 0.0f;
+        rect.transform.localScale = scale;
     }
 
     // Update is called once per frame
@@ -25,7 +24,7 @@ public class progressBar : MonoBehaviour {
             p = 1;
         if (p < 0)
             p = 0;
-        rect.transform.position.Scale(new Vector3(p, 1.0f, 1.0f));
-        //rect.localScale.Set(startWidth * p,1.0f,1.0f);
+        scale.x = p;
+        rect.transform.localScale = scale;
     }
 }
