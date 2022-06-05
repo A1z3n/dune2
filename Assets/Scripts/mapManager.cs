@@ -33,6 +33,7 @@ public class mapManager : MonoBehaviour {
     private eBuildingType buildModeType = eBuildingType.kNone;
     private RectInt buildModePos;
     private Dictionary<int,SpriteRenderer>  buildModeRenderers;
+    private List<int> buildModeConcretes;
 
     private void Awake() {
         LoadMapOld();
@@ -47,7 +48,7 @@ public class mapManager : MonoBehaviour {
     void Init() {
         inited = true;
         buildings.Build(4, 2, eBuildingType.kBase, 1);
-        units.CreateUnit(eUnitType.kTrike, 1, 1, 1);
+        units.CreateUnit(eUnitType.kTrike, 1, 2, 2);
         //buildings.Build(6, 2, eBuildingType.kConcrete, 1);
         // //units.CreateUnit(eUnitType.kTrike, 2,5, 5);
         gameManager.GetInstance().AddCredits(1000);
@@ -109,8 +110,14 @@ public class mapManager : MonoBehaviour {
                 }
             }
             else {
-                if (CheckForBuild(buildModePos.x, buildModePos.y)) {
+                int count = CheckForBuild(buildModePos.x, buildModePos.y);
+                if (buildModeType!=eBuildingType.kConcrete && count==buildSize) {
                     buildings.Build(buildModePos.x, buildModePos.y, buildModeType, myPlayer);
+                    DeactivateBuildMode();
+                }
+                else if(count>0){
+                    //buildModeConcretes
+                    buildings.Build(buildModePos.x, buildModePos.y, buildModeType, myPlayer,count);
                     DeactivateBuildMode();
                 }
                 
@@ -287,8 +294,8 @@ public class mapManager : MonoBehaviour {
                 var targetPosition =
                     camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y,
                         cameraDistance));
-                int x = tools.PosX2IPosX(targetPosition.x+0.125f);
-                int y = tools.PosY2IPosY(targetPosition.y-0.125f);
+                int x = tools.PosX2IPosX(targetPosition.x - 0.25f);
+                int y = tools.PosY2IPosY(targetPosition.y + 0.25f);
                 if (buildModePos.x != x || buildModePos.y != y) { 
                     CheckForBuild(x,y);
                 }
@@ -314,13 +321,13 @@ public class mapManager : MonoBehaviour {
         }
     }
 
-    public bool CheckForBuild(int x, int y) {
-
+    public int CheckForBuild(int x, int y) {
+        buildModeConcretes.Clear();
         int num = 0;
         int count = 0;
-        for (int j = y - 1; j < y - 1 + buildModePos.height; j++)
+        for (int j = y; j < y + buildModePos.height; j++)
         {
-            for (int i = x - 1; i < x - 1 + buildModePos.width; i++)
+            for (int i = x ; i < x + buildModePos.width; i++)
             {
 
                 bool fnd = false;
@@ -341,22 +348,14 @@ public class mapManager : MonoBehaviour {
                 }
                 else {
                     count++;
+                    buildModeConcretes.Add(num);
                     buildModeRenderers[num].enabled = true;
                     buildModeRenderers[10 + num].enabled = false;
                 }
             }
         }
 
-        if (count == buildSize) {
-            return true;
-        }
-
-        if (buildModeType == eBuildingType.kConcrete) {
-            if (count > 0) {
-                return true;
-            }
-        }
-        return false;
+        return count;
     }
 
     public void ActivateBuildMode(eBuildingType type) {

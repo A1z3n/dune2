@@ -72,5 +72,20 @@ namespace Assets.Scripts
                 return true;
             return false;
         }
+
+        public static int EncodeInt(List<int> value) {
+            int result = 0;
+            foreach (var v in value) {
+                result += v;
+                result += 10;
+            }
+            return result;
+        }
+
+        public static List<int> DecodeInt(int value) {
+            List<int> result = new List<int>();
+            int count = value / 10;
+            return result;
+        }
     }
 }

@@ -162,7 +162,7 @@ public class buildingsManager
         }
     }
 
-    public void Build(int x,int y, eBuildingType type, int player) {
+    public void Build(int x,int y, eBuildingType type, int player, int count = 0) {
         if (type == eBuildingType.kConcrete) {
             GameObject g = scene.Instantiate(Resources.Load("concrete", typeof(GameObject))) as GameObject;
             var b = g.GetComponent<concrete>();
