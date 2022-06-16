@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.InteropServices.ComTypes;
 using Assets.Scripts;
 using Dune2;
@@ -34,13 +35,17 @@ public class mapManager : MonoBehaviour {
     private RectInt buildModePos;
     private Dictionary<int,SpriteRenderer>  buildModeRenderers;
     private List<int> buildModeConcretes;
+    private Vector2Int mousePos;
+    private bool bBuilding = false;
+    private float unselectTimer = 0.0f;
+    private bool unselectCheck = false;
 
     private void Awake() {
         LoadMapOld();
     }
 
     void Start() {
-
+        buildModeConcretes = new List<int>();
         buildModePos = new RectInt();
         buildModeRenderers = new Dictionary<int, SpriteRenderer>();
     }
@@ -56,20 +61,34 @@ public class mapManager : MonoBehaviour {
 
     public void Update() {
         if (!inited) Init();
-        checkInput();
+        if (unselectCheck) {
+            unselectTimer += Time.deltaTime;
+            if (unselectTimer > 0.3f) {
+                unselectTimer = 0.0f;
+                unselectCheck = false;
+                if (selectedBuilding != null) {
+                    selectedBuilding.Unselect();
+                }
+            }
+        }
+
+        CheckInput();
         units.Update(Time.deltaTime);
         buildings.Update(Time.deltaTime);
         BuildModeUpdate();
     }
 
-    void checkInput() {
+    void CheckInput() {
 
         if (Input.GetMouseButtonDown(0))
         {
+            
             if (!camera)
             {
                 camera = gameManager.GetInstance().GetCamera();
             }
+
+            
 
             if (selectedUnit != null) {
                 selectedUnit.Unselect();
@@ -92,25 +111,25 @@ public class mapManager : MonoBehaviour {
                     }
                 }
                 else {
+
                     var select = buildings.GetBuildAt(targetPosition);
                     if (select != null) {
                         if (select.CheckPlayer(myPlayer)) {
-                            select.Select();
-                        }
-                        else {
-                            select = null;
+                            if (selectedBuilding != null) {
+                                selectedBuilding.Unselect();
+                            }
+                            selectedBuilding = select;
+                            selectedBuilding.Select();
                         }
                     }
-
-                    if (select != null) {
-                        if(selectedBuilding!=null)
-                            selectedBuilding.Unselect();
-                        selectedBuilding = select;
+                    else {
+                        unselectCheck = true;
+                        unselectTimer = 0.0f;
                     }
                 }
             }
             else {
-                int count = CheckForBuild(buildModePos.x, buildModePos.y);
+                int count = CheckForBuild(buildModePos.x, buildModePos.y, buildModeType == eBuildingType.kConcrete);
                 if (buildModeType!=eBuildingType.kConcrete && count==buildSize) {
                     buildings.Build(buildModePos.x, buildModePos.y, buildModeType, myPlayer);
                     DeactivateBuildMode();
@@ -297,7 +316,7 @@ public class mapManager : MonoBehaviour {
                 int x = tools.PosX2IPosX(targetPosition.x - 0.25f);
                 int y = tools.PosY2IPosY(targetPosition.y + 0.25f);
                 if (buildModePos.x != x || buildModePos.y != y) { 
-                    CheckForBuild(x,y);
+                    CheckForBuild(x,y, buildModeType == eBuildingType.kConcrete);
                 }
                 buildModePos.x = x;
                 buildModePos.y = y;
@@ -321,7 +340,7 @@ public class mapManager : MonoBehaviour {
         }
     }
 
-    public int CheckForBuild(int x, int y) {
+    public int CheckForBuild(int x, int y, bool checkconcrete = false) {
         buildModeConcretes.Clear();
         int num = 0;
         int count = 0;
@@ -336,7 +355,7 @@ public class mapManager : MonoBehaviour {
                 {
                     fnd = true;
                 }
-                else if (buildings.CheckConcrete(i, j))
+                else if (checkconcrete && buildings.CheckConcrete(i, j))
                 {
                     fnd = true;
                 }
@@ -390,65 +409,99 @@ public class mapManager : MonoBehaviour {
     }
 
     public void BuildConcrete() {
+        bBuilding = true;
         buildings.StartBuilding(eBuildingType.kConcrete);
+        unselectCheck = false;
     }
 
     public void BuildWindtrap() {
+        bBuilding = true;
         buildings.StartBuilding(eBuildingType.kWindTrap);
+        unselectCheck = false;
     }
 
     public void BuildBarracks()
     {
         buildings.StartBuilding(eBuildingType.kBarracks);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildPalace()
     {
         buildings.StartBuilding(eBuildingType.kPalace);
+        bBuilding = true;
+        unselectCheck = false;
     }
 
     public void BuildRadar()
     {
         buildings.StartBuilding(eBuildingType.kRadar);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildRepair()
     {
         buildings.StartBuilding(eBuildingType.kRepair);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildStarPort()
     {
         buildings.StartBuilding(eBuildingType.kStarPort);
+        bBuilding = true;
+        unselectCheck = false;
     }
 
     public void BuildTurret()
     {
         buildings.StartBuilding(eBuildingType.kTurret);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildRocketTurret()
     {
         buildings.StartBuilding(eBuildingType.kTurretRocket);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildVehicle()
     {
         buildings.StartBuilding(eBuildingType.kVehicle);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildAir()
     {
         buildings.StartBuilding(eBuildingType.kAir);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildBase()
     {
         buildings.StartBuilding(eBuildingType.kBase);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildRefinery()
     {
         buildings.StartBuilding(eBuildingType.kRefinery);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildSilo()
     {
         buildings.StartBuilding(eBuildingType.kSilo);
+        bBuilding = true;
+        unselectCheck = false;
     }
     public void BuildWall()
     {
         buildings.StartBuilding(eBuildingType.kWall);
+        bBuilding = true;
+        unselectCheck = false;
+    }
+
+    public buildingsManager GetBuildingsManager() {
+        return buildings;
     }
 }

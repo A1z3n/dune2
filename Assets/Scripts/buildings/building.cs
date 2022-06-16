@@ -16,9 +16,11 @@ public class building : destructableObject
     private SpriteRenderer baseRenderer;
     private eBuildingState state;
     private float timer = 0.0f;
-    protected eBuildingType dependency;
+    protected eBuildingType type;
 
-    public virtual void Init(int x, int y, int pPlayer) {
+    public virtual void Init(int x, int y, int pPlayer, float pHealthPart) {
+        fullHealth = gameManager.GetInstance().GetMapManager().GetBuildingsManager().GetBuildHealth(type);
+        health = (int)(fullHealth * pHealthPart);
         pos = tools.iPos2PosB( x, y);
         transform.position = pos;
         rect = new RectInt {
@@ -125,9 +127,9 @@ public class building : destructableObject
         return false;
     }
 
-    public eBuildingType GetDependency() {
-        return dependency;
-    }
+    //public eBuildingType GetDependency() {
+    //    return dependency;
+    //}
 
     public RectInt GetTileRect() {
         return rect;

@@ -15,7 +15,11 @@ public class gameManager  {
     private mapManager mMap;
     public gui Gui;
     private int Credits = 0;
+    private int Energy = 0;
+    private int WindtrapsNum = 0;
     public string Date { get; private set; }
+
+    private bool blackout = false;
 
     private gameManager() {
         youColor = 1;
@@ -96,4 +100,39 @@ public class gameManager  {
         return mMap;
     }
 
+    public void AddEnergy(int value) {
+        Energy += value;
+        if (Energy < 0 ) {
+            if (!blackout) {
+                BlackoutStart();
+            }
+        }
+        else if(blackout) {
+            BlackoutOver();
+        }
+    }
+
+    private void BlackoutStart() {
+
+    }
+
+    private void BlackoutOver() {
+
+    }
+
+    public int GetEnergy() {
+        return Energy;
+    }
+
+    public void AddWindtrap() {
+        WindtrapsNum++;
+    }
+
+    public void RemoveWindtrap() {
+        WindtrapsNum--;
+    }
+
+    public int GetWindtrapCount() {
+        return WindtrapsNum;
+    }
 }

@@ -23,6 +23,7 @@ public class trike : unit
         attackRange = 3.0f;
         attackSpeed = 8.0f;
         health = 100;
+        fullHealth = 100;
         moveSpeed = 1.0f;
         reloadTime = 3.0f;
         bulletNum = 2;

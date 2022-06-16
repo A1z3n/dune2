@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class destructableObject : actionBase {
     protected int health;
+    protected int fullHealth;
     public bool canAttack = false;
     public float attackRange;
     public int attackDamage;

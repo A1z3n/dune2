@@ -4,13 +4,12 @@ using Dune2;
 using UnityEngine;
 
 public class baseBuilding : building {
-    public void Init(int x, int y, int pPlayer, float pHealthPart)
+    public override void Init(int x, int y, int pPlayer, float pHealthPart)
     {
         rect.width = 2;
         rect.height = 2;
-        health = (int)(500*pHealthPart);
-        base.Init(x,y, pPlayer);
-        dependency = eBuildingType.kNone;
+        type = eBuildingType.kBase;
+        base.Init(x,y, pPlayer,pHealthPart);
     }
     // Start is called before the first frame update
     void Start()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Dune2;
 using UnityEngine;
 using Assets.Scripts;
+using Assets.Scripts.buildings;
 using Microsoft.Unity.VisualStudio.Editor;
 using Mono.CompilerServices.SymbolWriter;
 using TMPro;
@@ -57,6 +58,7 @@ public class buildingsManager
     private building selectedBuilding;
     private const float cameraDistance = 0.64f;
     private Dictionary<eBuildingType, int> buildingCosts;
+    private Dictionary<eBuildingType, int> buildingHealths;
     private Dictionary<eBuildingType, float> buildTimes;
     private List<sBuild> buildList;
     private int mapWidth;
@@ -73,6 +75,7 @@ public class buildingsManager
         buildTimes = new Dictionary<eBuildingType, float>();
         namesDictionary = new Dictionary<eBuildingType, string>();
         buildSizes = new Dictionary<eBuildingType, int>();
+        buildingHealths = new Dictionary<eBuildingType, int>();
     }
 
     // Start is called before the first frame update
@@ -107,19 +110,19 @@ public class buildingsManager
 
         buildTimes[eBuildingType.kBase] = 0;
         buildTimes[eBuildingType.kConcrete] = 3.0f;
-        buildTimes[eBuildingType.kWindTrap] = 10.0f;
-        buildTimes[eBuildingType.kRefinery] = 15.0f;
-        buildTimes[eBuildingType.kRadar] = 15.0f;
-        buildTimes[eBuildingType.kSilo] = 15.0f;
-        buildTimes[eBuildingType.kVehicle] = 15.0f;
-        buildTimes[eBuildingType.kBarracks] = 15.0f;
-        buildTimes[eBuildingType.kWall] = 5.0f;
-        buildTimes[eBuildingType.kTurret] = 15.0f;
-        buildTimes[eBuildingType.kTurretRocket] = 15.0f;
-        buildTimes[eBuildingType.kRepair] = 15.0f;
-        buildTimes[eBuildingType.kAir] = 15.0f;
-        buildTimes[eBuildingType.kStarPort] = 15.0f;
-        buildTimes[eBuildingType.kPalace] = 15.0f;
+        buildTimes[eBuildingType.kWindTrap] = 3.0f;
+        buildTimes[eBuildingType.kRefinery] = 3.0f;
+        buildTimes[eBuildingType.kRadar] = 3.0f;
+        buildTimes[eBuildingType.kSilo] = 3.0f;
+        buildTimes[eBuildingType.kVehicle] = 3.0f;
+        buildTimes[eBuildingType.kBarracks] = 3.0f;
+        buildTimes[eBuildingType.kWall] = 3.0f;
+        buildTimes[eBuildingType.kTurret] = 3.0f;
+        buildTimes[eBuildingType.kTurretRocket] = 3.0f;
+        buildTimes[eBuildingType.kRepair] = 3.0f;
+        buildTimes[eBuildingType.kAir] = 3.0f;
+        buildTimes[eBuildingType.kStarPort] = 3.0f;
+        buildTimes[eBuildingType.kPalace] = 3.0f;
 
         namesDictionary[eBuildingType.kBase] = "base";
         namesDictionary[eBuildingType.kConcrete] = "concrete";
@@ -152,6 +155,23 @@ public class buildingsManager
         buildSizes[eBuildingType.kAir] = 4;
         buildSizes[eBuildingType.kStarPort] = 9;
         buildSizes[eBuildingType.kPalace] = 9;
+
+        buildingHealths[eBuildingType.kNone] = 0;
+        buildingHealths[eBuildingType.kBase] = 1000;
+        buildingHealths[eBuildingType.kConcrete] = 40;
+        buildingHealths[eBuildingType.kWindTrap] = 400;
+        buildingHealths[eBuildingType.kRefinery] = 900;
+        buildingHealths[eBuildingType.kRadar] = 1000;
+        buildingHealths[eBuildingType.kSilo] = 300;
+        buildingHealths[eBuildingType.kVehicle] = 800;
+        buildingHealths[eBuildingType.kBarracks] = 600;
+        buildingHealths[eBuildingType.kWall] = 140;
+        buildingHealths[eBuildingType.kTurret] = 250;
+        buildingHealths[eBuildingType.kTurretRocket] = 500;
+        buildingHealths[eBuildingType.kRepair] = 1800;
+        buildingHealths[eBuildingType.kAir] = 1000;
+        buildingHealths[eBuildingType.kStarPort] = 1000;
+        buildingHealths[eBuildingType.kPalace] = 1000;
     }
 
     // Update is called once per frame
@@ -171,15 +191,31 @@ public class buildingsManager
             {
                 for (int yy = y; yy < y + 2; yy++)
                 {
-                    if (xx > 0 && yy > 0 && xx <= mapWidth && yy <= mapHeight)
-                        concretes[xx - 1][yy - 1] = true;
+                    if (xx >= 0 && yy >= 0 && xx < mapWidth && yy < mapHeight)
+                        concretes[xx][yy] = true;
                 }
             }
         }
         else {
             GameObject g = scene.Instantiate(Resources.Load(namesDictionary[type], typeof(GameObject))) as GameObject;
             if (g != null) {
-                var b = g.GetComponent<baseBuilding>();
+                building b = null;
+                switch (type) {
+                    case eBuildingType.kBase:
+                        b = g.GetComponent<baseBuilding>();
+                        break;
+                    case eBuildingType.kWindTrap:
+                        b = g.GetComponent<windtrap>();
+                        break;
+                    case eBuildingType.kRefinery:
+                        b = g.GetComponent<refinery>();
+                        break;
+                    default:
+                        b = g.GetComponent<baseBuilding>();
+                        break;
+                }
+
+                if (b == null) return;
                 RectInt rect = new RectInt(x, y, 2, 2);
                 float c = CheckConcrete(rect);
                 b.Init(x, y, player, c);
@@ -288,5 +324,9 @@ public class buildingsManager
 
     public string GetBuildName(eBuildingType type) {
         return namesDictionary[type];
+    }
+
+    public int GetBuildHealth(eBuildingType type) {
+        return buildingHealths[type];
     }
 }
