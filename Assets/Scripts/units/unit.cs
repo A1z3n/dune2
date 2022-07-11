@@ -22,7 +22,7 @@ public abstract class unit : destructableObject {
     public Vector2Int destPos = new Vector2Int();
     public bool isDestroying = false;
     protected float moveSpeed;
-
+    protected eUnitType unitType { get; set; }
 
     // Start is called before the first frame update
     void Start() {
@@ -74,7 +74,7 @@ public abstract class unit : destructableObject {
     public void TurnLeft() {
         direction--;
         if (direction < 0)
-            direction = 15;
+            direction = maxDirection-1;
         applyDirection();
 
     }
@@ -82,7 +82,7 @@ public abstract class unit : destructableObject {
     public void TurnRight()
     {
         direction++;
-        if (direction >= 16)
+        if (direction >= maxDirection)
             direction = 0;
         applyDirection();
     }
@@ -126,4 +126,7 @@ public abstract class unit : destructableObject {
     public float GetMoveSpeed() {
         return moveSpeed;
     }
+    
+
+
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Dune2;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -27,6 +28,8 @@ public class trike : unit
         moveSpeed = 1.0f;
         reloadTime = 3.0f;
         bulletNum = 2;
+        maxDirection = 16;
+        unitType = eUnitType.kTrike;
     }
 
 

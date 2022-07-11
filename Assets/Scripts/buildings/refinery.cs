@@ -6,7 +6,7 @@ using UnityEngine;
 public class refinery : building {
     private SpriteRenderer[] lights;
     private bool lightsAnim = false;
-    private int prevFrame = 0;
+    //private int prevFrame = 0;
     // Start is called before the first frame update
     public override void Init(int x, int y, int pPlayer, float pHealthPart)
     {

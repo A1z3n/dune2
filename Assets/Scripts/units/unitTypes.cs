@@ -5,6 +5,7 @@ namespace Dune2
         kNone,
         kInfantry,
         kTrike,
+        kHarvester,
         kTank
     }
 

@@ -25,6 +25,8 @@ public class progressBar : MonoBehaviour {
         if (p < 0)
             p = 0;
         scale.x = p;
+        if (rect == null)
+            Start();
         rect.transform.localScale = scale;
     }
 }

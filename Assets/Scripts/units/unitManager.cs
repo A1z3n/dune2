@@ -108,7 +108,17 @@ public class unitManager  {
                 units.Add(u);
                 return u;
             }
-                
+
+            case eUnitType.kHarvester:
+            {
+                GameObject g = UnityEngine.Object.Instantiate(Resources.Load("harvester" + player, typeof(GameObject))) as GameObject;
+                var u = g.GetComponent<unit>();
+                u.SetTilePos(x, y);
+                (u as harvester)?.Create(x, y, player);
+                astar.GetInstance().AddUnit(x, y);
+                units.Add(u);
+                return u;
+            }
             default:
                 return null;
         }

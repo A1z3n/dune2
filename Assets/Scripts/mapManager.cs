@@ -54,6 +54,7 @@ public class mapManager : MonoBehaviour {
         inited = true;
         buildings.Build(4, 2, eBuildingType.kBase, 1);
         units.CreateUnit(eUnitType.kTrike, 1, 2, 2);
+        units.CreateUnit(eUnitType.kHarvester, 1, 2, 5);
         //buildings.Build(6, 2, eBuildingType.kConcrete, 1);
         // //units.CreateUnit(eUnitType.kTrike, 2,5, 5);
         gameManager.GetInstance().AddCredits(1000);

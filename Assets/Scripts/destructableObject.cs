@@ -21,6 +21,7 @@ public class destructableObject : actionBase {
     protected Vector3 pos;
     public destructableObject target = null;
     public int bulletNum = 1;
+    protected int maxDirection;
 
     public int GetPlayer() {
         return player;
@@ -55,6 +56,12 @@ public class destructableObject : actionBase {
         if (direction > 8)
             return direction-16;
         return direction;
+    }
+
+
+    public int GetMaxDirection()
+    {
+        return maxDirection;
     }
 
     public virtual void Select() {

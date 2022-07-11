@@ -2,6 +2,7 @@ version: 2
 tpsheetFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
 - Assets/Maps/ground.tpsheet
+- Assets/Sprites/Resources/harvester1.tpsheet
 - Assets/Sprites/Resources/radarblue.tpsheet
 - Assets/Sprites/Resources/radargreen.tpsheet
 - Assets/Sprites/Resources/radarpink.tpsheet
@@ -10,9 +11,11 @@ tpsheetFileNames:
 - Assets/Sprites/Resources/trike2.tpsheet
 - Assets/Sprites/Resources/trike3.tpsheet
 - Assets/Sprites/Resources/trike4.tpsheet
+- Assets/Sprites/Units/Harvester/harvester.tpsheet
 textureFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
 - Assets/Maps/ground.png
+- Assets/Sprites/Resources/harvester1.png
 - Assets/Sprites/Resources/radarblue.png
 - Assets/Sprites/Resources/radargreen.png
 - Assets/Sprites/Resources/radarpink.png
@@ -21,8 +24,11 @@ textureFileNames:
 - Assets/Sprites/Resources/trike2.png
 - Assets/Sprites/Resources/trike3.png
 - Assets/Sprites/Resources/trike4.png
+- Assets/Sprites/Units/Harvester/harvester.png
 normalmapFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
+- 
 - 
 - 
 - 

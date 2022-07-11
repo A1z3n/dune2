@@ -11,7 +11,7 @@ public class building : destructableObject
     private Dictionary<string, Sprite> spritesMap;
     protected SpriteRenderer render;
     private String radarName;
-    private int prevFrame;
+    protected int prevFrame;
     protected RectInt rect;
     private SpriteRenderer baseRenderer;
     private eBuildingState state;
