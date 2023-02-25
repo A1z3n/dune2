@@ -14,7 +14,6 @@ public class rotateAction : action
     private unit un;
     private int total_turns = 0;
     private int turns_count = 0;
-    private int maxDirection;
     public void Init(int dest)
     {
         duration = 0.3f;
@@ -31,31 +30,26 @@ public class rotateAction : action
                 return false;
             }
 
-            maxDirection = un.GetMaxDirection();
+            //maxDirection = un.GetMaxDirection();
             startAng = un.GetDirection();
             if (destAng == startAng) {
                 return false;
             }
 
-            total_turns = destAng - startAng;
-            if (total_turns > maxDirection/2)
+            total_turns = (destAng - startAng);
+            if (total_turns > 8)
             {
-                total_turns =  total_turns- maxDirection;
+                total_turns =  total_turns- 16;
             }
-            else if (total_turns < -maxDirection/2) {
-                total_turns = total_turns+ maxDirection;
+            else if (total_turns < -8) {
+                total_turns = total_turns+ 16;
             }
         }
         timer += dt;
         if (total_turns > 0) {
             if (timer >= Math.Abs(turns_count + 1) * duration) {
                 turns_count++;
-                if (maxDirection == 8) {
-                    if (turns_count % 2 == 0) {
-                        un.TurnRight();
-                    }
-                }
-                else un.TurnRight();
+                un.TurnRight();
                 if (turns_count >= total_turns || cancel) {
                     return false;
                 }
@@ -64,12 +58,7 @@ public class rotateAction : action
         else if (total_turns < 0) {
             if (timer >= Math.Abs(turns_count + 1) * duration) {
                 turns_count--;
-                if (maxDirection == 8) {
-                    if (turns_count % 2 == 0) {
-                        un.TurnLeft();
-                    }
-                }
-                else un.TurnLeft();
+                un.TurnLeft();
                 if (turns_count <= total_turns || cancel) {
                     return false;
                 }

@@ -28,7 +28,6 @@ public class harvester : unit
         moveSpeed = 0.5f;
         reloadTime = 0.0f;
         bulletNum = 0;
-        maxDirection = 8;
         unitType = eUnitType.kHarvester;
     }
 
@@ -40,7 +39,8 @@ public class harvester : unit
     }
 
     protected override void applyDirection() {
-        String t = ""+direction;
+        if (direction % 2 == 1) return;
+        String t = ""+direction/2;
         render.sprite = spritesMap[t];
     }
 }

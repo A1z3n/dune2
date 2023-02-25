@@ -28,7 +28,6 @@ public class trike : unit
         moveSpeed = 1.0f;
         reloadTime = 3.0f;
         bulletNum = 2;
-        maxDirection = 16;
         unitType = eUnitType.kTrike;
     }
 

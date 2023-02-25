@@ -14,14 +14,13 @@ public class destructableObject : actionBase {
     public bool isAttacking = false;
     protected Vector2Int tilePos;
     public bool isBuilding = false;
-    protected int direction = 0;
+    public int direction = 0;
     protected int player = 0;
     protected SpriteRenderer pickRenderer = null;
     protected Rect clickRect;
     protected Vector3 pos;
     public destructableObject target = null;
     public int bulletNum = 1;
-    protected int maxDirection;
 
     public int GetPlayer() {
         return player;
@@ -56,12 +55,6 @@ public class destructableObject : actionBase {
         if (direction > 8)
             return direction-16;
         return direction;
-    }
-
-
-    public int GetMaxDirection()
-    {
-        return maxDirection;
     }
 
     public virtual void Select() {

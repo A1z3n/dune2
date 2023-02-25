@@ -74,7 +74,7 @@ public abstract class unit : destructableObject {
     public void TurnLeft() {
         direction--;
         if (direction < 0)
-            direction = maxDirection-1;
+            direction = 16-1;
         applyDirection();
 
     }
@@ -82,7 +82,7 @@ public abstract class unit : destructableObject {
     public void TurnRight()
     {
         direction++;
-        if (direction >= maxDirection)
+        if (direction >= 16)
             direction = 0;
         applyDirection();
     }
