@@ -25,7 +25,7 @@ public class harvester : unit
         attackSpeed = 0.0f;
         health = 300;
         fullHealth = 300;
-        moveSpeed = 0.5f;
+        moveSpeed = 0.3f;
         reloadTime = 0.0f;
         bulletNum = 0;
         unitType = eUnitType.kHarvester;

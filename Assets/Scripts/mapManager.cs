@@ -39,6 +39,7 @@ public class mapManager : MonoBehaviour {
     private bool bBuilding = false;
     private float unselectTimer = 0.0f;
     private bool unselectCheck = false;
+    private Dictionary<Vector2Int, int> spicesList;
 
     private void Awake() {
         LoadMapOld();
@@ -58,6 +59,7 @@ public class mapManager : MonoBehaviour {
         //buildings.Build(6, 2, eBuildingType.kConcrete, 1);
         // //units.CreateUnit(eUnitType.kTrike, 2,5, 5);
         gameManager.GetInstance().AddCredits(1000);
+        InitSpices();
     }
 
     public void Update() {
@@ -216,16 +218,16 @@ public class mapManager : MonoBehaviour {
                 dataFromTiles.Add(t, td);
             }
         }
-        mapTile = GameObject.Find("map");
+        mapTile = GameObject.Find("scene/map");
         mapSize = new Vector2Int();
-        var grid = mapTile.GetComponent<Grid>();
-        cellSize.x = grid.cellSize.x * 32;
-        cellSize.y = grid.cellSize.y * 32;
-        var tm = mapTile.GetComponentInChildren<Tilemap>();
-        mapSize.x = tm.size.x;
-        mapSize.y = tm.size.y;
+        var sm = mapTile.GetComponent<SuperMap>();
+        cellSize.x = sm.m_TileWidth;
+        cellSize.y = sm.m_TileHeight;
+        mapSize.x = sm.m_Width;
+        mapSize.y = sm.m_Height;
         astar.GetInstance().Init(mapSize.x,mapSize.y);
         int[][] weights = new int[mapSize.x][];
+
         for (int x = 0; x < mapSize.x; x++)
         {
 
@@ -504,5 +506,10 @@ public class mapManager : MonoBehaviour {
 
     public buildingsManager GetBuildingsManager() {
         return buildings;
+    }
+
+    public void InitSpices() {
+
+        
     }
 }

@@ -8,15 +8,13 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 1fa25d03934ea624a82bf2fcee6f0873, type: 3}
-  missingFiles:
-  - Assets/Maps/tileset.tsx
-  errors:
-  - 'Missing tileset asset: tileset.tsx'
+  missingFiles: []
+  errors: []
   warnings: []
   missingSortingLayers: []
   missingLayers: []
   missingTags: []
-  importerVersion: 24
+  importerVersion: 26
   pixelsPerUnit: 100
   edgesPerEllipse: 100
   numberOfObjectsImported: 2

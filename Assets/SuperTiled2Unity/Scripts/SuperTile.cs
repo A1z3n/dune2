@@ -44,7 +44,6 @@ namespace SuperTiled2Unity
 
         public List<CollisionObject> m_CollisionObjects;
 
-     
         public Matrix4x4 GetTransformMatrix(FlipFlags ff, MapOrientation orientation)
         {
             var inversePPU = 1.0f / m_Sprite.pixelsPerUnit;

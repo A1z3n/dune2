@@ -20,10 +20,10 @@ public class CameraController : MonoBehaviour {
     public float mapX = 0;
     public float mapY = 0;
 
-    private float minX;
-    private float maxX;
-    private float minY;
-    private float maxY;
+    public float minX;
+    public float maxX;
+    public float minY;
+    public float maxY;
 
 
     public float StartSpeed = 10.0f;
@@ -36,10 +36,12 @@ public class CameraController : MonoBehaviour {
         
         float vertExtent = Camera.main.orthographicSize;
         float horzExtent = vertExtent * Screen.width / Screen.height;
-        int mw = gameManager.GetInstance().GetMapSize().x;
-        int mh = gameManager.GetInstance().GetMapSize().y;
-        mapX = mw*gameManager.GetInstance().GetCellSize().x;
-        mapY =  mh* gameManager.GetInstance().GetCellSize().y;
+        //int mw = gameManager.GetInstance().GetMapSize().x;
+        //int mh = gameManager.GetInstance().GetMapSize().y;
+        //mapX = mw*gameManager.GetInstance().GetCellSize().x/8;
+        //mapY =  mh* gameManager.GetInstance().GetCellSize().y/8;
+        mapX = gameManager.GetInstance().GetMapSize().x;
+        mapY = gameManager.GetInstance().GetMapSize().y;
         // Calculations assume map is position at the origin
         minX = horzExtent;
         maxX = mapX  - horzExtent;
