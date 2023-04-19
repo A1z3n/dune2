@@ -28,6 +28,7 @@ namespace Assets.Scripts
             //pos.y = -0.32f - y * 0.64f;
             return (int)Math.Round(-0.5f - y);
         }
+        
 
         public static int GetDirection(Vector2Int pos) {
             

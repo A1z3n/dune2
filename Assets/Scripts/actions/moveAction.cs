@@ -52,9 +52,9 @@ public class moveAction : action {
             u.transform.position = destPos;
             
             var un = u as unit;
-            if (un != null)
-            {
-                if(un.destPos.x==destX && un.destPos.y ==destY) {
+            if (un != null) {
+                gameManager.GetInstance().GetMapManager().CheckSpiceMines(destX,destY);
+                if (un.destPos.x==destX && un.destPos.y ==destY) {
                     return false;
                 }
 

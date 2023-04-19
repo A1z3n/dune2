@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1878162765
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 464551701, guid: a92354049d9718340927102b0c6a715b, type: 3}
+  m_Sprite: {fileID: 294381182, guid: a92354049d9718340927102b0c6a715b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3807136350230675876}
   - component: {fileID: 653863865893361725}
   m_Layer: 6
-  m_Name: spice
+  m_Name: spice2
   m_TagString: map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

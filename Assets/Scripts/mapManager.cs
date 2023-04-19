@@ -40,6 +40,9 @@ public class mapManager : MonoBehaviour {
     private float unselectTimer = 0.0f;
     private bool unselectCheck = false;
     private Dictionary<Vector2Int, int> spicesList;
+    private List<Vector3Int> spiceBombsList;
+    private const int SPICE_MAX = 1000;
+    private List<Vector2Int> searchList;
 
     private void Awake() {
         LoadMapOld();
@@ -49,6 +52,9 @@ public class mapManager : MonoBehaviour {
         buildModeConcretes = new List<int>();
         buildModePos = new RectInt();
         buildModeRenderers = new Dictionary<int, SpriteRenderer>();
+        spicesList = new Dictionary<Vector2Int, int>();
+        spiceBombsList = new List<Vector3Int>();
+        searchList = new List<Vector2Int>();
     }
 
     void Init() {
@@ -297,12 +303,8 @@ public class mapManager : MonoBehaviour {
         return cellSize;
     }
     
-    public unitManager GetUnitManager()
-    {
-        if (units == null) {
-            units = new unitManager();
-        }
-        return units;
+    public unitManager GetUnitManager() {
+        return units ??= new unitManager();
     }
 
     public SuperMap getMap()
@@ -511,5 +513,48 @@ public class mapManager : MonoBehaviour {
     public void InitSpices() {
 
         
+    }
+
+    public void AddSpiceBomb(Vector3 pos, int spices) {
+        Vector3Int result = new Vector3Int(tools.PosX2IPosX(pos.x),tools.PosY2IPosY(pos.y), spices);
+        spiceBombsList.Add(result);
+    }
+
+    public void CheckSpiceMines(int x, int y) {
+        foreach(var it in spiceBombsList)
+        {
+            if (it.x == x && it.y == y) {
+                ActivateSpiceBomb(x, y, it.z);
+                spiceBombsList.Remove(it);
+                return;
+            }
+        }
+    }
+
+    public void ActivateSpiceBomb(int x, int y, int spices) {
+        int sum = SPICE_MAX;
+        spicesList.Add(new Vector2Int(x,y), SPICE_MAX);
+        
+        searchList.Clear();
+        searchList.Add(new Vector2Int(x+1,y));
+        searchList.Add(new Vector2Int(x, y-1));
+        searchList.Add(new Vector2Int(x + 1, y-1));
+        searchList.Add(new Vector2Int(x , y+1));
+        searchList.Add(new Vector2Int(x + 1, y+ 1));
+        searchList.Add(new Vector2Int(x - 1, y));
+        searchList.Add(new Vector2Int(x - 1, y-1));
+        searchList.Add(new Vector2Int(x - 1, y+1));
+        searchList.Add(new Vector2Int(x + 2, y ));
+        searchList.Add(new Vector2Int(x - 2, y ));
+        searchList.Add(new Vector2Int(x , y - 2 ));
+        searchList.Add(new Vector2Int(x , y + 2 ));
+        //while (sum<spices) {
+        //    sum += SPICE_MAX;
+            
+        //}
+    }
+
+    public void AddSpice(int x, int y, int spices) {
+        spicesList.Add(new Vector2Int(x,y),spices);
     }
 }
