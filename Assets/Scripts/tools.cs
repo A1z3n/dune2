@@ -9,7 +9,7 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 
-namespace Assets.Scripts
+namespace Dune2
 {
     static class tools {
         public static Vector3 iPos2PosB(int x, int y) {
@@ -20,16 +20,22 @@ namespace Assets.Scripts
             return new Vector3(0.5f + x, -0.5f - y,0.0f);
         }
 
-        public static int PosX2IPosX(float x) {
+        public static int RoundPosX(float x) {
              return (int)Math.Round(x-0.5f);
         }
 
-        public static int PosY2IPosY(float y) {
+        public static int RoundPosY(float y) {
             //pos.y = -0.32f - y * 0.64f;
             return (int)Math.Round(-0.5f - y);
         }
-        
 
+        public static int CoordsToPosX(float x) {
+            return RoundPosX(x *3.125f/ 32.0f);
+        }
+
+        public static int CoordsToPosY(float y) {
+            return -RoundPosY( y * 3.125f / 32.0f);
+        }
         public static int GetDirection(Vector2Int pos) {
             
             double ang = 0.0;

@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts;
 using UnityEngine;
 
-namespace Assets.Scripts {
+namespace Dune2
+{
     static class actionManager {
         public static bool moveToPoint(unit u, int destX, int destY) {
             Vector2Int start = u.GetTilePos();

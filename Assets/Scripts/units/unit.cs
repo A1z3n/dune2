@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
-using Assets.Scripts;
 using Dune2;
 using SuperTiled2Unity;
 using UnityEditor;

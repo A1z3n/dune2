@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Dune2;
 using UnityEngine;
 
-namespace Assets.Scripts.buildings
+namespace Dune2
 {
     class windtrap : building {
         private progressBar healthBar;

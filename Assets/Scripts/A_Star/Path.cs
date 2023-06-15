@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts;
 using SuperTiled2Unity;
 
 namespace AI.A_Star

@@ -6,7 +6,7 @@ using UnityEngine;
 using Vector2Int = UnityEngine.Vector2Int;
 //using AStar_2D;
 
-namespace Assets.Scripts {
+namespace Dune2 {
 
     public class astar {
         private static readonly astar instance = new astar();
