@@ -10,6 +10,8 @@ TagManager:
   - flying
   - gui
   - bullets
+  - gui_builds
+  - RadarCamera
   layers:
   - Default
   - TransparentFX
