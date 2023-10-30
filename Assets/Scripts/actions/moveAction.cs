@@ -41,8 +41,10 @@ namespace Dune2 {
                 obj.SetTilePos(destX, destY);
                 astar.GetInstance().ChangeUnitPos(startX, startY, destX, destY);
                 var un = u as unit;
-                if (un != null)
+                if (un != null) {
                     duration = 1 / un.GetMoveSpeed();
+                    un.PositionChanged();
+                }
             }
 
             if (cancel) {

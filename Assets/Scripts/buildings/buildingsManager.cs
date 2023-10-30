@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Dune2;
 using UnityEngine;
-using Microsoft.Unity.VisualStudio.Editor;
-using Mono.CompilerServices.SymbolWriter;
+//using Mono.CompilerServices.SymbolWriter;
 using TMPro;
 
 namespace Dune2 {

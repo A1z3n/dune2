@@ -13,11 +13,7 @@ namespace Dune2 {
 
         public override bool Update(actionBase u, float dt) {
             timer -= dt;
-            if (timer > 0) {
-                return false;
-            }
-
-            return true;
+            return !(timer <= 0);
         }
 
         public override eActionType GetActionType() {

@@ -20,12 +20,12 @@ namespace Dune2 {
                 var b = GameObject.Find("GUI/Icons/windtrap");
                 b.SetActive(false);
                 buildings[eBuildingType.kWindTrap] = b;
-            } /*
-        {
-            var b = GameObject.Find("GUI/Icons/refinery");
-            buildings[eBuildingType.kRefinery] = b;
-        }
-        */
+            } 
+            {
+                var b = GameObject.Find("GUI/Icons/refinery");
+                buildings[eBuildingType.kRefinery] = b;
+            }
+        
 
         }
 
@@ -39,8 +39,10 @@ namespace Dune2 {
         }
 
         public void ShowBuildIcon(eBuildingType type) {
-            var b = buildings[type];
-            b.SetActive(true);
+            
+            //var b = buildings[type];
+            if(buildings.TryGetValue(type, out var b))
+                b.SetActive(true);
         }
 
         public void HideBuildIcon() {

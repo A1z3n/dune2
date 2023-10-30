@@ -100,16 +100,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dddd2c50866bab4d9a92cb4867bc7ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destPos: {x: 0, y: 0}
   canAttack: 0
   attackRange: 0
   attackDamage: 0
-  health: 0
+  attackSpeed: 0
+  reloadTime: 0
   isAttacking: 0
+  isBuilding: 0
+  direction: 0
+  target: {fileID: 0}
+  bulletNum: 1
+  destPos: {x: 0, y: 0}
   isDestroying: 0
 --- !u!95 &-7203641355259643446
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -126,7 +131,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!111 &7319946330632805064
 Animation:
   m_ObjectHideFlags: 0

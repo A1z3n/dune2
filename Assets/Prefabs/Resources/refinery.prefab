@@ -649,6 +649,7 @@ MonoBehaviour:
   reloadTime: 0
   isAttacking: 0
   isBuilding: 0
+  direction: 0
   target: {fileID: 0}
   bulletNum: 1
 --- !u!1 &8141886664505517119

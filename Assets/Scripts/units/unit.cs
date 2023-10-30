@@ -34,7 +34,7 @@ public abstract class unit : destructableObject {
                 break;
             }
         }
-
+        ApplyDirection();
     }
 
     public void Create(int x, int y, int pPlayer) {
@@ -74,7 +74,7 @@ public abstract class unit : destructableObject {
         direction--;
         if (direction < 0)
             direction = 16-1;
-        applyDirection();
+        ApplyDirection();
 
     }
 
@@ -83,10 +83,11 @@ public abstract class unit : destructableObject {
         direction++;
         if (direction >= 16)
             direction = 0;
-        applyDirection();
+        ApplyDirection();
     }
 
-    protected abstract void applyDirection();
+    protected abstract void ApplyDirection();
+    public abstract void PositionChanged();
 
     public bool IsRect(float x, float y) {
         //if (x > pos.x -0.32f && x < pos.x + 0.32f && y>pos.y - 0.32f && y<pos.y + 0.32f) {
@@ -125,7 +126,10 @@ public abstract class unit : destructableObject {
     public float GetMoveSpeed() {
         return moveSpeed;
     }
-    
 
+    public void SetDirection(int dir) {
+        direction = dir;
+        ApplyDirection();
+    }
 
 }

@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Runtime.InteropServices.ComTypes;
 using Dune2;
 using SuperTiled2Unity;
-using SuperTiled2Unity.Editor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = System.Random;
@@ -41,7 +40,7 @@ namespace Dune2 {
         private bool bBuilding = false;
         private float unselectTimer = 0.0f;
         private bool unselectCheck = false;
-        private Dictionary<Vector2Int, int> spicesList;
+        private Dictionary<Vector2Int, spice> spicesList;
         private List<Vector3Int> spiceBombsList;
         private const int SPICE_MAX = 1000;
         private List<Vector2Int> searchList;
@@ -381,10 +380,15 @@ namespace Dune2 {
                     else {
                         count++;
                         buildModeConcretes.Add(num);
-                        buildModeRenderers[num].enabled = true;
-                        buildModeRenderers[10 + num].enabled = false;
+                        if (buildModeRenderers.TryGetValue(num, out var r1)) {
+                            r1.enabled = true;
+                        }
+
+                        if (buildModeRenderers.TryGetValue(10 + num, out var r2)) {
+                            r2.enabled = false;
+                        }
                     }
-                }
+                    }
             }
 
             return count;
@@ -518,7 +522,11 @@ namespace Dune2 {
 
         public void InitSpices() {
 
-
+            //TODO: spice
+            var spices = GameObject.Find("scene/spices");
+            foreach (var s in spices.GetComponentsInChildren<spice>()) {
+                
+            }
         }
 
         public void AddSpiceBomb(Vector3 pos, int spices) {
@@ -538,7 +546,7 @@ namespace Dune2 {
 
         public void ActivateSpiceBomb(int x, int y, int spices) {
             int sum = SPICE_MAX;
-            spicesList.Add(new Vector2Int(x, y), SPICE_MAX);
+            //spicesList.Add(new Vector2Int(x, y), SPICE_MAX);
 
             searchList.Clear();
             searchList.Add(new Vector2Int(x + 1, y));
@@ -559,10 +567,41 @@ namespace Dune2 {
             //}
         }
 
-        public void AddSpice(int x, int y, int type) {
-            spicesList ??= new Dictionary<Vector2Int, int>();
-            spicesList[new Vector2Int(x, y)] = type;
+        public void AddSpice(spice s) {
+            spicesList ??= new Dictionary<Vector2Int, spice>();
+            spicesList[s.pos] =s;
             //spicesList.Add(new Vector2Int(x, y), spices);
+        }
+
+        public Vector2Int SearchNearestSpice(Vector2Int from)
+        {
+            Vector2Int result = new Vector2Int();
+            Dictionary<Vector2Int, float> ranges = new Dictionary<Vector2Int, float>();
+            foreach (var s in spicesList)
+            {
+                ranges[s.Key] = (s.Key - from).magnitude;
+            }
+
+            float min = 999999999.0f;
+            foreach (var r in ranges)
+            {
+                if (min > r.Value)
+                {
+                    min = r.Value;
+                    result = r.Key;
+                }
+            }
+            return result;
+        }
+
+        public bool IsSpiceAtPoint(Vector2Int pos) {
+            foreach (var s in spicesList) {
+                if (s.Key.x == pos.x && s.Key.y == pos.y) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void BuildBases() {
@@ -607,5 +646,10 @@ namespace Dune2 {
             units.CreateUnit(eUnitType.kTrike, player, posx, posy);
 
         }
+
+        public void SetPlayer(int player) {
+            myPlayer = player;
+        }
     }
+
 }

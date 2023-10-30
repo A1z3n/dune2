@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using SuperTiled2Unity;
-using SuperTiled2Unity.Editor;
 using UnityEngine;
 
 // The AutoCustomTmxImporterAttribute will force this importer to always be applied.
@@ -21,12 +20,15 @@ namespace Dune2 {
         public string Date { get; private set; }
 
         private bool blackout = false;
+        private int mPlayer = 1;
 
         private gameManager() {
             youColor = 1;
             mainCamera = Camera.main;
             var mm = GameObject.Find("mapManager");
             mMap = mm.GetComponent<mapManager>();
+            //TODO: Set Player for Multiplayer
+            mMap.SetPlayer(mPlayer);
         }
 
         public static gameManager GetInstance() {
@@ -52,7 +54,9 @@ namespace Dune2 {
         }
 
         public Camera GetCamera() {
-            return mainCamera;
+            if(mainCamera!=null)
+                return mainCamera;
+            return Camera.main;
         }
 
         public unitManager GetUnitManager() {
@@ -133,6 +137,10 @@ namespace Dune2 {
 
         public int GetWindtrapCount() {
             return WindtrapsNum;
+        }
+
+        public int GetCurrentPlayer() {
+            return mPlayer;
         }
     }
 }

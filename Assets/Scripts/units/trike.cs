@@ -38,7 +38,7 @@ public class trike : unit
         base.Update();
     }
 
-    protected override void applyDirection() {
+    protected override void ApplyDirection() {
         String t;
         if (direction > 9)
         {
@@ -50,5 +50,9 @@ public class trike : unit
         }
 
         render.sprite = spritesMap[t];
+    }
+
+    public override void PositionChanged() {
+
     }
 }

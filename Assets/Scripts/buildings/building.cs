@@ -7,7 +7,7 @@ using SuperTiled2Unity;
 using UnityEngine;
 
 namespace Dune2 {
-    public class building : destructableObject {
+    public abstract class building : destructableObject {
         private Dictionary<string, Sprite> spritesMap;
         protected SpriteRenderer render;
         private String radarName;
@@ -110,6 +110,7 @@ namespace Dune2 {
                     if (timer > 1.0f) {
                         state = eBuildingState.kActive;
                         baseRenderer.enabled = false;
+                        Activated();
 
                     }
                     else
@@ -144,6 +145,8 @@ namespace Dune2 {
             var n = GetTilePosFrom(from);
             return new Vector2(n.x + 0.5f, -n.y - 0.5f);
         }
+
+        protected abstract void Activated();
 
     }
 }

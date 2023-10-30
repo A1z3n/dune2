@@ -36,6 +36,10 @@ namespace Dune2
             base.Update();
         }
 
+        protected override void Activated() {
+            //throw new NotImplementedException();
+        }
+
 
         public override void Select() {
             gameManager.GetInstance().GetGui().ShowBuildIcon(eBuildingType.kWindTrap);

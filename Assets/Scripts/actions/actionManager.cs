@@ -27,10 +27,15 @@ namespace Dune2
                     seq.AddAction(r);
                 }
 
+                waitAction w = new waitAction();
+                w.Init(0.3f);
+                seq.AddAction(w);
+
                 moveAction a = new moveAction();
                 Vector2 diff = u.transform.position;
                 a.Init(next.x, next.y);
                 seq.AddAction(a);
+
                 u.AddActionLazy(seq);
                 return true;
             }

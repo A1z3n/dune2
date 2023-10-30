@@ -22,6 +22,10 @@ namespace Dune2 {
             base.Update();
         }
 
+        protected override void Activated() {
+            //throw new System.NotImplementedException();
+        }
+
 
         public override void Select() {
             base.Select();

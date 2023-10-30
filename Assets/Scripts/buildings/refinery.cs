@@ -26,6 +26,8 @@ namespace Dune2 {
                     }
                 }
             }
+
+            
         }
 
         // Start is called before the first frame update
@@ -66,6 +68,11 @@ namespace Dune2 {
             for (int i = 0; i < 3; i++) {
                 lights[i].enabled = false;
             }
+        }
+
+        protected override void Activated() {
+            gameManager.GetInstance().GetUnitManager().CreateUnit(eUnitType.kHarvester,
+                gameManager.GetInstance().GetCurrentPlayer(), rect.x + 2, rect.y + 1);
         }
     }
 
