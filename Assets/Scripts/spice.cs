@@ -21,5 +21,16 @@ namespace Dune2 {
         // Update is called once per frame
         void Update() {
         }
+
+        public void Init(int x, int y) {
+            pos.x = x;
+            pos.y = y;
+            transform.position = tools.iPos2PosB(x,y);
+        }
+
+        public void ChangeTexture(Sprite spr) {
+            var sp = GetComponentInChildren<SpriteRenderer>();
+            sp.sprite = spr;
+        }
     }
 }

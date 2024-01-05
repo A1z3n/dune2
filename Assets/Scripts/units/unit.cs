@@ -17,7 +17,7 @@ public abstract class unit : destructableObject {
     protected Camera cam;
     protected SpriteRenderer render;
     protected SpriteAtlas atlas;
-    protected Sprite[] sprites = new Sprite[16];
+    //protected Sprite[] sprites = new Sprite[16];
     public Vector2Int destPos = new Vector2Int();
     public bool isDestroying = false;
     protected float moveSpeed;

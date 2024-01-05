@@ -9,19 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 1fa25d03934ea624a82bf2fcee6f0873, type: 3}
   missingFiles: []
-  errors:
-  - "Custom importer 'CustomImporter' threw an exception. Message = 'GetComponent
-    requires that the requested component 'SuperTile' derives from MonoBehaviour
-    or Component or is an interface.', Stack:\n  at (wrapper managed-to-native) UnityEngine.GameObject.GetComponentsInternal(UnityEngine.GameObject,System.Type,bool,bool,bool,bool,object)\r\n 
-    at UnityEngine.GameObject.GetComponentsInChildren[T] (System.Boolean includeInactive)
-    [0x00001] in <05041d4f5ec242309356a6b3b04452e6>:0 \r\n  at UnityEngine.Component.GetComponentsInChildren[T]
-    (System.Boolean includeInactive) [0x00007] in <05041d4f5ec242309356a6b3b04452e6>:0
-    \r\n  at UnityEngine.Component.GetComponentsInChildren[T] () [0x00001] in <05041d4f5ec242309356a6b3b04452e6>:0
-    \r\n  at Assets.Scripts.Editor.CustomImporter.Parse () [0x00001] in H:\\Projects\\Dune2Git\\Assets\\Scripts\\Editor\\customImporter.cs:23
-    \r\n  at Assets.Scripts.Editor.CustomImporter.TmxAssetImported (SuperTiled2Unity.Editor.TmxAssetImportedArgs
-    args) [0x0001e] in H:\\Projects\\Dune2Git\\Assets\\Scripts\\Editor\\customImporter.cs:18
-    \r\n  at SuperTiled2Unity.Editor.TmxAssetImporter.RunCustomImporterType (System.Type
-    type) [0x00050] in H:\\Projects\\Dune2Git\\Assets\\SuperTiled2Unity\\Scripts\\Editor\\Importers\\TmxAssetImporter.cs:493 "
+  errors: []
   warnings: []
   missingSortingLayers: []
   missingLayers: []

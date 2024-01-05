@@ -40,11 +40,8 @@ namespace Dune2 {
         private bool bBuilding = false;
         private float unselectTimer = 0.0f;
         private bool unselectCheck = false;
-        private Dictionary<Vector2Int, spice> spicesList;
-        private List<Vector3Int> spiceBombsList;
-        private const int SPICE_MAX = 1000;
-        private List<Vector2Int> searchList;
 
+        private spiceManager mSpiceManager;
         private void Awake() {
             LoadMapTmx("scene/map");
         }
@@ -53,8 +50,7 @@ namespace Dune2 {
             buildModeConcretes = new List<int>();
             buildModePos = new RectInt();
             buildModeRenderers = new Dictionary<int, SpriteRenderer>();
-            spiceBombsList = new List<Vector3Int>();
-            searchList = new List<Vector2Int>();
+           
         }
 
         void Init() {
@@ -67,7 +63,8 @@ namespace Dune2 {
             //buildings.Build(6, 2, eBuildingType.kConcrete, 1);
             // //units.CreateUnit(eUnitType.kTrike, 2,5, 5);
             gameManager.GetInstance().AddCredits(1000);
-            InitSpices();
+            mSpiceManager = new spiceManager();
+            mSpiceManager.Init(mapSize);
         }
 
         public void Update() {
@@ -520,88 +517,37 @@ namespace Dune2 {
             return buildings;
         }
 
-        public void InitSpices() {
 
-            //TODO: spice
-            var spices = GameObject.Find("scene/spices");
-            foreach (var s in spices.GetComponentsInChildren<spice>()) {
-                
-            }
+        void RefreshSpicesConfig() {
+           mSpiceManager.RefreshSpicesConfig();
         }
 
         public void AddSpiceBomb(Vector3 pos, int spices) {
-            Vector3Int result = new Vector3Int(tools.RoundPosX(pos.x), tools.RoundPosY(pos.y), spices);
-            spiceBombsList.Add(result);
+            mSpiceManager.AddSpiceBomb(pos, spices);
         }
 
         public void CheckSpiceMines(int x, int y) {
-            foreach (var it in spiceBombsList) {
-                if (it.x == x && it.y == y) {
-                    ActivateSpiceBomb(x, y, it.z);
-                    spiceBombsList.Remove(it);
-                    return;
-                }
-            }
+            mSpiceManager.CheckSpiceMines(x,y);
         }
 
         public void ActivateSpiceBomb(int x, int y, int spices) {
-            int sum = SPICE_MAX;
-            //spicesList.Add(new Vector2Int(x, y), SPICE_MAX);
-
-            searchList.Clear();
-            searchList.Add(new Vector2Int(x + 1, y));
-            searchList.Add(new Vector2Int(x, y - 1));
-            searchList.Add(new Vector2Int(x + 1, y - 1));
-            searchList.Add(new Vector2Int(x, y + 1));
-            searchList.Add(new Vector2Int(x + 1, y + 1));
-            searchList.Add(new Vector2Int(x - 1, y));
-            searchList.Add(new Vector2Int(x - 1, y - 1));
-            searchList.Add(new Vector2Int(x - 1, y + 1));
-            searchList.Add(new Vector2Int(x + 2, y));
-            searchList.Add(new Vector2Int(x - 2, y));
-            searchList.Add(new Vector2Int(x, y - 2));
-            searchList.Add(new Vector2Int(x, y + 2));
-            //while (sum<spices) {
-            //    sum += SPICE_MAX;
-
-            //}
+            mSpiceManager.ActivateSpiceBomb(x,y,spices);
         }
 
         public void AddSpice(spice s) {
-            spicesList ??= new Dictionary<Vector2Int, spice>();
-            spicesList[s.pos] =s;
-            //spicesList.Add(new Vector2Int(x, y), spices);
+            mSpiceManager.AddSpice(s);
         }
 
-        public Vector2Int SearchNearestSpice(Vector2Int from)
-        {
-            Vector2Int result = new Vector2Int();
-            Dictionary<Vector2Int, float> ranges = new Dictionary<Vector2Int, float>();
-            foreach (var s in spicesList)
-            {
-                ranges[s.Key] = (s.Key - from).magnitude;
-            }
+        public void AddSpiceAt(int x, int y) {
+            mSpiceManager.AddSpiceAt(x,y);
+        }
 
-            float min = 999999999.0f;
-            foreach (var r in ranges)
-            {
-                if (min > r.Value)
-                {
-                    min = r.Value;
-                    result = r.Key;
-                }
-            }
-            return result;
+        public Vector2Int SearchNearestSpice(Vector2Int from) {
+            return mSpiceManager.SearchNearestSpice(from);
         }
 
         public bool IsSpiceAtPoint(Vector2Int pos) {
-            foreach (var s in spicesList) {
-                if (s.Key.x == pos.x && s.Key.y == pos.y) {
-                    return true;
-                }
-            }
-
-            return false;
+            return mSpiceManager.IsSpiceAtPoint(pos);
         }
 
         private void BuildBases() {
