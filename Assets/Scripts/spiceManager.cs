@@ -17,7 +17,8 @@ public class spiceManager
         mapSize = pMapSize;
         spiceBombsList = new List<Vector3Int>();
         searchList = new List<Vector2Int>();
-        Sprite[] sprites = Resources.LoadAll<Sprite>("trike");
+        Sprite[] sprites = Resources.LoadAll<Sprite>("atlas");
+        spritesMap = new Dictionary<string, Sprite>();
         foreach (Sprite sprite in sprites)
         {
             spritesMap[sprite.name] = sprite;
@@ -37,6 +38,7 @@ public class spiceManager
 
     public void RefreshSpicesConfig()
     {
+        //check corners
         foreach (var sp in spicesList.Values)
         {
             bool left = false;
@@ -48,23 +50,45 @@ public class spiceManager
             bool upright = false;
             bool downright = false;
 
+            if (sp.pos.x == 0) {
+                left = true;
+                upleft = true;
+                downleft = true;
+            }
+            else if (sp.pos.x == mapSize.x - 1) {
+                right = true;
+                upright = true;
+                downright = true;
+            }
+
+            if (sp.pos.y == 0) {
+                up = true;
+                upleft = true;
+                upright = true;
+            }
+            else if (sp.pos.y == mapSize.y - 1) {
+                down = true;
+                downleft = true;
+                downright = true;
+            }
+
             foreach (var sp2 in spicesList.Values)
             {
                 if (sp2 != sp)
                 {
-                    if ((sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y) || sp.pos.x == mapSize.x - 1)
+                    if ((sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y))
                     {
                         right = true;
                     }
-                    else if ((sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y) || sp.pos.x == 0)
+                    else if ((sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y))
                     {
                         left = true;
                     }
-                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y - 1) || sp.pos.y == 0)
+                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y - 1) )
                     {
                         up = true;
                     }
-                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y + 1) || sp.pos.y == mapSize.y - 1)
+                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y + 1) )
                     {
                         down = true;
                     }
@@ -91,27 +115,32 @@ public class spiceManager
             string spicename = "";
             if (!right && !downright && !down && up && left && upleft)
             {
-                spicename = "spice8";
+                //right down
+                spicename = "atlas_201";
+            }
+            else if (!right && !upright && !up && down && left && downleft) {
+                //right up
+                spicename = "atlas_204";
+            }
+            else if (!left && !downleft && !down && up && right && upright)
+            {
+                //left down
+                spicename = "atlas_195";
+            }
+            else if (!left && !upleft && !up && down && right && downright)
+            {
+                //left up
+                spicename = "atlas_198";
             }
 
             if (!spicename.IsEmpty())
             {
-
-                //sp.ChangeTexture();
-                //GameObject g =
-                //    UnityEngine.Object.Instantiate(Resources.Load(spicename, typeof(GameObject))) as
-                //        GameObject;
-
-                //var s = g.GetComponent<spice>();
-                //if (s != null)
-                //{
-                //    s.Init(sp.pos.x, sp.pos.y);
-                //    s.count = sp.count;
-                //    spicesList.Remove(sp.pos);
-                //    spicesList[s.pos] = s;
-
-                //}
+                sp.ChangeTexture(spritesMap[spicename]);
             }
+        }
+
+        foreach (var sp in spicesList.Values) {
+            
         }
     }
 
