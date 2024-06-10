@@ -198,7 +198,8 @@ namespace Dune2 {
                     }
 
                     if (!attack) {
-                        selectedUnit.CancelActions();
+                        //selectedUnit.CancelActions();
+                        selectedUnit.CancelNextActions();
                         units.MoveTo(selectedUnit, x, y);
                     }
 

@@ -1,0 +1,18 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:6d4633b94879447532d1783ce21c64bd:1ef5e84b5414b97cb868ca664ca6eb81:8eca9746b2388df105d2575a3223315b$
+#
+:format=40300
+:texture=spice.png
+:size=32x64
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+spice_0;1;47;16;16; 0.5;0.5; 0;0;0;0; 6;16;0;1;0;0;1;0;15;1;16;16;16; 4;1;4;5;2;3;4;1;2;4;0;1;5
+spice_1;1;29;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3
+spice_2;1;11;16;16; 0.5;0.5; 0;0;0;0; 4;16;0;0;0;0;16;16;16; 2;1;2;3;0;1;3

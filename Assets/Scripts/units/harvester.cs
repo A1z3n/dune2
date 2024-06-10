@@ -20,6 +20,9 @@ public class harvester : unit
     private Dictionary<string, Sprite> spritesMap;
     private eHarvesterState state;
     private Vector2Int destPos = new Vector2Int();
+    private SpriteRenderer harvestRender;
+    private Transform spiceTransform;
+    private int prevFrame = 0;
 
     public void Create(int x, int y, int player)
     {
@@ -30,6 +33,30 @@ public class harvester : unit
         foreach (Sprite sprite in sprites) {
             spritesMap[sprite.name] = sprite;
         }
+
+        sprites = Resources.LoadAll<Sprite>("spice");
+        foreach (Sprite sprite in sprites)
+        {
+            spritesMap[sprite.name] = sprite;
+        }
+
+        var spices = GetComponentsInChildren<Transform>();
+        foreach (var it in spices)
+        {
+            if (it.name == "harvest")
+            {
+                spiceTransform = it;
+                break;
+            }
+        }
+        var list = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var it in list) {
+            if (it.name == "harvest") {
+                harvestRender = it;
+                break;
+            }
+        }
+
 
         canAttack = false;
         attackDamage = 0;
@@ -59,30 +86,78 @@ public class harvester : unit
         }
 
         if (state == eHarvesterState.kHarvesting) {
-
+            int t = Time.frameCount / 90;
+            t = t % 3;
+            if (t != prevFrame) {
+                harvestRender.sprite = spritesMap["spice_" + t];
+                prevFrame = t;
+            }
         }
     }
 
     protected override void ApplyDirection() {
         if (direction % 2 == 1) return;
-        String t = ""+direction/2;
+        String t = "harvester_0"+direction/2;
         if(render)  
             render.sprite = spritesMap[t];
+        var spicePos = new Vector3(0,0,0);
+        switch (direction/2) {
+            case 0:
+                spicePos.x = -0.16f;
+                spicePos.y = 0;
+                break;
+            case 1:
+                spicePos.x = -0.113f;
+                spicePos.y = 0.113f;
+                break;
+            case 2:
+                spicePos.x = 0;
+                spicePos.y = 0.16f;
+                break;
+            case 3:
+                spicePos.x = 0.113f;
+                spicePos.y = 0.113f;
+                break;
+            case 4:
+                spicePos.x = 0.16f;
+                spicePos.y = 0;
+                break;
+            case 5:
+                spicePos.x = 0.113f;
+                spicePos.y = -0.113f;
+                break; 
+            case 6:
+                spicePos.x = 0;
+                spicePos.y = -0.16f;
+                break;
+            case 7:
+                spicePos.x = -0.113f;
+                spicePos.y = -0.113f;
+                break;
+
+        }
+
+        spiceTransform.localPosition = spicePos;
     }
 
-    private void ChangeState(eHarvesterState s) {
+    private void ChangeState(eHarvesterState s)
+    {
+        state = s;
         switch (s) {
             case eHarvesterState.kBuilded: {
                     destPos = SearchSpice();
                     gameManager.GetInstance().GetUnitManager().MoveTo(this, destPos.x, destPos.y);
+                    harvestRender.enabled = false;
                     ChangeState(eHarvesterState.kSeekSpice);
                 }
                 break;
             case eHarvesterState.kSeekSpice:
                 break;
             case eHarvesterState.kHarvesting:
+                harvestRender.enabled = true;
                 break;
             case eHarvesterState.kReturnBase:
+                harvestRender.enabled = false;
                 break;
             case eHarvesterState.kUnload:
                 break;
@@ -104,7 +179,7 @@ public class harvester : unit
     }
 
     private void Harvest() {
-        state = eHarvesterState.kHarvesting;
-
+        //state = eHarvesterState.kHarvesting;
+        ChangeState(eHarvesterState.kHarvesting);
     }
 }

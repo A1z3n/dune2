@@ -1,9 +1,11 @@
+using System;
 using Dune2;
 using SuperTiled2Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Search;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class spiceManager
 {
@@ -27,20 +29,24 @@ public class spiceManager
         var spices = spice.GetComponentsInChildren<Transform>();
         foreach (var sp in spices)
         {
-            if (spice != sp.gameObject)
-            {
+            if (spice != sp.gameObject) {
                 AddSpiceAt(tools.RoundPosX(sp.transform.position.x),
-                    tools.RoundPosY(sp.transform.position.y));
+                    tools.RoundPosY(sp.transform.position.y)); 
             }
         }
         RefreshSpicesConfig();
     }
 
-    public void RefreshSpicesConfig()
-    {
+    public void RefreshSpicesConfig() {
+      
+    
+
+        return;
+        //TODO: Advanved Tile System for Spices.
+        /*
         //check corners
-        foreach (var sp in spicesList.Values)
-        {
+        foreach (var sp in spicesList.Values) {
+            if (sp.type == spice.eSpiceType.kNone) continue;
             bool left = false;
             bool right = false;
             bool up = false;
@@ -72,40 +78,31 @@ public class spiceManager
                 downright = true;
             }
 
-            foreach (var sp2 in spicesList.Values)
-            {
-                if (sp2 != sp)
-                {
-                    if ((sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y))
-                    {
+            foreach (var sp2 in spicesList.Values) {
+                if (sp2.type == spice.eSpiceType.kNone) continue;
+                if (sp2 != sp) {
+                    if ((sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y)) {
                         right = true;
                     }
-                    else if ((sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y))
-                    {
+                    else if ((sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y)) {
                         left = true;
                     }
-                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y - 1) )
-                    {
+                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y - 1)) {
                         up = true;
                     }
-                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y + 1) )
-                    {
+                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y + 1)) {
                         down = true;
                     }
-                    else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y - 1)
-                    {
+                    else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y - 1) {
                         upleft = true;
                     }
-                    else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y + 1)
-                    {
+                    else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y + 1) {
                         downleft = true;
                     }
-                    else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y - 1)
-                    {
+                    else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y - 1) {
                         upright = true;
                     }
-                    else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y + 1)
-                    {
+                    else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y + 1) {
                         downright = true;
                     }
 
@@ -113,35 +110,138 @@ public class spiceManager
             }
 
             string spicename = "";
-            if (!right && !downright && !down && up && left && upleft)
-            {
+            spice.eSpiceType t = spice.eSpiceType.kFull;
+            if (!right && !downright && !down && up && left && upleft) {
                 //right down
                 spicename = "atlas_201";
+                t = spice.eSpiceType.kRightDown;
             }
             else if (!right && !upright && !up && down && left && downleft) {
                 //right up
                 spicename = "atlas_204";
+                t = spice.eSpiceType.kRightUp;
             }
-            else if (!left && !downleft && !down && up && right && upright)
-            {
+            else if (!left && !downleft && !down && up && right && upright) {
                 //left down
                 spicename = "atlas_195";
+                t = spice.eSpiceType.kLeftDown;
             }
-            else if (!left && !upleft && !up && down && right && downright)
-            {
+            else if (!left && !upleft && !up && down && right && downright) {
                 //left up
                 spicename = "atlas_198";
+                t = spice.eSpiceType.kLeftUp;
             }
 
-            if (!spicename.IsEmpty())
-            {
+            if (!spicename.IsEmpty()) {
                 sp.ChangeTexture(spritesMap[spicename]);
+                sp.type = t;
             }
         }
 
+        //outer corners
+        List<(Vector2Int, string)> addList = new List<(Vector2Int, string)>();
         foreach (var sp in spicesList.Values) {
-            
+            bool left = false;
+            bool right = false;
+            bool up = false;
+            bool down = false;
+            bool upleft = false;
+            bool downleft = false;
+            bool upright = false;
+            bool downright = false;
+            if (sp.type == spice.eSpiceType.kFull) {
+                foreach (var sp2 in spicesList.Values) {
+                    if (sp2 != sp && sp2.type != spice.eSpiceType.kFull && sp2.type != spice.eSpiceType.kNone) {
+                        if ((sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y)) {
+                            right = true;
+                        }
+                        else if ((sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y)) {
+                            left = true;
+                        }
+                        else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y - 1)) {
+                            up = true;
+                        }
+                        else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y + 1)) {
+                            down = true;
+                        }
+                        else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y - 1) {
+                            upleft = true;
+                        }
+                        else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y + 1) {
+                            downleft = true;
+                        }
+                        else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y - 1) {
+                            upright = true;
+                        }
+                        else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y + 1) {
+                            downright = true;
+                        }
+                    }
+                }
+            }
+
+            string spicename = "";
+            Vector2Int pos = sp.pos;
+            if (right && !downright && down) {
+                //right down
+                spicename = "atlas_66";
+                pos.x++;
+                pos.y++;
+            }
+            else if (right && !upright && up ) {
+                //right up
+                spicename = "atlas_67";
+                pos.x++;
+                pos.y--;
+            }
+            else if (left && !downleft && down ) {
+                //left down
+                spicename = "atlas_64";
+                pos.x--;
+                pos.y++;
+            }
+            else if (left && !upleft && up) {
+                //left up
+                spicename = "atlas_65";
+                pos.x--;
+                pos.y--;
+            }
+            else if (!right && (up || pos.y==0) && down) {
+                //right
+                spicename = "atlas_200";
+                pos.x++;
+            }
+            else if (right && (left || pos.x==0) && !up) {
+                //up
+                spicename = "atlas_196";
+                pos.y--;
+            }
+            else if (left && (right || pos.x==mapSize.x-1) && !down) {
+                //down
+                spicename = "atlas_193";
+                pos.y++;
+            }
+            else if (up && (down || pos.y==mapSize.y-1) && !left) {
+                //left
+                spicename = "atlas_194";
+                pos.x--;
+            }
+
+            if (!spicename.IsEmpty() && pos.x >=0 && pos.y>=0 && pos.x<mapSize.x && pos.y<mapSize.y) {
+                addList.Add((pos,spicename));
+            }
         }
+
+        foreach (var sp in addList) {
+
+            var s = AddSpiceAt(sp.Item1);
+            if (s) {
+                s.ChangeTexture(spritesMap[sp.Item2]);
+                s.type = spice.eSpiceType.kNone;
+            }
+        }
+        */
+        
     }
 
     public void AddSpiceBomb(Vector3 pos, int spices)
@@ -194,9 +294,19 @@ public class spiceManager
         //spicesList.Add(new Vector2Int(x, y), spices);
     }
 
-    public void AddSpiceAt(int x, int y)
+    public spice AddSpiceAt(Vector2Int pos) {
+        return AddSpiceAt(pos.x, pos.y);
+    }
+    public spice AddSpiceAt(int x, int y)
     {
         spicesList ??= new Dictionary<Vector2Int, spice>();
+
+        foreach (var sp in spicesList) {
+            if (sp.Key.x == x && sp.Key.y==y) {
+                return null;
+            }
+        }
+        
         GameObject g =
             UnityEngine.Object.Instantiate(Resources.Load("spice", typeof(GameObject))) as
                 GameObject;
@@ -206,7 +316,20 @@ public class spiceManager
         {
             s.Init(x, y);
             spicesList[s.pos] = s;
+            return s;
         }
+
+        return null;
+    }
+
+    public spice GetSpiceAt(int x, int y) {
+        spicesList.TryGetValue(new Vector2Int(x, y), out spice s);
+        return s;
+    }
+    public spice GetSpiceAt(Vector2Int pos)
+    {
+        spicesList.TryGetValue(pos, out spice s);
+        return s;
     }
     public Vector2Int SearchNearestSpice(Vector2Int from)
     {

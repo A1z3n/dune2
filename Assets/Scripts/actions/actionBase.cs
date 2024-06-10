@@ -98,5 +98,11 @@ namespace Dune2 {
             actionsDelayed.Clear();
         }
 
+        public void CancelNextActions() {
+
+            actionsToAdd.Clear();
+            actionsDelayed.Clear();
+        }
+
     }
 }

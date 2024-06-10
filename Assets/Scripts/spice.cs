@@ -5,7 +5,15 @@ using UnityEngine;
 
 namespace Dune2 {
     public class spice : MonoBehaviour {
-        public int type = 0;
+        public enum eSpiceType {
+            kNone,
+            kFull,
+            kRightDown,
+            kLeftDown,
+            kRightUp,   
+            kLeftUp
+        }
+        public eSpiceType type = eSpiceType.kFull;
         public int count = 1000;
         public Vector2Int pos;
 

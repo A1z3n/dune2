@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d2f20c183f33ae24388ee2feddb4eb33
+guid: 6755eb74de6232649aa6c2cae1116e82
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -65,36 +65,10 @@ TextureImporter:
   ignorePngGamma: 0
   applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -111,7 +85,33 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: harvester_00
+      name: spice_0
       rect:
         serializedVersion: 2
         x: 1
-        y: 107
-        width: 32
-        height: 20
+        y: 47
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,125 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbf97e9f287a7da409e6d946745c6c4a
-      internalID: 2003630798
+      spriteID: c398023037a510143b8147cfe0b74c5b
+      internalID: 4455502
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: harvester_01
-      rect:
-        serializedVersion: 2
-        x: 67
-        y: 65
-        width: 31
-        height: 29
-      alignment: 9
-      pivot: {x: 0.516129, y: 0.51724136}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c21cd2ed96e474f4ab82a247577285ab
-      internalID: -214225766
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: harvester_02
-      rect:
-        serializedVersion: 2
-        x: 102
-        y: 95
-        width: 20
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e58bebd1e38d03d4e82ec580e7a15e88
-      internalID: 904638304
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: harvester_03
-      rect:
-        serializedVersion: 2
-        x: 69
-        y: 96
-        width: 31
-        height: 31
-      alignment: 9
-      pivot: {x: 0.48387095, y: 0.48387095}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9f075d83d65d1f74b81bc16b01fb4411
-      internalID: -342250921
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: harvester_04
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 107
-        width: 32
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e477ae4807a085748a726354f0fc5111
-      internalID: 1632791073
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: harvester_05
+      name: spice_1
       rect:
         serializedVersion: 2
         x: 1
-        y: 74
-        width: 31
-        height: 31
-      alignment: 9
-      pivot: {x: 0.48387095, y: 0.516129}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d7234ab17302a20478003123d5781dac
-      internalID: -1840232576
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: harvester_06
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 61
-        width: 20
-        height: 32
+        y: 29
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,29 +158,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0241cd70744252d449b85a7ba81437ad
-      internalID: 419952361
+      spriteID: e3564663da44465419214e057ec07dce
+      internalID: -614040479
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: harvester_07
+      name: spice_2
       rect:
         serializedVersion: 2
-        x: 34
-        y: 74
-        width: 31
-        height: 31
-      alignment: 9
-      pivot: {x: 0.516129, y: 0.516129}
+        x: 1
+        y: 11
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1570c9b6e330a304db434cad9e7170a4
-      internalID: -2081966117
+      spriteID: 6c34626505d373549921506d96a29e5d
+      internalID: 93205306
       vertices: []
       indices: 
       edges: []
@@ -293,7 +188,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: d2b9a77e17891224d9decd68be57d278
     internalID: 0
     vertices: []
     indices: 
@@ -301,14 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      harvester_00: 2003630798
-      harvester_01: -214225766
-      harvester_02: 904638304
-      harvester_03: -342250921
-      harvester_04: 1632791073
-      harvester_05: -1840232576
-      harvester_06: 419952361
-      harvester_07: -2081966117
+      spice_0: 4455502
+      spice_1: -614040479
+      spice_2: 93205306
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
