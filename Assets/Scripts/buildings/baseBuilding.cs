@@ -36,6 +36,10 @@ namespace Dune2 {
             base.Unselect();
             gameManager.GetInstance().GetGui().SetBuildsActive(false);
         }
+
+        public override eBuildingType GetBuildingType() {
+            return type;
+        }
     }
 }
 

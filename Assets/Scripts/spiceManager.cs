@@ -322,6 +322,38 @@ public class spiceManager
         return null;
     }
 
+
+    public void DestroySpice(spice s) {
+        foreach (var sp in spicesList) {
+            if (sp.Value == s) {
+                spicesList.Remove(sp.Key);
+                return;
+            }
+        }
+    }
+    public void DestroySpiceAt(int x, int y)
+    {
+        foreach (var s in spicesList)
+        {
+            if (s.Key.x == x && s.Key.y == y)
+            {
+                spicesList.Remove(s.Key);
+                return;
+            }
+        }
+    }
+    public void DestroySpiceAt(Vector2Int pos)
+    {
+        foreach (var s in spicesList)
+        {
+            if (s.Key == pos)
+            {
+                spicesList.Remove(s.Key);
+                return;
+            }
+        }
+    }
+
     public spice GetSpiceAt(int x, int y) {
         spicesList.TryGetValue(new Vector2Int(x, y), out spice s);
         return s;
@@ -363,5 +395,18 @@ public class spiceManager
         }
 
         return false;
+    }
+
+    public int AddSpiceCountAt(int x, int y, int count) {
+        foreach (var s in spicesList) {
+            if (s.Key.x == x && s.Key.y == y) {
+                int result = s.Value.AddCount(count);
+                if (result < 0) {
+                    DestroySpice(s.Value);
+                }
+                return result;
+            }
+        }
+        return 0;
     }
 }

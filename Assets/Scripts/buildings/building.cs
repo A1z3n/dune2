@@ -146,6 +146,8 @@ namespace Dune2 {
             return new Vector2(n.x + 0.5f, -n.y - 0.5f);
         }
 
+        public abstract eBuildingType GetBuildingType();
+
         protected abstract void Activated();
 
     }

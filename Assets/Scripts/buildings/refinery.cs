@@ -74,6 +74,10 @@ namespace Dune2 {
             gameManager.GetInstance().GetUnitManager().CreateUnit(eUnitType.kHarvester,
                 gameManager.GetInstance().GetCurrentPlayer(), rect.x + 2, rect.y + 1);
         }
+        public override eBuildingType GetBuildingType()
+        {
+            return type;
+        }
     }
 
 }

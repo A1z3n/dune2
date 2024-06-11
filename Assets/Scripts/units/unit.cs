@@ -132,4 +132,7 @@ public abstract class unit : destructableObject {
         ApplyDirection();
     }
 
+    public abstract void OnMoveCommand();
+
+
 }

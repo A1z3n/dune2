@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -14,16 +15,18 @@ namespace Dune2 {
             kLeftUp
         }
         public eSpiceType type = eSpiceType.kFull;
-        public int count = 1000;
+        [SerializeField] private int count = 1000;
         public Vector2Int pos;
 
         // Start is called before the first frame update
         void Start() {
             //gameManager.GetInstance().GetMapManager().AddSpice(tools.RoundPosX(transform.position.x),
-              //  tools.RoundPosY(transform.position.y), type);
-              pos=new Vector2Int(tools.RoundPosX(transform.position.x), 
-                  tools.RoundPosY(transform.position.y));
-              gameManager.GetInstance().GetMapManager().AddSpice(this );
+            //  tools.RoundPosY(transform.position.y), type);
+            //pos=new Vector2Int(tools.RoundPosX(transform.position.x), 
+            // tools.RoundPosY(transform.position.y));
+            pos = new Vector2Int((int)Math.Round(transform.position.x),
+                 (int)Math.Round(-transform.position.y));
+            gameManager.GetInstance().GetMapManager().AddSpice(this );
         }
 
         // Update is called once per frame
@@ -39,6 +42,11 @@ namespace Dune2 {
         public void ChangeTexture(Sprite spr) {
             var sp = GetComponentInChildren<SpriteRenderer>();
             sp.sprite = spr;
+        }
+
+        public int AddCount(int num) {
+            count += num;
+            return count;
         }
     }
 }

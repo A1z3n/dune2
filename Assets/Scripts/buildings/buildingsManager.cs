@@ -4,6 +4,7 @@ using Dune2;
 using UnityEngine;
 //using Mono.CompilerServices.SymbolWriter;
 using TMPro;
+using static UnityEditor.PlayerSettings;
 
 namespace Dune2 {
     public class sBuild {
@@ -327,5 +328,31 @@ namespace Dune2 {
         public int GetBuildHealth(eBuildingType type) {
             return buildingHealths[type];
         }
+
+        public Vector2Int GetNearestBuilding(eBuildingType type, int x, int y) {
+            Vector2Int pos = new Vector2Int(x, y);
+            Dictionary<Vector2Int,float> list = new Dictionary<Vector2Int, float>();
+            Vector2Int nearest = new Vector2Int(-1, -1);
+
+            foreach (var b in buildings)
+            {
+                if (b.GetBuildingType() == type)
+                {
+                    float dist = Vector2Int.Distance(b.GetTilePos(), pos);
+                    list.Add(b.GetTilePos(),dist);
+                }
+            }
+
+            float min_dist = 9999999.0f;
+            foreach (var b in list) {
+                if (b.Value < min_dist) {
+                    min_dist = b.Value;
+                    nearest = b.Key;
+                }
+            }
+
+            return nearest;
+        }
+
     }
 }

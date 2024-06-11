@@ -200,6 +200,7 @@ namespace Dune2 {
                     if (!attack) {
                         //selectedUnit.CancelActions();
                         selectedUnit.CancelNextActions();
+                        selectedUnit.OnMoveCommand();
                         units.MoveTo(selectedUnit, x, y);
                     }
 
@@ -547,8 +548,15 @@ namespace Dune2 {
             return mSpiceManager.SearchNearestSpice(from);
         }
 
+        public Vector2Int SearchNearestBuildingPosition(eBuildingType type, int x, int y) {
+            return GetBuildingsManager().GetNearestBuilding(type, x, y);
+        }
         public bool IsSpiceAtPoint(Vector2Int pos) {
             return mSpiceManager.IsSpiceAtPoint(pos);
+        }
+
+        public int AddSpiceCountAt(int x, int y, int count) {
+            return mSpiceManager.AddSpiceCountAt(x, y, count);
         }
 
         private void BuildBases() {
@@ -596,6 +604,14 @@ namespace Dune2 {
 
         public void SetPlayer(int player) {
             myPlayer = player;
+        }
+
+        public bool IsSpiceAt(int x, int y) {
+            if (mSpiceManager.GetSpiceAt(x, y) != null) {
+                return true;
+            }
+
+            return false;
         }
     }
 

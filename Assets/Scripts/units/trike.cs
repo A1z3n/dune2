@@ -55,4 +55,8 @@ public class trike : unit
     public override void PositionChanged() {
 
     }
+
+    public override void OnMoveCommand() {
+
+    }
 }
