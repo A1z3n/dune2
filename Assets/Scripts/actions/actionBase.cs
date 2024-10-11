@@ -23,8 +23,12 @@ namespace Dune2 {
         // Update is called once per frame
         protected void Update() {
             float dt = Time.deltaTime;
-            foreach (var currentAction in actions) {
-                if (!currentAction.Update(this, dt)) {
+            
+
+            foreach (var currentAction in actions)
+            {
+                if (!currentAction.IsRemoving() && !currentAction.Update(this, dt))
+                {
                     currentAction.OnEndCallback?.Invoke();
                     delItems.Add(currentAction);
                 }
@@ -41,49 +45,65 @@ namespace Dune2 {
             if (actions.IsEmpty()) {
                 if (!actionsToAdd.IsEmpty()) {
 
-                    AddAction(actionsToAdd[0]);
+                    AddActionInternal(actionsToAdd[0]);
                     actionsToAdd.RemoveAt(0);
                 }
             }
 
             if (!actionsDelayed.IsEmpty()) {
                 foreach (var a in actionsDelayed) {
-                    AddAction(a);
+                    AddActionInternal(a);
                 }
 
                 actionsDelayed.Clear();
             }
+
         }
 
-        public void AddAction(action a) {
+        private void AddActionInternal(action a) {
             if (actions.Equals(null)) {
                 actions = new List<action>();
             }
-
             actions.Add(a);
 
         }
 
-        public void AddActionLazy(action a) {
+        public void AddActionSeq(action a) {
             actionsToAdd.Add(a);
         }
 
-        public void AddActionDelayed(action a) {
+        public void AddAction(action a) {
             actionsDelayed.Add(a);
         }
 
-        public void RemoveAction(action a) {
+        private void RemoveActionInternal(action a) {
             actions.Remove(a);
+        }
+        public void RemoveAction(action a)
+        {
+            delItems.Add(a);
         }
 
         public void ClearActions() {
             actions.Clear();
             actionsToAdd.Clear();
         }
+     
 
         public List<action> GetActions() {
             return actions;
         }
+
+        public void ClearActionsType(eActionType a) {
+            foreach(var currentAction in actions)
+            {
+                if (currentAction.GetActionType()==a) {
+                    RemoveAction(currentAction);
+                }
+            }
+        }
+
+   
 
         public bool IsActions() {
             return !actions.IsEmpty() || !actionsToAdd.IsEmpty() || !actionsDelayed.IsEmpty();
@@ -99,10 +119,17 @@ namespace Dune2 {
         }
 
         public void CancelNextActions() {
-
+            int l = actions.Count();
+            if (l > 1) {
+                for (int i = 1; i < l; i++) {
+                    actions[i].Cancel();
+                }
+            }
             actionsToAdd.Clear();
             actionsDelayed.Clear();
         }
+
+
 
     }
 }

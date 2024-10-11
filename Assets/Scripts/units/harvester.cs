@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Dune2;
 using UnityEditor;
 using UnityEngine;
@@ -8,27 +9,17 @@ using UnityEngine.U2D;
 
 public class harvester : unit
 {
-    enum eHarvesterState {
-        kSeekSpice,
-        kHarvesting,
-        kFull,
-        kUnload,
-        kNone
-    }
     // Start is called before the first frame update
     private Dictionary<string, Sprite> spritesMap;
-    private eHarvesterState state;
     private Vector2Int destPos = new Vector2Int();
     private SpriteRenderer harvestRender;
     private Transform spiceTransform;
     private int prevFrame = 0;
     [SerializeField] private int spices = 0;
-    private float spicesF = 0;
     private int prevSpices = 0;
-    [SerializeField] private const int HARVEST_SPEED = 50;
+    //[SerializeField] private const int HARVEST_SPEED = 50;
     [SerializeField] private const int MAX_SPICES = 700;
     private bool isHarvest = false;
-    private bool isAutoPilot = true;
     public void Create(int x, int y, int player)
     {
         base.Create(x,y,player);
@@ -74,11 +65,8 @@ public class harvester : unit
         bulletNum = 0;
         unitType = eUnitType.kHarvester;
         direction = 12;
-
-        destPos = SearchSpice();
-        gameManager.GetInstance().GetUnitManager().MoveTo(this, destPos.x, destPos.y);
+        actionManager.Harvest(this);
         harvestRender.enabled = false;
-        ChangeState(eHarvesterState.kSeekSpice);
     }
 
     // Update is called once per frame
@@ -86,62 +74,14 @@ public class harvester : unit
     {
         base.Update();
 
-            if (tilePos.x == destPos.x && tilePos.y == destPos.y) {
-
-                if (isAutoPilot) {
-                    if (state == eHarvesterState.kSeekSpice) {
-                        ChangeState(eHarvesterState.kHarvesting);
-                    }
-                }
-            }
-        
-
         if (isHarvest) {
-            if (spices == MAX_SPICES) {
-                isHarvest = false;
-                return;
-            }
+            
             int t = Time.frameCount / 90;
             t = t % 3;
             if (t != prevFrame) {
                 harvestRender.sprite = spritesMap["spice_" + t];
                 prevFrame = t;
             }
-
-            int need = MAX_SPICES - spices;
-            float d = (HARVEST_SPEED * Time.deltaTime);
-            if (d > need)
-            {
-                d = need;
-            }
-            spicesF += d;
-            spices = (int)spicesF;
-            if (spices != prevSpices)
-            {
-                int left = gameManager.GetInstance().GetMapManager().AddSpiceCountAt(tilePos.x, tilePos.y, prevSpices-spices);
-                if (left < 0)
-                    d += left;
-                if (left <= 0)
-                {
-                    if (spices < MAX_SPICES)
-                    {
-                        if (isAutoPilot) {
-                            ChangeState(eHarvesterState.kSeekSpice);
-                            return;
-                        }
-                    }
-                }
-                if (spices >= MAX_SPICES)
-                {
-                    spices = MAX_SPICES;
-                    spicesF = MAX_SPICES;
-                    prevSpices = MAX_SPICES;
-                    if(isAutoPilot) ChangeState(eHarvesterState.kFull);
-                }
-
-            }
-
-            
 
         }
     }
@@ -191,51 +131,19 @@ public class harvester : unit
         spiceTransform.localPosition = spicePos;
     }
 
-    private void ChangeState(eHarvesterState s)
-    {
-        if(state==s) return;
-        switch (s) {
-            case eHarvesterState.kSeekSpice:
-                state = s;
-                break;
-            case eHarvesterState.kHarvesting:
-                if (state == eHarvesterState.kFull) {
-                    state = eHarvesterState.kFull;
-                    ActivateAutoPilot(true);
-                }
-                else state = s;
-                break;
-            case eHarvesterState.kFull: {
-                    destPos = gameManager.GetInstance().GetMapManager()
-                        .SearchNearestBuildingPosition(eBuildingType.kRefinery, tilePos.x, tilePos.y);
-                    destPos.x += 2;
-                    destPos.y++;
-                    gameManager.GetInstance().GetUnitManager().MoveTo(this, destPos.x, destPos.y);
-                    ChangeHarvestAnimation(false);
-                    state = s;
-                }
-                break;
-            case eHarvesterState.kUnload:
+   
 
-                state = s;
-                break;
-            case eHarvesterState.kNone:
-
-                state = s;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(s), s, null);
-        }
-    }
-
-    private Vector2Int SearchSpice() {
+    public Vector2Int SearchSpice() {
         return gameManager.GetInstance().GetMapManager().SearchNearestSpice(tilePos);
     }
 
     public override void PositionChanged() {
 
-        if (state!=eHarvesterState.kFull && gameManager.GetInstance().GetMapManager().IsSpiceAtPoint(tilePos)) {
-            ChangeHarvestAnimation(true); 
+        if (GetSpiceCount()<MAX_SPICES && gameManager.GetInstance().GetMapManager().IsSpiceAtPoint(tilePos)) {
+            //ChangeHarvestAnimation(true); 
+            this.ClearActionsType(eActionType.kHarvestAction);
+            harvestAction a = new harvestAction();
+            this.AddAction(a);
         }
         else {
             ChangeHarvestAnimation(false);
@@ -248,17 +156,23 @@ public class harvester : unit
         isHarvest = true;
     }
 
-    public void ActivateAutoPilot(bool active) {
-        isAutoPilot = active;
+
+    public int GetSpiceCount() {
+        return spices;
     }
 
-    public override void OnMoveCommand() {
-        
-        //if (gameManager.GetInstance().GetMapManager().IsSpiceAt(destPos.x, destPos.y)) {
-        //    ActivateAutoPilot(true);
-        //}
-        //else {
-        //    ActivateAutoPilot(false);
-        //}
+    public int GetMaxSpices() {
+        return MAX_SPICES;
     }
+
+    public SpriteRenderer GetHarvestRender() {
+        return harvestRender;
+    }
+
+    public void AddSpice(int count) {
+        spices += count;
+        if (spices < 0) spices = 0;
+        if (spices > MAX_SPICES) spices = MAX_SPICES;
+    }
+
 }

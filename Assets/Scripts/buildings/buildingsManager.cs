@@ -329,7 +329,7 @@ namespace Dune2 {
             return buildingHealths[type];
         }
 
-        public Vector2Int GetNearestBuilding(eBuildingType type, int x, int y) {
+        public Vector2Int GetNearestBuildingPosition(eBuildingType type, int x, int y) {
             Vector2Int pos = new Vector2Int(x, y);
             Dictionary<Vector2Int,float> list = new Dictionary<Vector2Int, float>();
             Vector2Int nearest = new Vector2Int(-1, -1);
@@ -352,6 +352,52 @@ namespace Dune2 {
             }
 
             return nearest;
+        }
+
+        public building GetNearestBuilding(eBuildingType type, int x, int y)
+        {
+            Vector2Int pos = new Vector2Int(x, y);
+            Dictionary<building, float> list = new Dictionary<building, float>();
+            building nearest = null;
+
+            foreach (var b in buildings)
+            {
+                if (b.GetBuildingType() == type)
+                {
+                    float dist = Vector2Int.Distance(b.GetTilePos(), pos);
+                    list.Add(b, dist);
+                }
+            }
+
+            float min_dist = 9999999.0f;
+            foreach (var b in list)
+            {
+                if (b.Value < min_dist)
+                {
+                    min_dist = b.Value;
+                    nearest = b.Key;
+                }
+            }
+
+            return nearest;
+        }
+
+
+        public building GetBuildAt(Vector2Int pos)
+        {
+            foreach (var b in buildings)
+            {
+                if (b.GetTileRect().Contains(pos))
+                {
+                    return b;
+                }
+            }
+
+            return null;
+        }
+
+        public List<building> GetBuildingList() {
+            return buildings;
         }
 
     }

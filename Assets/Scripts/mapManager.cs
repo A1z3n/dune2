@@ -200,7 +200,7 @@ namespace Dune2 {
                     if (!attack) {
                         //selectedUnit.CancelActions();
                         selectedUnit.CancelNextActions();
-                        selectedUnit.OnMoveCommand();
+                        //selectedUnit.OnMoveCommand();
                         units.MoveTo(selectedUnit, x, y);
                     }
 
@@ -549,6 +549,10 @@ namespace Dune2 {
         }
 
         public Vector2Int SearchNearestBuildingPosition(eBuildingType type, int x, int y) {
+            return GetBuildingsManager().GetNearestBuildingPosition(type, x, y);
+        }
+
+        public building GetNearestBuilding(eBuildingType type, int x, int y) {
             return GetBuildingsManager().GetNearestBuilding(type, x, y);
         }
         public bool IsSpiceAtPoint(Vector2Int pos) {

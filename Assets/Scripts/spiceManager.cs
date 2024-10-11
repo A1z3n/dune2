@@ -401,7 +401,7 @@ public class spiceManager
         foreach (var s in spicesList) {
             if (s.Key.x == x && s.Key.y == y) {
                 int result = s.Value.AddCount(count);
-                if (result < 0) {
+                if (result < 0.0f) {
                     DestroySpice(s.Value);
                 }
                 return result;

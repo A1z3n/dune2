@@ -56,7 +56,4 @@ public class trike : unit
 
     }
 
-    public override void OnMoveCommand() {
-
-    }
 }

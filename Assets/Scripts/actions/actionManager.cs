@@ -18,6 +18,7 @@ namespace Dune2
                 //u.CancelActions();
                 u.destPos.x = destX;
                 u.destPos.y = destY;
+
                 actionSeq seq = new actionSeq();
                 int curDir = u.GetTurnDirection();
                 int destDir = tools.GetDirection(next - u.GetTilePos());
@@ -35,8 +36,8 @@ namespace Dune2
                 Vector2 diff = u.transform.position;
                 a.Init(next.x, next.y);
                 seq.AddAction(a);
-
-                u.AddActionLazy(seq);
+                u.AddActionSeq(seq);
+                
                 return true;
             }
 
@@ -49,8 +50,18 @@ namespace Dune2
             Vector2Int dest = target.GetTilePos();
             if (target.isBuilding) {
                 var b = target as building;
-                if(b!=null)
-                    dest = b.GetTilePosFrom(start);
+                if (b != null) {
+                    if (b.GetBuildingType() == eBuildingType.kRefinery && u.GetUnitType() == eUnitType.kHarvester) {
+                        dest.x = b.GetTilePos().x+2;
+                        dest.y = b.GetTilePos().y+1;
+
+                    }
+                    else
+                    {
+                        dest = b.GetTilePosFrom(start);
+                    }
+
+                }
             }
             if (dest.x == start.x && dest.y == start.y)
             {
@@ -78,7 +89,7 @@ namespace Dune2
                 Vector2 diff = u.transform.position;
                 a.InitToTarget(target,next.x,next.y);
                 seq.AddAction(a);
-                u.AddActionLazy(seq);
+                u.AddActionSeq(seq);
                 return true;
             }
             return false;
@@ -128,6 +139,43 @@ namespace Dune2
             d.Init();
             u.AddAction(d);
             return d;
+        }
+
+        public static void Harvest(unit u) {
+            Vector2Int dest = gameManager.GetInstance().GetMapManager().SearchNearestSpice(u.GetTilePos());
+            moveToPoint(u,dest.x, dest.y);
+        }
+
+        public static void CheckHarvester(unit u) {
+            harvester h = u as harvester;
+            if (h == null) return;
+            var builds = gameManager.GetInstance().GetMapManager().GetBuildingsManager().GetBuildingList();
+            List<Vector2Int> positions = new List<Vector2Int>();
+            foreach (var build in builds) {
+                if (build.GetBuildingType() == eBuildingType.kRefinery) {
+                    Vector2Int pos = default;
+                    pos.x = build.GetTilePos().x+2;
+                    pos.y = build.GetTilePos().y + 1;
+                    positions.Add(pos);  
+                }
+            }
+
+            foreach (var p in positions) {
+                if (h.GetTilePos().x == p.x && h.GetTilePos().y==p.y)
+                {
+                    var dst = gameManager.GetInstance().GetMapManager().GetBuildingsManager()
+                        .GetBuildAt(h.GetTilePos()) as refinery;
+                    if (dst != null)
+                    {
+                        unloadHarvesterAction unl = new unloadHarvesterAction();
+                        unl.Init(dst);
+                        h.AddAction(unl);
+                    }
+
+                    return;
+                }
+            }
+            
         }
     }
 }

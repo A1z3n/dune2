@@ -21,7 +21,7 @@ public abstract class unit : destructableObject {
     public Vector2Int destPos = new Vector2Int();
     public bool isDestroying = false;
     protected float moveSpeed;
-    protected eUnitType unitType { get; set; }
+    protected eUnitType unitType;
 
     // Start is called before the first frame update
     void Start() {
@@ -132,7 +132,7 @@ public abstract class unit : destructableObject {
         ApplyDirection();
     }
 
-    public abstract void OnMoveCommand();
-
-
+    public eUnitType GetUnitType() {
+        return unitType;
+    }
 }

@@ -9,13 +9,14 @@ namespace Dune2 {
 
         private bool lightsAnim = false;
 
-        //private int prevFrame = 0;
+        private int oldFrame = 0;
         // Start is called before the first frame update
-        public override void Init(int x, int y, int pPlayer, float pHealthPart) {
+        public override void Init(int x, int y, int pPlayer, float pHealthPart)
+        {
+            base.Init(x, y, pPlayer, pHealthPart);
             rect.width = 3;
             rect.height = 2;
             type = eBuildingType.kRefinery;
-            base.Init(x, y, pPlayer, pHealthPart);
             lights = new SpriteRenderer[3];
             var sprites = GetComponentsInChildren<SpriteRenderer>();
             for (int i = 0; i < 3; i++) {
@@ -42,10 +43,10 @@ namespace Dune2 {
             if (lightsAnim) {
                 int t = Time.frameCount / 360;
                 t = t % 3;
-                if (t != prevFrame) {
-                    lights[prevFrame].enabled = false;
+                if (t != oldFrame) {
+                    lights[oldFrame].enabled = false;
                     lights[t].enabled = true;
-                    prevFrame = t;
+                    oldFrame = t;
                 }
             }
         }
@@ -59,11 +60,11 @@ namespace Dune2 {
             base.Unselect();
         }
 
-        private void TurnOnLights() {
+        public void TurnOnLights() {
             lightsAnim = true;
         }
 
-        private void TurnOffLights() {
+        public void TurnOffLights() {
             lightsAnim = false;
             for (int i = 0; i < 3; i++) {
                 lights[i].enabled = false;

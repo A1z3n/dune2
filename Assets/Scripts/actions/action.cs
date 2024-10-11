@@ -10,6 +10,7 @@ namespace Dune2 {
         public delegate void actionCallback();
 
         protected bool cancel = false;
+        protected bool remove = false;
 
         public virtual bool Update(actionBase u, float dt) {
             return true;
@@ -18,6 +19,14 @@ namespace Dune2 {
         public virtual void Cancel() {
             OnEndCallback = null;
             cancel = true;
+        }
+
+        public virtual void Remove() {
+            remove = true;
+        }
+
+        public virtual bool IsRemoving() {
+            return remove;
         }
 
         public virtual eActionType GetActionType() {
@@ -87,7 +96,7 @@ namespace Dune2 {
             return true;
         }
 
-        public void addAction(action a) {
+        public void AddAction(action a) {
 
             actions.Add(a);
         }

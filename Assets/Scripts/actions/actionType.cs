@@ -6,7 +6,8 @@ namespace Dune2 {
         kMoveAction,
         kRotateAction,
         kAttackAction,
-        kDestroyAction
+        kDestroyAction,
+        kHarvestAction
     }
 
 }

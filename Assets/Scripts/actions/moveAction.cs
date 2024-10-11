@@ -59,6 +59,8 @@ namespace Dune2 {
                 if (un != null) {
                     gameManager.GetInstance().GetMapManager().CheckSpiceMines(destX, destY);
                     if (un.destPos.x == destX && un.destPos.y == destY) {
+
+                        actionManager.CheckHarvester(un);
                         return false;
                     }
 
@@ -67,7 +69,6 @@ namespace Dune2 {
                             gameManager.GetInstance().GetUnitManager().Attack(un, target, true);
                             return false;
                         }
-
                         actionManager.MoveToTarget(un, target);
                         return false;
                     }
@@ -93,5 +94,6 @@ namespace Dune2 {
         public override eActionType GetActionType() {
             return eActionType.kMoveAction;
         }
+
     }
 }

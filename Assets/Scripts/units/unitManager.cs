@@ -17,9 +17,6 @@ namespace Dune2 {
         }
 
         public void Update(float dt) {
-
-
-
             foreach (var u in units) {
                 u.Update();
                 if (u.isDestroying) {
@@ -89,7 +86,7 @@ namespace Dune2 {
             attackAction a = new attackAction();
             a.Init(target, mScene, pForce);
             seq.AddAction(a);
-            u.AddActionDelayed(seq);
+            u.AddAction(seq);
         }
 
         public void SetScene(scene pScene) {
