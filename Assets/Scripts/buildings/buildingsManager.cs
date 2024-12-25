@@ -395,6 +395,23 @@ namespace Dune2 {
 
             return null;
         }
+        public bool IsBuildAt(int x, int y, bool concrete)
+        {
+            Vector2Int pos = new Vector2Int(x, y);
+            foreach (var b in buildings)
+            {
+                if (b.GetTileRect().Contains(pos))
+                {
+                    return true;
+                }
+            }
+
+            if (concrete && x >= 0 && y >= 0 && x<mapWidth && y<mapHeight)
+            {
+                return concretes[x][y];
+            }
+            return false;
+        }
 
         public List<building> GetBuildingList() {
             return buildings;

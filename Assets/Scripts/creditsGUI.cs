@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -24,13 +25,33 @@ namespace Dune2 {
         void Update() {
 
             if (destCredits != currentCredits) {
-                progress += Time.deltaTime * 0.3f;
-                currentCredits =
-                    (int)(startCredits + (destCredits - startCredits) * progress * progress * (3 - 2 * progress));
-                if (progress >= 1.0f) {
-                    currentCredits = destCredits;
-                    progress = 0.0f;
+                //progress += Time.deltaTime * 0.3f;
+                //currentCredits =
+                //    (int)(startCredits + (destCredits - startCredits) * progress * progress * (3 - 2 * progress));
+                //if (progress >= 1.0f) {
+                //    currentCredits = destCredits;
+                //    progress = 0.0f;
+                //}
+
+                float sp = 10+(destCredits - currentCredits)*0.5f;
+                
+                int dc = (int)(sp*Time.deltaTime);
+                if (Math.Abs(destCredits-currentCredits)>1 && dc == 0) dc = 1;
+                if (dc > 0)
+                {
+                    if (dc + currentCredits > destCredits)
+                    {
+                        currentCredits = destCredits;
+                    }
                 }
+                else if(dc < 0)
+                {
+                    if (dc - currentCredits < destCredits)
+                    {
+                        currentCredits = destCredits;
+                    }
+                }
+                currentCredits += dc;
 
                 CreditsText.text = $"{currentCredits}";
             }

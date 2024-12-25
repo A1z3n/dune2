@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
 using Dune2;
 using SuperTiled2Unity;
@@ -330,24 +331,28 @@ namespace Dune2 {
                             cameraDistance));
                     int x = tools.RoundPosX(targetPosition.x - 0.25f);
                     int y = tools.RoundPosY(targetPosition.y + 0.25f);
+                    if (buildSize == 4)
+                    {
+                        buildModePos.width = 2;
+                        buildModePos.height = 2;
+                    }
+                    else if (buildSize == 6)
+                    {
+                        buildModePos.width = 3;
+                        buildModePos.height = 2;
+                    }
+                    else if (buildSize == 9)
+                    {
+                        buildModePos.width = 3;
+                        buildModePos.height = 3;
+                    }
                     if (buildModePos.x != x || buildModePos.y != y) {
                         CheckForBuild(x, y, buildModeType == eBuildingType.kConcrete);
                     }
 
                     buildModePos.x = x;
                     buildModePos.y = y;
-                    if (buildSize == 4) {
-                        buildModePos.width = 2;
-                        buildModePos.height = 2;
-                    }
-                    else if (buildSize == 6) {
-                        buildModePos.width = 3;
-                        buildModePos.height = 2;
-                    }
-                    else if (buildSize == 9) {
-                        buildModePos.width = 3;
-                        buildModePos.height = 3;
-                    }
+                   
 
                     buildModeObject.transform.position = tools.iPos2PosB(x, y); // + new Vector3(-0.5f,-0.5f);
 
@@ -359,16 +364,33 @@ namespace Dune2 {
             buildModeConcretes.Clear();
             int num = 0;
             int count = 0;
+            bool isReady = false;
             for (int j = y; j < y + buildModePos.height; j++) {
                 for (int i = x; i < x + buildModePos.width; i++) {
 
                     bool fnd = false;
-
+                    bool isConcrete = false;
                     if (!astar.GetInstance().CheckForFree(i, j)) {
                         fnd = true;
                     }
                     else if (checkconcrete && buildings.CheckConcrete(i, j)) {
                         fnd = true;
+                        isConcrete = true;
+                    }
+
+                    if (!isReady && !fnd)
+                    {
+                        for (int yy = j - 1; yy <= j + 1; yy++)
+                        {
+                            for (int xx = i - 1; xx <= i + 1; xx++)
+                            {
+                                if (buildings.IsBuildAt(xx, yy,!checkconcrete))
+                                {
+                                    isReady = true;
+                                }
+                            }
+
+                        }
                     }
 
                     num++;
@@ -387,7 +409,17 @@ namespace Dune2 {
                             r2.enabled = false;
                         }
                     }
-                    }
+                }
+            }
+
+            if (!isReady && num > 0)
+            {
+                foreach (var r in buildModeRenderers)
+                {
+                    r.Value.enabled = r.Key >= 0;
+                }
+
+                count = 0;
             }
 
             return count;
