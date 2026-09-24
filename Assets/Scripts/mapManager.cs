@@ -44,6 +44,8 @@ namespace Dune2 {
 
         private spiceManager mSpiceManager;
         private void Awake() {
+            mapSize = new Vector2Int();
+            mSpiceManager = new spiceManager();
             LoadMapTmx("scene/map");
         }
 
@@ -64,8 +66,6 @@ namespace Dune2 {
             //buildings.Build(6, 2, eBuildingType.kConcrete, 1);
             // //units.CreateUnit(eUnitType.kTrike, 2,5, 5);
             gameManager.GetInstance().AddCredits(1000);
-            mSpiceManager = new spiceManager();
-            mSpiceManager.Init(mapSize);
         }
 
         public void Update() {
@@ -226,13 +226,13 @@ namespace Dune2 {
             }
 
             mapTile = GameObject.Find(path);
-            mapSize = new Vector2Int();
             var sm = mapTile.GetComponent<SuperMap>();
             cellSize.x = sm.m_TileWidth;
             cellSize.y = sm.m_TileHeight;
             mapSize.x = sm.m_Width;
             mapSize.y = sm.m_Height;
             astar.GetInstance().Init(mapSize.x, mapSize.y);
+            mSpiceManager.Init(mapSize);
 
             //var spices = GameObject.Find("scene/map/Grid/spices");
             //var bases = GameObject.Find("scene/map/Grid/bases").GetComponent<Tilemap>();

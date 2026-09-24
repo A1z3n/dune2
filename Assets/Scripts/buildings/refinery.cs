@@ -60,6 +60,11 @@ namespace Dune2 {
             base.Unselect();
         }
 
+
+        protected override void OnDestroy()
+        {
+        }
+
         public void TurnOnLights() {
             lightsAnim = true;
         }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Dune2;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Dune2 {
     public class gui : MonoBehaviour {
@@ -25,7 +26,6 @@ namespace Dune2 {
                 var b = GameObject.Find("GUI/Icons/refinery");
                 buildings[eBuildingType.kRefinery] = b;
             }
-        
 
         }
 

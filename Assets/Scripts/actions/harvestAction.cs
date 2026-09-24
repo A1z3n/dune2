@@ -13,7 +13,7 @@ namespace Dune2 {
         private int prevFrame = 0;
         private float spicesF = 0;
         private int MAX_SPICES = 700;
-        private const int HARVEST_SPEED = 50;
+        private const int HARVEST_SPEED = 5;
         private int prevSpices = 0;
         private Vector2Int tilePos;
         private Vector2Int destPos;

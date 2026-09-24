@@ -15,10 +15,12 @@ public class spiceManager
     private List<Vector2Int> searchList;
     private Vector2Int mapSize;
     private Dictionary<string, Sprite> spritesMap;
+    private Dictionary<Vector2Int, spice> fakeList;
     public void Init(Vector2Int pMapSize) {
         mapSize = pMapSize;
         spiceBombsList = new List<Vector3Int>();
         searchList = new List<Vector2Int>();
+        fakeList = new Dictionary<Vector2Int, spice>();
         Sprite[] sprites = Resources.LoadAll<Sprite>("atlas");
         spritesMap = new Dictionary<string, Sprite>();
         foreach (Sprite sprite in sprites)
@@ -38,210 +40,203 @@ public class spiceManager
     }
 
     public void RefreshSpicesConfig() {
-      
-    
+        if (spicesList == null || spicesList.Count == 0) return;
 
-        return;
-        //TODO: Advanved Tile System for Spices.
-        /*
-        //check corners
-        foreach (var sp in spicesList.Values) {
+        // Simplified approach - determine tile type based on neighbors
+        foreach (var spicePair in spicesList) {
+            var sp = spicePair.Value;
             if (sp.type == spice.eSpiceType.kNone) continue;
-            bool left = false;
-            bool right = false;
-            bool up = false;
-            bool down = false;
-            bool upleft = false;
-            bool downleft = false;
-            bool upright = false;
-            bool downright = false;
+            bool current = IsSpiceAtPoint(sp.pos);
+            // Check 4 main directions around the current spice tile
+            bool north = IsSpiceAtPoint(sp.pos + new Vector2Int(0, -1));
+            bool east = IsSpiceAtPoint(sp.pos + new Vector2Int(1, 0));
+            bool south = IsSpiceAtPoint(sp.pos + new Vector2Int(0, 1));
+            bool west = IsSpiceAtPoint(sp.pos + new Vector2Int(-1, 0));
 
-            if (sp.pos.x == 0) {
-                left = true;
-                upleft = true;
-                downleft = true;
-            }
-            else if (sp.pos.x == mapSize.x - 1) {
-                right = true;
-                upright = true;
-                downright = true;
-            }
+            // Determine sprite name based on neighbors
+           /* string spriteName = DetermineSpriteName(current, north, east, south, west);
 
-            if (sp.pos.y == 0) {
-                up = true;
-                upleft = true;
-                upright = true;
-            }
-            else if (sp.pos.y == mapSize.y - 1) {
-                down = true;
-                downleft = true;
-                downright = true;
-            }
+            // Apply the texture change if sprite exists in atlas
+            if (!string.IsNullOrEmpty(spriteName) && spritesMap.ContainsKey(spriteName)) {
+                sp.ChangeTexture(spritesMap[spriteName]);
+            }*/
 
-            foreach (var sp2 in spicesList.Values) {
-                if (sp2.type == spice.eSpiceType.kNone) continue;
-                if (sp2 != sp) {
-                    if ((sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y)) {
-                        right = true;
-                    }
-                    else if ((sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y)) {
-                        left = true;
-                    }
-                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y - 1)) {
-                        up = true;
-                    }
-                    else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y + 1)) {
-                        down = true;
-                    }
-                    else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y - 1) {
-                        upleft = true;
-                    }
-                    else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y + 1) {
-                        downleft = true;
-                    }
-                    else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y - 1) {
-                        upright = true;
-                    }
-                    else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y + 1) {
-                        downright = true;
-                    }
+            // Update spice type
+            UpdateSpiceType(sp, north, east, south, west);
 
-                }
-            }
-
-            string spicename = "";
-            spice.eSpiceType t = spice.eSpiceType.kFull;
-            if (!right && !downright && !down && up && left && upleft) {
-                //right down
-                spicename = "atlas_201";
-                t = spice.eSpiceType.kRightDown;
-            }
-            else if (!right && !upright && !up && down && left && downleft) {
-                //right up
-                spicename = "atlas_204";
-                t = spice.eSpiceType.kRightUp;
-            }
-            else if (!left && !downleft && !down && up && right && upright) {
-                //left down
-                spicename = "atlas_195";
-                t = spice.eSpiceType.kLeftDown;
-            }
-            else if (!left && !upleft && !up && down && right && downright) {
-                //left up
-                spicename = "atlas_198";
-                t = spice.eSpiceType.kLeftUp;
-            }
-
-            if (!spicename.IsEmpty()) {
-                sp.ChangeTexture(spritesMap[spicename]);
-                sp.type = t;
-            }
-        }
-
-        //outer corners
-        List<(Vector2Int, string)> addList = new List<(Vector2Int, string)>();
-        foreach (var sp in spicesList.Values) {
-            bool left = false;
-            bool right = false;
-            bool up = false;
-            bool down = false;
-            bool upleft = false;
-            bool downleft = false;
-            bool upright = false;
-            bool downright = false;
-            if (sp.type == spice.eSpiceType.kFull) {
-                foreach (var sp2 in spicesList.Values) {
-                    if (sp2 != sp && sp2.type != spice.eSpiceType.kFull && sp2.type != spice.eSpiceType.kNone) {
-                        if ((sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y)) {
-                            right = true;
-                        }
-                        else if ((sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y)) {
-                            left = true;
-                        }
-                        else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y - 1)) {
-                            up = true;
-                        }
-                        else if ((sp2.pos.x == sp.pos.x && sp2.pos.y == sp.pos.y + 1)) {
-                            down = true;
-                        }
-                        else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y - 1) {
-                            upleft = true;
-                        }
-                        else if (sp2.pos.x == sp.pos.x - 1 && sp2.pos.y == sp.pos.y + 1) {
-                            downleft = true;
-                        }
-                        else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y - 1) {
-                            upright = true;
-                        }
-                        else if (sp2.pos.x == sp.pos.x + 1 && sp2.pos.y == sp.pos.y + 1) {
-                            downright = true;
+            /*for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    Vector2Int p = new Vector2Int(x + sp.pos.x, y + sp.pos.y);
+                    if (x < 0 || y < 0 || x >= mapSize.x || y > +mapSize.y)
+                    {
+                        continue;
+                    }
+                    current = GetSpiceCountAt(sp.pos);
+                    if (current > 0)
+                    {
+                        north = GetSpiceCountAt(sp.pos + new Vector2Int(0, -1));
+                        east = GetSpiceCountAt(sp.pos + new Vector2Int(1, 0));
+                        south = GetSpiceCountAt(sp.pos + new Vector2Int(0, 1));
+                        west = GetSpiceCountAt(sp.pos + new Vector2Int(-1, 0));
+                        spriteName = DetermineSpriteName(0, north, east, south, west);
+                        // Apply the texture change if sprite exists in atlas
+                        if (!string.IsNullOrEmpty(spriteName) && spritesMap.ContainsKey(spriteName))
+                        {
+                            spice sp2 = AddSpiceAt(p);
+                            sp2.SetFake();
+                            sp2.ChangeTexture(spritesMap[spriteName]);
+                            Debug.LogFormat("addFakeSpice at %d %d",x,y);
+                            fakeList[p] = sp2;
                         }
                     }
                 }
-            }
+            }*/
+        }
+    }
 
-            string spicename = "";
-            Vector2Int pos = sp.pos;
-            if (right && !downright && down) {
-                //right down
-                spicename = "atlas_66";
-                pos.x++;
-                pos.y++;
-            }
-            else if (right && !upright && up ) {
-                //right up
-                spicename = "atlas_67";
-                pos.x++;
-                pos.y--;
-            }
-            else if (left && !downleft && down ) {
-                //left down
-                spicename = "atlas_64";
-                pos.x--;
-                pos.y++;
-            }
-            else if (left && !upleft && up) {
-                //left up
-                spicename = "atlas_65";
-                pos.x--;
-                pos.y--;
-            }
-            else if (!right && (up || pos.y==0) && down) {
-                //right
-                spicename = "atlas_200";
-                pos.x++;
-            }
-            else if (right && (left || pos.x==0) && !up) {
-                //up
-                spicename = "atlas_196";
-                pos.y--;
-            }
-            else if (left && (right || pos.x==mapSize.x-1) && !down) {
-                //down
-                spicename = "atlas_193";
-                pos.y++;
-            }
-            else if (up && (down || pos.y==mapSize.y-1) && !left) {
-                //left
-                spicename = "atlas_194";
-                pos.x--;
-            }
+    public void RemoveFakeSpice(Vector2Int pos)
+    {
+        fakeList.TryGetValue(pos, out var spice);
+        if (spice != null)
+        {
+            fakeList.Remove(pos);
+        }
+    }
 
-            if (!spicename.IsEmpty() && pos.x >=0 && pos.y>=0 && pos.x<mapSize.x && pos.y<mapSize.y) {
-                addList.Add((pos,spicename));
-            }
+    private int GetSpiceCountAt(Vector2Int pos) {
+        // Check if position is within map bounds
+        if (pos.x < 0 || pos.x >= mapSize.x || pos.y < 0 || pos.y >= mapSize.y) {
+            return 0; // Treat map boundaries as having spice
         }
 
-        foreach (var sp in addList) {
-
-            var s = AddSpiceAt(sp.Item1);
-            if (s) {
-                s.ChangeTexture(spritesMap[sp.Item2]);
-                s.type = spice.eSpiceType.kNone;
-            }
+        // Check if there's a spice at this position
+        if (spicesList.TryGetValue(pos, out var spice))
+        {
+            return spice.GetCount();
+            //return spice.type != spice.eSpiceType.kNone;
         }
-        */
-        
+
+        return 0;
+    }
+
+    private string DetermineSpriteName(bool current, bool north, bool east, bool south, bool west) {
+        // Map different neighbor configurations to sprite names from atlas
+        // Using the existing atlas sprites that were in the commented code
+
+        if (!east && !south && north && west) {// Up-left
+            if (current)
+                return "atlas_66";
+            return "atlas_70"; 
+            
+        }
+        if (!east && !north && south && west) {// Down-left
+            if (current)
+                return "atlas_67";
+            return "atlas_71";
+        }
+        if (!west && !south && north && east) {// Up-Right
+            if (current)
+                return "atlas_64";
+            return "atlas_68";
+        }
+        if (!west && !north && south && east) {// Down-Right
+            if (current)
+                return "atlas_65";
+            return "atlas_69";
+        }
+        if (north && !east && !south && !west)// Only up
+        {
+            if (current )
+                return "atlas_177";
+            return "atlas_193";
+        }
+
+        if (!north && east && !south && !west)// Only right
+        {
+            if (current)
+                return "atlas_178";
+            return "atlas_194";
+        }
+
+
+        if (!north && !east && south  && !west)// Only down
+        {
+            if (current)
+                return "atlas_180";
+            return "atlas_196";
+        }
+
+        if (!north && !east && !south && west)// Only left
+        {
+            if (current)
+                return "atlas_184";
+            return "atlas_200";
+        }
+
+
+        if (north && !east && south && !west)// Up-down
+        {
+            if (current)
+                return "atlas_181";
+            return "atlas_197";
+        }
+
+        if (north && east && !south && west)// Left-Right
+        {
+            if (current)
+                return "atlas_186";
+            return "atlas_202";
+        }
+
+        if (!north && east && south && west) {// Up free
+            if (current)
+                return "atlas_176";
+            return "atlas_190";
+        }
+        if (north && !east && south && west) {// Right free
+            if (current)
+                return "atlas_176";
+            return "atlas_205";
+        }
+        if (north && east && !south && west) { // Down free
+            if (current)
+                return "atlas_176";
+            return "atlas_203";
+        }
+        if (north && east && south && !west) {// left free
+            if (current)
+                return "atlas_176";
+            return "atlas_199";
+        }
+
+        // Isolated piece
+        if (!north && !east && !south && !west) {
+            return "atlas_176"; // Use corner sprite for isolated pieces
+        }
+
+        // Default full tile (surrounded by spice or other configurations)
+        return null; // Keep original texture
+    }
+
+    private void UpdateSpiceType(spice sp, bool north, bool east, bool south, bool west) {
+        // Check for corner types
+        if (!east && !south && north && west) {
+            sp.type = spice.eSpiceType.kRightDown;
+        }
+        else if (!east && !north && south && west) {
+            sp.type = spice.eSpiceType.kRightUp;
+        }
+        else if (!west && !south && north && east) {
+            sp.type = spice.eSpiceType.kLeftDown;
+        }
+        else if (!west && !north && south && east) {
+            sp.type = spice.eSpiceType.kLeftUp;
+        }
+        else {
+            sp.type = spice.eSpiceType.kFull;
+        }
     }
 
     public void AddSpiceBomb(Vector3 pos, int spices)
@@ -408,5 +403,35 @@ public class spiceManager
             }
         }
         return 0;
+    }
+
+    public void AddFakeSpiceAt(Vector2Int pos)
+    {
+        fakeList.TryGetValue(pos, out var s);
+        if (s == null)
+        {
+            var g = UnityEngine.Object.Instantiate(Resources.Load("spice", typeof(GameObject))) as
+                GameObject;
+            if (g != null)
+            {
+                s = g.GetComponent<spice>();
+                if (s)
+                {
+                    s.Init(pos.x, pos.y);
+                    fakeList[s.pos] = s;
+                }
+            }
+        }
+    }
+
+    public spice GetFakeSpiceAt(Vector2Int pos)
+    {
+        fakeList.TryGetValue(pos, out var s);
+        return s;
+    }
+
+    public void RemoveFakeSpiceAt(Vector2Int pos)
+    {
+        fakeList.Remove(pos);
     }
 }

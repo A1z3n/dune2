@@ -17,6 +17,7 @@ namespace Dune2 {
         public eSpiceType type = eSpiceType.kFull;
         [SerializeField] private int count = 1000;
         public Vector2Int pos;
+        private bool fake = false;
 
         // Start is called before the first frame update
         void Start() {
@@ -39,6 +40,18 @@ namespace Dune2 {
             transform.position = tools.iPos2PosB(x,y);
         }
 
+        public void SetFake()
+        {
+            count = 0;
+            fake = true;
+        }
+
+        public bool isFake()
+        {
+            return fake;
+        }
+
+
         public void ChangeTexture(Sprite spr) {
             var sp = GetComponentInChildren<SpriteRenderer>();
             sp.sprite = spr;
@@ -46,6 +59,11 @@ namespace Dune2 {
 
         public int AddCount(int num) {
             count += num;
+            return count;
+        }
+
+        public int GetCount()
+        {
             return count;
         }
     }

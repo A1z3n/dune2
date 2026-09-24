@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SuperTiled2Unity;
 using UnityEngine;
+using UnityEngine.UI;
 
 // The AutoCustomTmxImporterAttribute will force this importer to always be applied.
 // Leave this attribute off if you want to choose a custom importer from a drop-down?list instead.[AutoCustomTmxImporter()]
@@ -21,6 +22,7 @@ namespace Dune2 {
 
         private bool blackout = false;
         private int mPlayer = 1;
+        private bool isRadar = false;
 
         private gameManager() {
             youColor = 1;
@@ -116,11 +118,32 @@ namespace Dune2 {
         }
 
         private void BlackoutStart() {
+            if (!isRadar) return;
+            var fx = GameObject.Find("GUI/MiniMap");
+            if (fx)
+            {
+                var b = fx.GetComponent<miniMap>();
+                if (b)
+                {
+                    b.Activate();
+                }
 
+            }
         }
 
-        private void BlackoutOver() {
+        private void BlackoutOver()
+        {
+            if (!isRadar) return;
+            var fx = GameObject.Find("GUI/MiniMap");
+            if (fx)
+            {
+                var b = fx.GetComponent<miniMap>();
+                if (b)
+                {
+                    b.Deactivate();
+                }
 
+            }
         }
 
         public int GetEnergy() {
@@ -141,6 +164,18 @@ namespace Dune2 {
 
         public int GetCurrentPlayer() {
             return mPlayer;
+        }
+
+        public void ActivateRadar()
+        {
+            isRadar = true;
+            BlackoutOver();
+        }
+
+        public void DeactivateRadar()
+        {
+            BlackoutStart();
+            isRadar = false;
         }
     }
 }

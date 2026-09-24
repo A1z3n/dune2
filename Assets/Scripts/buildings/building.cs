@@ -150,5 +150,7 @@ namespace Dune2 {
 
         protected abstract void Activated();
 
+        protected abstract void OnDestroy();
+
     }
 }

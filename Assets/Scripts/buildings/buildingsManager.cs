@@ -4,6 +4,7 @@ using Dune2;
 using UnityEngine;
 //using Mono.CompilerServices.SymbolWriter;
 using TMPro;
+using UnityEngine.Assertions;
 using static UnityEditor.PlayerSettings;
 
 namespace Dune2 {
@@ -205,12 +206,20 @@ namespace Dune2 {
                         case eBuildingType.kRefinery:
                             b = g.GetComponent<refinery>();
                             break;
+                        case eBuildingType.kRadar:
+                            b = g.GetComponent<radar>();
+                            break;
                         default:
                             b = g.GetComponent<baseBuilding>();
                             break;
                     }
 
-                    if (b == null) return;
+                    if (b == null)
+                    {
+                        Debug.Assert(true);
+                        //Assert(true);
+                        return;
+                    }
                     RectInt rect = new RectInt(x, y, 2, 2);
                     float c = CheckConcrete(rect);
                     b.Init(x, y, player, c);

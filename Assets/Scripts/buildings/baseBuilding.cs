@@ -25,6 +25,9 @@ namespace Dune2 {
         protected override void Activated() {
             //throw new System.NotImplementedException();
         }
+        protected override void OnDestroy()
+        {
+        }
 
 
         public override void Select() {
